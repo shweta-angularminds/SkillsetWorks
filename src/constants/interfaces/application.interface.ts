@@ -1,9 +1,9 @@
-import { ObjectId } from 'mongoose';
+
 
 export interface Application {
-  application_id: ObjectId;
+  application_id: string;
   designation: string;
-  job_id: ObjectId;
+  job_id: string;
   company_name: string;
   status:string;
   createdAt: Date;

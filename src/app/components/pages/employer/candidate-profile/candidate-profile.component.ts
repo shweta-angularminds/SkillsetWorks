@@ -1,7 +1,6 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { User } from '../../../../../constants/interfaces/user.interface';
-import { ObjectId } from 'mongoose';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import {
   base_url,
@@ -16,8 +15,8 @@ import {
 export class CandidateProfileComponent implements OnInit {
   candidate!: any;
   profileImage: string = '';
-  id!: ObjectId;
-  jobId!:ObjectId;
+  id!: string;
+  jobId!:string;
   constructor(
     private http: HttpService,
     private activatedRoute: ActivatedRoute,

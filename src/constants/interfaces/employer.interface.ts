@@ -1,7 +1,7 @@
-import { ObjectId } from "mongoose";
+
 
 export interface employer {
-  _id: ObjectId;
+  _id: string;
   employer_name: string;
   email: string;
   companyName: string;

@@ -3,7 +3,7 @@ import { Component, Input,  OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_language_url } from '../../../../../constants/url/urls';
-import { ObjectId } from 'mongoose';
+
 
 export const LanguageD = [
   {
@@ -29,7 +29,7 @@ export class LanguagesComponent implements OnInit {
 
   formTitle = 'Add Language';
   @Input()
-  Id!: ObjectId;
+  Id!: string;
   @Input()
   Languages: string[]=[];
   constructor(private http: HttpService, private notify: NotifyService) {}

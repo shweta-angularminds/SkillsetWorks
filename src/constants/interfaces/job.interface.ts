@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose';
+
 export interface JobDescription {
   keyResponsibilities?: string[];
   descriptionInfo?: string[];
@@ -6,7 +6,7 @@ export interface JobDescription {
   selectionProcess?: string[];
 }
 export interface Job {
-    _id:ObjectId;
+    _id:string;
   designation: string;
   location: string;
   experience: string;
@@ -19,6 +19,6 @@ export interface Job {
   industry: string;
   department: string;
   desc?: JobDescription;
-  employer_id: ObjectId;
+  employer_id: string;
   updatedAt:Date;
 }

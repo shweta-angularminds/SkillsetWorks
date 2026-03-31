@@ -17,7 +17,7 @@ import {
   update_job_url,
 } from '../../../../../constants/url/urls';
 import { NotifyService } from '../../../../services/notify.service';
-import { ObjectId } from 'mongoose';
+
 import { Editor, Toolbar } from 'ngx-editor';
 import { schema } from 'ngx-editor/schema';
 
@@ -36,9 +36,9 @@ export class JobComponent implements OnInit, OnDestroy {
   Editor!: Editor;
   qualifications: string = '';
   html: string = '';
-  employer_id!: ObjectId;
+  employer_id!: string;
   isEditMode: boolean = false; // Track whether we're in edit mode
-  currentJobId: ObjectId | null = null;
+  currentJobId: string | null = null;
   toolbar: Toolbar = [
     ['bold', 'italic'],
     ['underline', 'strike'],
@@ -97,14 +97,14 @@ export class JobComponent implements OnInit, OnDestroy {
     });
   }
 
-  confirmDelete(id: ObjectId) {
+  confirmDelete(id: string) {
     this.notify.confirmDelete().subscribe((result) => {
       if (result.isConfirmed) {
         this.deleteJob(id);
       }
     });
   }
-  deleteJob(id: ObjectId) {
+  deleteJob(id: string) {
     const confirm = this.notify.confirmDelete();
 
     if (confirm) {
@@ -213,7 +213,7 @@ export class JobComponent implements OnInit, OnDestroy {
       },
     });
   }
-  getApplicantsCount(jobId: ObjectId): number {
+  getApplicantsCount(jobId: string): number {
     const applicants = this.applicants.result.find(
       (data: any) => data.job_Id === jobId
     );

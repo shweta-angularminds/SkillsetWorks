@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObjectId } from 'mongoose';
 import { Job } from '../../../../constants/interfaces/job.interface';
 import {
   apply_job_url,
@@ -22,7 +21,7 @@ import { NotifyService } from '../../../services/notify.service';
   styleUrl: './view-job.component.css',
 })
 export class ViewJobComponent implements OnInit {
-  id!: ObjectId;
+  id!: string;
   job!: Job;
   employer!: employer;
   jobs!: Job[];

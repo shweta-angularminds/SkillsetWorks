@@ -3,7 +3,7 @@ import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { LocalstorageService } from '../../../../services/localstorage.service';
 import { user_add_education_url } from '../../../../../constants/url/urls';
-import { ObjectId } from 'mongoose';
+
 
 import { Education } from '../../../../../constants/interfaces/user.interface';
 import { EducationField } from '../../../../../constants/data/form-fields';
@@ -15,7 +15,7 @@ import { EducationField } from '../../../../../constants/data/form-fields';
 export class EducationComponent implements OnInit {
   @Input()
   education!: Education | null;
-  @Input() id!: ObjectId;
+  @Input() id!: string;
   isModalVisible = false;
   selectedEducation: string = '';
   educationFields: any[] = [];

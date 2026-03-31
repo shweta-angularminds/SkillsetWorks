@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { EmployerModule } from '../employer/employer.module';
 import { employer } from '../../../../constants/interfaces/employer.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObjectId } from 'mongoose';
 import { HttpService } from '../../../services/http.service';
 import {
   base_url,
@@ -21,7 +20,7 @@ export class ViewCompanyComponent implements OnInit {
   p: number = 1;
   company!: employer;
   jobs!: Job[];
-  id!: ObjectId;
+  id!: string;
   department: string = '';
   limit: number = 10;
   experience: string = '';

@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { ObjectId } from 'mongoose';
+
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
@@ -34,7 +34,7 @@ export class SkillsComponent implements OnInit, OnChanges {
 
   formTitle = 'Add Language';
   @Input()
-  Id!: ObjectId;
+  Id!: string;
   @Input()
   skills: any;
   constructor(private http: HttpService, private notify: NotifyService) {}

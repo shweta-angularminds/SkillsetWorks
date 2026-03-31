@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ObjectId } from 'mongoose';
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
@@ -58,7 +57,7 @@ export class PreferenceComponent {
 
   formTitle = 'Add Preference';
   @Input()
-  Id!: ObjectId;
+  Id!: string;
   @Input()
   preferences: any;
   constructor(private http: HttpService, private notify: NotifyService) {}

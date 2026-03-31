@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ObjectId } from 'mongoose';
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
@@ -24,7 +23,7 @@ export const Summary = [
 })
 export class SummaryComponent implements OnInit {
   @Input()
-  id!: ObjectId;
+  id!: string;
   @Input()
   summary: string = '';
   isModalVisible = false;

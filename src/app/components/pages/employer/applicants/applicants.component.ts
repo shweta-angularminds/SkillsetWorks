@@ -7,7 +7,7 @@ import {
   get_all_applications_url,
   update_application_status_url,
 } from '../../../../../constants/url/urls';
-import { ObjectId } from 'mongoose';
+
 declare var bootstrap: any;
 
 @Component({
@@ -23,7 +23,7 @@ export class ApplicantsComponent implements OnInit {
   shortlisted: number = 0;
   applicants: any;
   pageNumber: number = 1;
-  jobId!: ObjectId;
+  jobId!: string;
   Job: any;
   pdfFilePath!: string;
   res: any;
@@ -87,7 +87,7 @@ export class ApplicantsComponent implements OnInit {
   getPdfUrl(path: string) {
     return base_url + path;
   }
-  changeStatus(status: string, Id: ObjectId) {
+  changeStatus(status: string, Id: string) {
     const data = {
       status: status,
       application_Id: Id,
