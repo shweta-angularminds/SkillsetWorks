@@ -1,0 +1,45 @@
+div {
+  font-size: 0.8rem;
+}
+ul {
+  font-size: 0.9rem;
+}
+.login {
+  border: 1px solid rgb(0, 81, 255);
+  color: rgb(0, 81, 255);
+  background-color: transparent;
+  border-radius: 1rem;
+}
+.login:hover {
+  background: linear-gradient(
+    to right bottom,
+    rgb(0, 81, 255),
+    rgb(117, 160, 252)
+  );
+  border: 0;
+  color: white;
+}
+.register {
+  /* border: 1px solid orangered; */
+  color: white;
+  background: linear-gradient(to right bottom, orangered, orange);
+  border-radius: 1rem;
+}
+.register:hover {
+  opacity: 1;
+}
+.employer {
+  border-left: 1px solid rgb(165, 164, 164);
+}
+.vertical-line {
+  width: 1px;
+  height: 30px; /* Adjust the height as needed */
+  background-color: rgb(92, 89, 89); /* Change the color if needed */
+  margin-right: 10px;
+  opacity: 0.2;
+}
+@media screen and (max-width: 992px) {
+  .vertical-line {
+    opacity: 0;
+  }
+}

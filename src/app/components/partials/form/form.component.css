@@ -1,0 +1,33 @@
+input{
+    margin-top:0.5rem;
+    padding:0.5rem 0.5rem;
+    border-radius:0;
+    border:0;
+    border:1px solid rgb(211, 210, 210);
+    font-size:0.8rem;
+}
+input:focus{
+    box-shadow: none;
+    
+}
+label{
+    color:rgb(117, 116, 116);
+    font-weight:550;
+    font-size:0.8rem;
+}
+select{
+    margin-top:0.5rem;
+    padding:0.5rem;
+    font-size: 0.8rem;
+}
+option{
+    background-color: aliceblue;
+    font-size: 0.8rem;
+}span{
+    font-size: 0.8rem;
+    margin-left: 0.4rem;
+}
+.text-danger{
+    font-size:0.7rem;
+    margin-top:0.5rem;
+}

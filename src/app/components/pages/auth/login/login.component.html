@@ -1,0 +1,104 @@
+<div class="container-fluid vh-100">
+  <app-navbar></app-navbar>
+  <div class="row justify-content-center mt-4">
+    <div
+      class="col col-lg-5 col-md-4 col-12 bg-white text-center"
+      *ngIf="user === 'employer'"
+    >
+      <div class="mt-4 mb-4">
+        <h3>Find & Hire right talent with us</h3>
+        <label
+          >Find, engage, and hire talent on India’s leading recruitment
+          platform</label
+        >
+      </div>
+
+      <img src="/assets/images/login.jpg" class="img-fluid" />
+    </div>
+
+    <div
+      class="col col-lg-5 col-md-4 col-12 py-3 bg-white text-center"
+      *ngIf="user === 'jobseeker'"
+    >
+      <h3>Find Your Dream Job with Us</h3>
+      <label
+        >Discover, connect, and land opportunities on India’s leading
+        recruitment platform.</label
+      >
+
+      <img src="/assets/images/loginj.jpg" class="img-fluid mt-4" />
+    </div>
+    <div class="col col-lg-3 col-md-4 col-12 bg-white">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="bg-white text-light p-4 rounded"
+      >
+        <h2 class="text-center mb-2 text-main fw-bold">Login</h2>
+        <div class="mb-4 mt-4">
+          <!-- <label for="exampleInputEmail1" class="form-label mt-4"
+            >Email address</label
+          > -->
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            formControlName="email"
+            placeholder="email"
+          />
+
+          <span class="error" *ngIf="email?.invalid && email?.touched">
+            <small *ngIf="email?.errors?.['required']">Enter email</small>
+            <small *ngIf="email?.errors?.['email']">Invalid email!</small>
+          </span>
+        </div>
+        <div class="mb-4">
+          <!-- <label for="exampleInputPassword1" class="form-label"
+            >Password</label
+          > -->
+          <div class="d-flex align-items-center">
+            <input
+              type="password"
+              class="form-control me-2"
+              id="exampleInputPassword1"
+              formControlName="password"
+              placeholder="password"
+            />
+            <span *ngIf="!isvisible"
+              ><i class="fa-solid fa-eye" (click)="toggleVisibility()"></i
+            ></span>
+            <span *ngIf="isvisible"
+              ><i class="fa-solid fa-eye-slash" (click)="toggleVisibility()"></i
+            ></span>
+          </div>
+          <span class="error" *ngIf="password?.invalid && password?.touched">
+            <small *ngIf="password?.errors?.['required']">Enter password</small>
+          </span>
+        </div>
+        <div class="mb-3 text-center">
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="btn text-white w-100"
+            style="background-color: orangered;"
+          >
+            Login
+          </button>
+        </div>
+        <div class="mb-3 text-center" >
+          <label class="" *ngIf="user === 'employer'">
+            New Employer?<a class="link" style="color:orangered" routerLink="/auth/register/employer"
+              >Register here!</a
+            >
+          </label>
+          <label class="" *ngIf="user === 'jobseeker'">
+            New user?<a class="link" style="color:orangered" routerLink="/auth/register/jobseeker"
+              >Register here!</a
+            >
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

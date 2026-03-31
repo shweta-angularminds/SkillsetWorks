@@ -1,0 +1,380 @@
+<div class="container-fluid">
+  <app-navbar></app-navbar>
+  <div class="row justify-content-center mt-4 mb-4">
+    <div class="col col-lg-5 col-md-5 col-sm-0 col-0 bg-white">
+      <div class="content p-4">
+        <div
+          class="d-flex flex-column justify-content-start align-items-center"
+          *ngIf="user === 'employer'"
+        >
+          <h3>Hire talent with Naukri!</h3>
+
+          <label>
+            Find, engage, and hire talent on India’s leading recruitment
+            platform
+          </label>
+        </div>
+        <div
+          class="d-flex flex-column justify-content-start align-items-center"
+          *ngIf="user === 'jobseeker'"
+        >
+          <h3>Get hired with Naukri!</h3>
+          <label>
+            Find, connect, and get hired through India’s top recruitment
+            platform.
+          </label>
+        </div>
+        <div class="image-div mt-4 text-center" *ngIf="user === 'employer'">
+          <img src="/assets/images/register.jpg" class="image-fluid w-75" />
+        </div>
+
+        <div class="image-div mt-4 text-center" *ngIf="user === 'jobseeker'">
+          <img src="/assets/images/registerj.jpg" class="image-fluid w-75" />
+        </div>
+      </div>
+    </div>
+    <div class="col col-lg-4 col-md-4 col-sm-12 col-12 bg-white">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="bg-white text-dark p-4"
+        *ngIf="user === 'employer'"
+      >
+        <h5 class="text-center mb-2 fw-bold">
+          Register <span class="text-primary">Here</span>
+        </h5>
+
+        <div class="mb-3">
+          <!-- <label for="exampleInputname1" class="form-label grey">Name</label> -->
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputname"
+            formControlName="employer_name"
+            placeholder="CEO Name"
+          />
+          <span
+            class="error"
+            *ngIf="employer_name?.invalid && employer_name?.touched"
+          >
+            <small *ngIf="employer_name?.errors?.['required']"
+              >Enter employer name</small
+            >
+          </span>
+        </div>
+
+        <div class="mb-3">
+          <!-- <label for="exampleInputcompany1" class="form-label grey"
+            >Company Name</label
+          > -->
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputcompanyname"
+            formControlName="companyName"
+            placeholder="Company Name"
+          />
+          <span
+            class="error"
+            *ngIf="companyName?.invalid && companyName?.touched"
+          >
+            <small *ngIf="companyName?.errors?.['required']"
+              >Enter company name</small
+            >
+          </span>
+        </div>
+
+        <div class="mb-3">
+          <!-- <label for="exampleInputEmail1" class="form-label grey"
+            >Email address</label
+          > -->
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            formControlName="email"
+            placeholder="Email"
+          />
+          <span class="error" *ngIf="email?.invalid && email?.touched">
+            <small *ngIf="email?.errors?.['required']">Enter email</small>
+            <small *ngIf="email?.errors?.['email']">Invalid email!</small>
+          </span>
+        </div>
+
+        <div class="mb-3 file-upload">
+          <div class="d-flex align-items-center">
+            <label
+              for="exampleInputlogo1"
+              class="form-label mt-2"
+              id="companyLogo"
+              style="margin-left: 0.8rem"
+              >Company Logo</label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="companyLogo"
+              (change)="onFileSelected($event)"
+              
+              accept="image/*"
+            />
+          </div>
+
+          <span
+            class="error"
+            *ngIf="companyLogo?.invalid && companyLogo?.touched"
+          >
+            <small *ngIf="companyLogo?.errors?.['required']"
+              >Enter companyLogo</small
+            >
+          </span>
+        </div>
+        <div class="mb-3">
+          <!-- <label for="exampleInputnumber1" class="form-label grey"
+            >Contact Number</label
+          > -->
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputcontact"
+            formControlName="contactNumber"
+            placeholder="Contact Number +00000 00000"
+          />
+          <span
+            class="error"
+            *ngIf="contactNumber?.invalid && contactNumber?.touched"
+          >
+            <small *ngIf="contactNumber?.errors?.['required']"
+              >Enter contactNumber</small
+            >
+            <small *ngIf="contactNumber?.errors?.['pattern']"
+              >Only 10 digits are allowed</small
+            >
+          </span>
+        </div>
+        <div class="mb-3">
+          <!-- <label for="exampleInpuwebsite1" class="form-label grey"
+            >Website</label
+          > -->
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputwebsite"
+            formControlName="website"
+            placeholder="Website"
+          />
+          <span class="error" *ngIf="website?.invalid && website?.touched">
+            <small *ngIf="website?.errors?.['required']">Enter website</small>
+            <small *ngIf="website?.errors?.['pattern']">Url Is wrong</small>
+          </span>
+        </div>
+
+        <div class="mb-3">
+          <!-- <label for="exampleInputaddress1" class="form-label grey"
+            >Address</label
+          > -->
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputaddress"
+            formControlName="address"
+            placeholder="Address"
+          />
+          <span class="error" *ngIf="address?.invalid && address?.touched">
+            <small *ngIf="address?.errors?.['required']">Enter address</small>
+          </span>
+        </div>
+
+        <div class="mb-3">
+          <!-- <label for="exampleInputPassword1" class="form-label grey"
+            >Password</label
+          > -->
+          <div class="d-flex">
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+              formControlName="password"
+              placeholder="Password"
+            />
+            <span *ngIf="!isvisible"
+              ><i class="fa-solid fa-eye" (click)="toggleVisibility()"></i
+            ></span>
+            <span *ngIf="isvisible"
+              ><i class="fa-solid fa-eye-slash" (click)="toggleVisibility()"></i
+            ></span>
+          </div>
+
+          <span class="error" *ngIf="password?.invalid && password?.touched">
+            <small *ngIf="password?.errors?.['required']">Enter password</small>
+            <small *ngIf="passwordInvalid"
+              >Password must contain at least one uppercase letter, one
+              lowercase letter, one digit, one special character, and be at
+              least 8 characters long.</small
+            >
+          </span>
+        </div>
+
+        <div class="mb-3 text-center">
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="btn btn-primary text-white w-100"
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <div class="mb-3 text-center">
+          <a routerLink="/auth/login/employer" class="link"
+            >Already register?<span class="text-primary"> login here</span></a
+          >
+        </div>
+      </form>
+
+      <!-- jobseeker register form -->
+      <form
+        *ngIf="user === 'jobseeker'"
+        [formGroup]="userForm"
+        (ngSubmit)="registerUser()"
+      >
+        <h5 class="mb-2 fw-bold mt-3">Create your naukari profile</h5>
+        <h6 class="mb-5">Search & apply to jobs from India's No.1 Job Site</h6>
+
+        <div class="mb-3">
+          <!-- <label for="exampleInputname1" class="form-label grey">Name</label> -->
+          <input
+            type="text"
+            class="form-control"
+            formControlName="username"
+            placeholder="What is your name?"
+          />
+          <span class="error" *ngIf="username?.invalid && username?.touched">
+            <small *ngIf="username?.errors?.['required']"
+              >username is required</small
+            >
+          </span>
+        </div>
+
+        <div class="mb-3">
+          <input
+            type="email"
+            class="form-control"
+            formControlName="userEmail"
+            placeholder="Tell us your email ID"
+          />
+          <span class="error" *ngIf="userEmail?.invalid && userEmail?.touched">
+            <small *ngIf="userEmail?.errors?.['required']"
+              >email is required!</small
+            >
+            <small *ngIf="userEmail?.errors?.['email']">Invalid email!</small>
+          </span>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex align-items-center">
+            <span style="font-size: 0.8rem; font-weight: normal"> +91</span>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              placeholder="Enter your mobile number"
+            />
+          </div>
+          <span class="error" *ngIf="phone?.invalid && phone?.touched">
+            <small *ngIf="phone?.errors?.['required']"
+              >mobile no. is required!</small
+            >
+            <small *ngIf="phone?.errors?.['pattern']"
+              >Only 10 digits are allowed</small
+            >
+          </span>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex">
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+              formControlName="pwd"
+              placeholder="Enter password (minimum 8 characters)"
+            />
+            <span *ngIf="!isvisible"
+              ><i class="fa-solid fa-eye" (click)="toggleVisibility()"></i
+            ></span>
+            <span *ngIf="isvisible"
+              ><i class="fa-solid fa-eye-slash" (click)="toggleVisibility()"></i
+            ></span>
+          </div>
+
+          <span class="error" *ngIf="pwd?.invalid && pwd?.touched">
+            <small *ngIf="pwd?.errors?.['required']"
+              >password is required!</small
+            >
+            <small *ngIf="passwordInvalid"
+              >Password must contain at least one uppercase letter, one
+              lowercase letter, one digit, one special character, and be at
+              least 8 characters long.</small
+            >
+          </span>
+        </div>
+        <div class="mb-3 row justify-content-center work flex-wrap">
+          <div
+            class="col col-5 me-2"
+            [ngClass]="{ active: !isFresher }"
+            (click)="isFresher = false"
+          >
+            I'm experienced <i class="fa-solid fa-briefcase"></i>
+          </div>
+          <div
+            class="col col-5"
+            [ngClass]="{ active: isFresher }"
+            (click)="isFresher = true"
+          >
+            I'm a fresher <i class="fa-solid fa-user-graduate"></i>
+          </div>
+        </div>
+        <div class="mb-3 file-upload">
+          <div class="d-flex align-items-center">
+            <label
+              for="exampleInputlogo1"
+              class="form-label mt-2 grey"
+              style="margin-left: 0.8rem; font-size: 0.8rem"
+              >Resume</label
+            >
+            <input
+              type="file"
+              id="resume"
+              class="form-control me-1"
+              (change)="onFileSelected($event)"
+              formControlName="resume"
+              accept=".pdf, .doc, .docx, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            />
+
+            <label>DOC, DOCx, PDF, RTF | Max: 2 MB</label>
+          </div>
+
+          <span class="error" *ngIf="resume?.invalid && resume?.touched">
+            <small *ngIf="resume?.errors?.['required']"
+              >resume is required!</small
+            >
+          </span>
+        </div>
+        <div class="mb-3 text-center">
+          <button
+            type="submit"
+            [disabled]="userForm.invalid"
+            class="btn btn-primary text-white w-100 mt-4"
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <div class="mb-3 text-center">
+          <a routerLink="/auth/login/jobseeker" class="link"
+            >Already register?<span class="text-primary"> login here</span></a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

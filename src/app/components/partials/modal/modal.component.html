@@ -1,0 +1,107 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="header text-primary mt-2">
+      <h5>{{ formHeader }}</h5>
+    </div>
+
+    <div class="form-field d-flex p-3" *ngFor="let field of formFields">
+      <div class="col col-3">
+        <label>{{ field.label }}</label>
+      </div>
+      <div class="col col-9">
+        <!-- Conditionally render input, textarea, or dropdown (select)-->
+        <ng-container *ngIf="field.inputType === 'textarea'">
+          <textarea
+            [placeholder]="field.placeholder"
+            [(ngModel)]="field.value"
+            (input)="onValueChange(field.name, $event)"
+            [name]="field.name"
+            class="w-100"
+          ></textarea>
+        </ng-container>
+
+        <ng-container *ngIf="field.inputType === 'checkbox'">
+          <div *ngFor="let option of field.options">
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="formData[field.name][option.value]"
+                [name]="field.name"
+                [value]="option.value"
+              />
+              {{ option.label }}
+            </label>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="field.inputType === 'radio'">
+          <div *ngFor="let option of field.options">
+            <label>
+              <input
+                type="radio"
+                [(ngModel)]="formData[field.name]"
+                [name]="field.name"
+                [value]="option.value"
+              />
+              {{ option.label }}
+            </label>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="field.inputType === 'select'">
+          <div class="dropdown" style="height: 200px">
+            <button
+              class="btn btn-select dropdown-toggle"
+              type="button"
+              (click)="toggleDropdown()"
+            >
+              Select {{ field.label }}
+            </button>
+            <div class="dropdown-menu mb-3 p-2" *ngIf="dropdownVisible">
+              <div *ngFor="let option of field.options">
+                <label class="dropdown-item">
+                  <input
+                    type="checkbox"
+                    [value]="option.value"
+                    [checked]="isSelected(field.name, option.value)"
+                    (change)="
+                      onCheckboxChange(field.name, option.value, $event)
+                    "
+                  />
+                  {{ option.label }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            field.inputType !== 'textarea' &&
+            field.inputType !== 'checkbox' &&
+            field.inputType !== 'radio' &&
+            field.inputType !== 'select'
+          "
+        >
+          <input
+            [type]="field.inputType"
+            [placeholder]="field.placeholder"
+            [value]="field.value"
+            (input)="onValueChange(field.name, $event)"
+            [name]="field.name"
+            class="w-100"
+          />
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end bg-white px-4 mb-3">
+      <button class="bg-secondary text-light m-1" (click)="close()">
+        Close
+      </button>
+      <button class="bg-primary text-white m-1" (click)="submitData()">
+        Save
+      </button>
+    </div>
+  </div>
+</div>

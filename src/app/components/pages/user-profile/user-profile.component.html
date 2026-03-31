@@ -1,0 +1,554 @@
+<div class="bg-white w-100">
+  <app-navbar></app-navbar>
+</div>
+<div
+*ngIf="user"
+
+  class="container-fluid d-flex flex-column justify-content-start align-items-center p-0 m-0 vh-100"
+>
+  <div class="main bg-custom py-3 mt-4 shadow-sm" style="width: 90%">
+    <!-- first row with image and name -->
+    <div class="row p-1 m-0" style="box-sizing: border-box">
+      <div class="col col-lg-3 col-md-3 col-sm-4 col-12 p-0">
+        <div class="d-flex justify-content-center p-0">
+          <div
+            class="image-container d-flex justify-content-center align-items-center"
+            [ngStyle]="{
+              'background-image':
+                'url(' +
+                (user?.profilePic
+                  ? getImageUrl(user.profilePic)
+                  : '/assets/images/profile-back.jpg') +
+                ')'
+            }"
+          >
+            <span
+              class="h-100 editImage d-flex justify-content-center align-items-center"
+            >
+              <i
+                class="fa-solid fa-pencil fw-bold text-white fs-4"
+                data-bs-toggle="modal"
+                data-bs-target="#profilePicUpdate"
+              ></i>
+            </span>
+          </div>
+          <!-- <img
+            src="/assets/images/profile-back.jpg"
+            alt=""
+            class="img-fluid"
+            *ngIf="!this.user.profilePic"
+          /> -->
+          <!-- <img [src]="getImageUrl(this.user.profilePic)" class="img-fluid" /> -->
+        </div>
+      </div>
+      <div
+        class="col col-lg-9 col-md-9 col-sm-7 col-12 d-flex flex-wrap justify-content-between align-self-start p-1"
+      >
+        <div class="sub col col-lg-7 col-md-7 col-sm-12 col-12 bg-white">
+          <div class="col-12 p-2">
+            <span class="d-flex justify-content-between align-items-center"
+              ><h2 class="fw-bold">{{ user.username }}</h2>
+              <i
+                class="fa-solid fa-pencil"
+                data-bs-toggle="modal"
+                data-bs-target="#updateProfileModal"
+              ></i>
+            </span>
+            <div *ngIf="education?.postgraduation || education?.graduation">
+              <div *ngIf="education?.postgraduation">
+                <h5>{{ education?.postgraduation?.course_name }}</h5>
+                <h6>{{ education?.postgraduation?.college_name }}</h6>
+              </div>
+              <div *ngIf="!education?.postgraduation && education?.graduation">
+                <h5>{{ education?.graduation?.course_name }}</h5>
+                <h6>{{ education?.graduation?.college_name }}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-around bg-white border-top">
+            <div class="col border-end d-flex flex-column p-2">
+              <span>
+                <i class="fa-solid fa-location-dot me-2"></i>
+                <label *ngIf="user.location">{{ user.location }}</label>
+                <label *ngIf="!user.location">--</label>
+              </span>
+              <span>
+                <i class="fa-solid fa-user me-2"></i
+                ><label *ngIf="user.gender">{{ user.gender }}</label>
+                <label *ngIf="!user.gender">--</label>
+              </span>
+              <span
+                ><i class="fa-solid fa-cake-candles me-2"></i>
+                <label *ngIf="user.bdate">{{ user.bdate | date }} </label>
+                <label *ngIf="!user.bdate">-- </label></span
+              >
+            </div>
+            <div class="col d-flex flex-column p-2">
+              <span
+                ><label>
+                  <i class="fa-duotone fa-solid fa-phone me-2"></i
+                  >{{ user.contactNumber }}</label
+                ></span
+              >
+              <span
+                ><label
+                  ><i class="fa-solid fa-envelope me-2"></i
+                  >{{ user.email }}</label
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- sub col -->
+        <div class="sub col col-lg-5 col-md-5 col-sm-12 col-12 p-2 bg-white">
+          <div class="h-100 p-2 bg-white text-center">
+            <!-- <button class="orangered text-white px-3 py-2 border-0 fs-6 rounded">Add Missing Details</button>     -->
+            <img
+              src="/assets/images/profile.svg"
+              class="bg-white"
+              style="height: 200px"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="mt-4 p-0 m-0"
+    style="width: 90%; border-bottom: 1px solid rgb(231, 230, 230)"
+  >
+    <div class="d-flex p-0 m-0">
+      <h5
+        class="me-2 m-0 py-2 cursor-pointer"
+        [ngClass]="{ changeStyle: isEdit, menu: !isEdit }"
+        (click)="isEdit = true"
+      >
+        View & Edit
+      </h5>
+      <h5
+        class="m-0 ms-2 py-2 cursor-pointer"
+        [ngClass]="{ changeStyle: !isEdit, menu: isEdit }"
+        (click)="isEdit = false"
+      >
+        Applications
+      </h5>
+    </div>
+  </div>
+  <div class="mt-4 shadow-sm" style="width: 90%">
+    <!-- second row -->
+    <div class="row p-0 info" style="box-sizing: border-box" *ngIf="isEdit">
+      <div class="row">
+        <div class="col col-lg-3 col-md-3 col-sm-12 col-12 mb-3">
+          <div id="list-example" class="list-group">
+            <a
+              class="list-group-item list-group-item-action"
+              href="#list-item-1"
+              >Education</a
+            >
+            <a
+              class="list-group-item list-group-item-action"
+              href="#list-item-2"
+              >Preference</a
+            >
+            <a
+              class="list-group-item list-group-item-action"
+              href="#list-item-3"
+              >Profile Summary</a
+            >
+            <a
+              class="list-group-item list-group-item-action"
+              href="#list-item-4"
+              >Skills</a
+            >
+            <a
+              class="list-group-item list-group-item-action"
+              href="#list-item-5"
+              >Languages</a
+            >
+            <a
+              class="list-group-item list-group-item-action"
+              href="#list-item-6"
+              >Resume</a
+            >
+          </div>
+        </div>
+        <div class="col col-lg-9 col-md-9 col-sm-12 col-12">
+          <div
+            id="scrollspy-example"
+            data-bs-spy="scroll"
+            data-bs-target="#list-example"
+            data-bs-smooth-scroll="true"
+            class="scrollspy-example"
+            tabindex="0"
+          >
+            <div class="section">
+              <h5 id="list-item-1">
+                <i class="fa-solid fa-graduation-cap me-2 fs-5"></i>Education
+              </h5>
+              <p>
+                <app-education
+                  [id]="user.id"
+                  [education]="education"
+                ></app-education>
+              </p>
+            </div>
+            <div class="section" id="list-item-2">
+              <p>
+                <app-preference
+                  [Id]="user.id"
+                  [preferences]="details?.preference"
+                ></app-preference>
+              </p>
+            </div>
+            <div class="section" id="list-item-3">
+              <p>
+                <app-summary
+                  [id]="user.id"
+                  [summary]="details?.summary"
+                ></app-summary>
+              </p>
+            </div>
+            <div class="section" id="list-item-4">
+              <p>
+                <app-skills
+                  [Id]="user.id"
+                  [skills]="details?.skills"
+                ></app-skills>
+              </p>
+            </div>
+
+            <div
+              class="section d-flex justify-content-between"
+              id="list-item-5"
+            >
+              <div class="col-12">
+                <app-languages
+                  [Languages]="details?.languages"
+                  [Id]="user.id"
+                ></app-languages>
+              </div>
+            </div>
+            <div
+              class="section d-flex justify-content-between"
+              id="list-item-6"
+            >
+              <div class="col-12">
+                <div>
+                  <h5 id="list-item-2">
+                    <i class="fa-solid fa-file-pdf me-2 fs-5"></i>Resume
+                  </h5>
+                  <p style="font-size: 0.8rem">
+                    Your resume is the first impression you make on potential
+                    employers. Craft it carefully to secure your desired job or
+                    internship.
+                  </p>
+                </div>
+                <div class="mb-2">
+                  <span class="fw-bold" style="font-size: 0.8rem">
+                    Your resume
+                    <i
+                      class="fa-solid fa-download ms-2"
+                      (click)="downloadResume(user.resume)"
+                    ></i>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <div class="text-center py-2 px-3 rounded resume">
+                    <div class="file-upload w-100">
+                      <input
+                        type="file"
+                        id="file-upload"
+                        class="file-upload-input"
+                        (change)="onFileSelected($event)"
+                        accept=".pdf, .doc, .docx"
+                      />
+                      <label
+                        for="file-upload"
+                        class="file-upload-label text-center fw-bold"
+                        ><i class="fa-solid fa-upload"></i><br />
+                        click to update Resume</label
+                      >
+                      <!-- <span class="file-upload-filename">No file chosen</span>  -->
+                    </div>
+                    <button
+                      class="btn btn-primary mt-2"
+                      (click)="updateResume()"
+                    >
+                      Ok
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 width-90" *ngIf="!isEdit">
+      <app-applications [UserId]="user.id"></app-applications>
+    </div>
+  </div>
+
+  <!-- 
+modal for profile update -->
+  <div
+    class="modal fade"
+    id="updateProfileModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog .modal-fullscreen-lg-down">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+            All about you
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="userForm">
+            <div class="mb-3">
+              <label class="col-form-label"> Full name </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="username"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  username?.invalid && (username?.touched || username?.dirty)
+                "
+              >
+                <small *ngIf="username?.errors?.['required']"
+                  >User name is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Date of birth </label>
+              <input type="date" class="form-control" formControlName="bdate" />
+              <div
+                class="text-danger"
+                *ngIf="bdate?.invalid && (bdate?.touched || bdate?.dirty)"
+              >
+                <small *ngIf="bdate?.errors?.['required']"
+                  >Birth date is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Gender</label>
+              <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="gender"
+                    value="male"
+                    id="male"
+                    name="gender"
+                  />
+                  <label for="male" class="form-check-label">Male</label>
+                </div>
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="gender"
+                    value="female"
+                    id="female"
+                    name="gender"
+                  />
+                  <label for="female" class="form-check-label">Female</label>
+                </div>
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="gender"
+                    value="other"
+                    id="other"
+                    name="gender"
+                  />
+                  <label for="other" class="form-check-label">Other</label>
+                </div>
+              </div>
+              <div
+                *ngIf="gender?.invalid && (gender?.touched || gender?.dirty)"
+                class="text-danger"
+              >
+                <small *ngIf="gender?.errors?.['required']"
+                  >Gender is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Current location </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="location"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  location?.invalid && (location?.touched || location?.dirty)
+                "
+              >
+                <small *ngIf="location?.errors?.['required']"
+                  >Location is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Mobile Number </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="contactNumber"
+              />
+              <div
+                *ngIf="
+                  contactNumber?.invalid &&
+                  (contactNumber?.touched || contactNumber?.dirty)
+                "
+                class="text-danger"
+              >
+                <small *ngIf="contactNumber?.errors?.['required']"
+                  >Contact number is required.</small
+                >
+                <small *ngIf="contactNumber?.errors?.['pattern']"
+                  >Only 10 digits are allowed.</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Your email </label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+              />
+              <div
+                *ngIf="email.invalid && (email.touched || email.dirty)"
+                class="text-danger"
+              >
+                <small *ngIf="email.errors?.['required']"
+                  >email is required.</small
+                >
+                <small *ngIf="email.errors?.['email']">Invalid email</small>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary fw-bold"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="editProfile()"
+            data-bs-dismiss="modal"
+            [disabled]="userForm.invalid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal for profile image update -->
+  <div
+    class="modal fade"
+    id="profilePicUpdate"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    style="border-radius: 2rem"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            (click)="this.imageUrl = this.getImageUrl(this.user.profilePic)"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3 text-center">
+              <h5>Upload a recent photo</h5>
+              <label
+                >Photo enhances memorability, and helps you demonstrate
+                professionalism
+              </label>
+            </div>
+            <div class="mb-3 text-center">
+              <img class="img" [src]="this.imageUrl" alt="" />
+            </div>
+            <div class="mb-3 text-center">
+              <button class="bg-primary m-1" (click)="triggerFileInput()">
+                Upload a photo
+              </button>
+              <input
+                type="file"
+                #fileInput
+                class="file-upload-input"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                style="display: none"
+              />
+              <button
+                class="text-primary m-1"
+                (click)="deletePic()"
+                data-bs-dismiss="modal"
+              >
+                Delete a photo
+              </button>
+            </div>
+            <div class="mb-3 text-center">
+              <h6 class="text-secondary">
+                Supported file format: png, jpg, jpeg, gif - up to 2MB
+              </h6>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="this.imageUrl = this.getImageUrl(this.user.profilePic)"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="updatePic()"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

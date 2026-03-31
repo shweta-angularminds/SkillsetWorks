@@ -1,0 +1,427 @@
+
+<div class="container-fluid vh-100 bg-white">
+  <!-- first row  -->
+  <div class="row bg-white">
+    <div class="header d-flex align-items-center bg-white p-2 shadow-sm ">
+      <a routerLink="/employer/profile" style="font-size: 1.5rem">
+        <!-- <i class="fa-solid fa-arrow-left"></i>
+        <i class="fa-solid fa-angle-left"></i> -->
+      </a>
+      <!-- <a class="ms-3 text-end" style="font-size: 1.1rem">Welcome, Angular minds</a> -->
+    </div>
+    <div class="dashboard d-flex flex-wrap  py-4 px-2 back-color shadow-sm">
+      <div
+        class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
+        id="sq1"
+      >
+        <div>
+          <h6>Active Jobs</h6>
+          <label>{{ jobs.length }}</label>
+        </div>
+        <div class="me-2 bg-white rounded-circle">
+          <i class="fa-solid fa-briefcase"></i>
+        </div>
+      </div>
+      <div
+        class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
+        id="sq2"
+      >
+        <div>
+          <h6>Total Applicant</h6>
+          <label>{{ applicants.total }}</label>
+        </div>
+        <div class="me-2 bg-white rounded-circle">
+          <i class="fa-solid fa-users"></i>
+        </div>
+      </div>
+      <div
+        class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
+        id="sq3"
+      >
+        <div>
+          <h6>Short listed</h6>
+          <label>{{applicants.shortlisted}}</label>
+        </div>
+        <div class="me-2 bg-white rounded-circle">
+          <i class="fa-solid fa-file"></i>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+
+  <!-- second row -->
+  <div class="row py-2 mt-0 bg-white shadow-sm back-color">
+    <div
+      class="header d-flex justify-content-between flex-wrap align-items-center py-2 px-3"
+    >
+      <span>Active Jobs</span>
+      <span
+        ><button data-bs-toggle="modal" data-bs-target="#jobModal">
+          ADD NEW JOB
+        </button></span
+      >
+    </div>
+  </div>
+
+  <!-- third row -->
+  <div class="row back-color pt-3 mb-3" *ngIf="jobs.length !== 0">
+    <div class="filter col col-lg-1 col-md-1 col-12">
+      <i class="fa-solid fa-filter"></i>
+    </div>
+    <div
+      class="jobs d-flex flex-wrap justify-content-start col col-lg-11 col-md-11 col-12"
+    >
+      <div
+        class="card col col-lg-2 col-md-3 col-12 m-1 py-3 px-2"
+        *ngFor="let job of jobs"
+      >
+        <div class="d-flex flex-column">
+          <span class="d-flex justify-content-between">
+            <h5 class="card-title">{{ job.designation }}</h5>
+            <span class="d-flex">
+              <i
+                class="fa-solid fa-pen-to-square me-2 text-primary"
+                (click)="editJob(job)"
+              ></i>
+              <i
+                class="fa-solid fa-trash text-danger"
+                (click)="confirmDelete(job._id)"
+              ></i>
+            </span>
+          </span>
+
+          <label id="bold-grey">{{ job.department }}</label>
+          <label
+            ><i class="fa-solid fa-user me-2 text-primary"></i> Positions :
+            {{ job.positions }}</label
+          >
+        </div>
+        <div
+          class="applicants bottom-span w-100 py-1 d-flex justify-content-between mt-3"
+        >
+          <label class="text-white ms-1 me-1">
+            Applicants : {{ getApplicantsCount(job._id) }}</label
+          >
+          <label class="text-white ms-1 me-1 " routerLink="/employer/applicants/{{job._id}}">See</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
+<div
+  class="modal fade "
+  id="jobModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog  modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ isEditMode ? "Edit Job" : "Add New Job" }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close button"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body bg-light">
+        <form
+          class="d-flex flex-wrap justify-content-center"
+          [formGroup]="jobForm"
+          (ngSubmit)="submit()"
+        >
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="designation" class="col-form-label">Designation:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="designation"
+              formControlName="designation"
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('designation')?.invalid &&
+                jobForm.get('designation')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('designation')?.hasError('required')"
+                >Designation is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="experience" class="col-form-label">Experience:</label>
+            <select
+              class="form-control"
+              id="experience"
+              formControlName="experience"
+            >
+              <option value="fresher">Fresher</option>
+              <option value="0-6 months">0-6 months</option>
+              <option value="0-2 years">0-2 years</option>
+              <option value="2-5 years">2-5 years</option>
+              <option value="5-7 years">5-7 years</option>
+              <option value="7-10 years">7-10 years</option>
+              <option value="10-15 years">10-15 years</option>
+              <option value="more than 15 years">More than 15 years</option>
+            </select>
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('experience')?.invalid &&
+                jobForm.get('experience')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('experience')?.hasError('required')"
+                >experience is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="Location" class="col-form-label">Location:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="location"
+              formControlName="location"
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('location')?.invalid &&
+                jobForm.get('location')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('location')?.hasError('required')"
+                >location is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="Salary" class="col-form-label">Salary:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="salary"
+              formControlName="salary"
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('salary')?.invalid && jobForm.get('salary')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('salary')?.hasError('required')"
+                >salary is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="employmentType" class="col-form-label"
+              >Employment Type:</label
+            >
+            <select
+              class="form-control"
+              id="employmentType"
+              formControlName="employementType"
+            >
+              <option value="Full time">Full Time</option>
+              <option value="Part time">Part Time</option>
+            </select>
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('employementType')?.invalid &&
+                jobForm.get('employementType')?.touched
+              "
+            >
+              <small
+                *ngIf="jobForm.get('employementType')?.hasError('required')"
+                >employementType is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="workType" class="col-form-label">Work Type:</label>
+            <select
+              class="form-control"
+              id="workType"
+              formControlName="workType"
+            >
+              <option value="work from office">Work From Office</option>
+              <option value="remote">Remote</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('workType')?.invalid &&
+                jobForm.get('workType')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('workType')?.hasError('required')"
+                >workType is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="department" class="col-form-label">Department:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="department"
+              formControlName="department"
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('department')?.invalid &&
+                jobForm.get('department')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('department')?.hasError('required')"
+                >department is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="industry" class="col-form-label">Industry:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="industry"
+              formControlName="industry"
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('industry')?.invalid &&
+                jobForm.get('industry')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('industry')?.hasError('required')"
+                >industry is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-5 col-md-10 col-12 m-1">
+            <label for="qualifications" class="col-form-label"
+              >Qualifications:</label
+            >
+
+            <input
+              type="text"
+              class="form-control"
+              formControlName="qualifications"
+              id="qualifications"
+              placeholder="enter qualifications like ...  MCA, BTech, "
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('qualifications')?.invalid &&
+                jobForm.get('qualifications')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('qualifications')?.hasError('required')"
+                >qualifications is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
+            <label for="positions" class="col-form-label">Positions:</label>
+
+            <input
+              type="text"
+              class="form-control"
+              formControlName="positions"
+              id="positions"
+            />
+            <div
+              class="error"
+              *ngIf="
+                jobForm.get('positions')?.invalid &&
+                jobForm.get('positions')?.touched
+              "
+            >
+              <small *ngIf="jobForm.get('positions')?.hasError('required')"
+                >positions is required.</small
+              >
+              <small *ngIf="jobForm.get('positions')?.hasError('pattern')"
+                >only numbers are allowed!</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-6 col-md-10 col-12 m-1">
+            <label for="skills" class="col-form-label">Skills:</label>
+            <!-- <input type="text" class="form-control" id="skills" /> -->
+            <textarea
+              class="form-control"
+              id="skills"
+              formControlName="skills"
+              placeholder="enter skills like ...  problem solving, good communication, etc. "
+            ></textarea>
+            <div
+              *ngIf="
+                jobForm.get('skills')?.invalid && jobForm.get('skills')?.touched
+              "
+              class="error"
+            >
+              <small *ngIf="jobForm.get('skills')?.hasError('required')"
+                >skills is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-3 col col-lg-10 col-md-10 col-12 m-1">
+            <label class="col-form-label p-1">Description:</label>
+            <div class="NgxEditor__Wrapper">
+              <ngx-editor-menu [editor]="Editor" [toolbar]="toolbar">
+              </ngx-editor-menu>
+              <ngx-editor
+                [editor]="Editor"
+                [disabled]="false"
+                [placeholder]="'Type here...'"
+                formControlName="desc"
+              ></ngx-editor>
+            </div>
+            <div
+              *ngIf="
+                jobForm.get('desc')?.invalid && jobForm.get('desc')?.touched
+              "
+              class="error"
+            >
+              <small *ngIf="jobForm.get('desc')?.hasError('required')"
+                >Job description is required.</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-3 d-flex justify-content-center col col-12">
+            <button
+              type="button"
+              class="btn btn-secondary col col-lg-4 col-md-4 col-3 me-3"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary col col-lg-4 col-md-4 col-3"
+              [disabled]="jobForm.invalid"
+            >
+              {{ isEditMode ? "Update Job" : "Add Job" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

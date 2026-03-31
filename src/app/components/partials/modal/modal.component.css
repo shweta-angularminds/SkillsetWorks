@@ -1,0 +1,81 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(228, 245, 252, 0.541);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 70%;
+}
+.form-field {
+  padding: 1rem;
+}
+.header {
+  /* background-color: aliceblue; */
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgb(218, 218, 218);
+}
+.header h5 {
+  font-weight: 550;
+}
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 550;
+  color: black;
+}
+.form-field input {
+  padding: 0.8rem 0.9rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  border: 1px solid rgb(211, 211, 211);
+}
+
+button{
+    font-size: 0.9rem;
+    font-weight: 550;
+    border:0;
+    padding:0.5rem 1rem;
+    border-radius: 1rem;
+}
+textarea{
+  border:1px solid rgb(197, 197, 197);
+  font-size: 0.9rem;
+  padding:0.5rem 0.8rem;
+  height: 200px;
+  overflow: auto;
+}
+.dropdown-menu {
+  max-height: 150px;
+  overflow-y: scroll;
+  width: 70%;
+  display: block; /* Ensure it's displayed when dropdownVisible is true */
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item input {
+  margin-right: 10px;
+}
+
+.btn-select{
+  font-size: 0.8rem;
+  font-weight: 550;
+  color: rgb(0, 102, 255);
+  background-color: white;
+  border: 1px solid rgb(0,102,255);
+  padding: 0.5rem 1rem;
+  width: 72%;
+}

@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-between">
+  <div>
+    <h5 id="list-item-2">
+      <i class="fa-solid fa-star-of-david me-2 fs-5"></i>Your career preferences
+    </h5>
+  </div>
+  <div>
+    <i class="fa-solid fa-plus me-2 fs-5" (click)="openModal()"></i>
+  </div>
+</div>
+<div class="mt-4">
+  <div class="d-flex justify-content-start flex-wrap mb-2">
+    <div class="col col-lg-6 col-md-6 col-sm-6 col-12">
+      <h6>Preferred Job Type</h6>
+      <label *ngIf="!preferences?.job_type.length">Add desired job type</label>
+      <p *ngIf="preferences?.job_type" class="text-capitalize">{{preferences.job_type.join(', ')}}</p>
+    </div>
+    <div class="col col-lg-6 col-md-6 col-sm-6 col-12">
+      <h6>Availability to work</h6>
+      <p  *ngIf="preferences?.join_time" class="text-capitalize">{{preferences.join_time}}</p>
+      
+    </div>
+  </div>
+  <div>
+    <div>
+      <h6>Preferred Location</h6>
+      <label *ngIf="!preferences?.locations.length">Add preferred work location</label>
+      
+      <p *ngIf="preferences?.locations" class="text-capitalize">{{preferences.locations.join(', ')}}</p>
+    </div>
+  </div>
+</div>
+ <div>
+    <app-modal
+      [formFields]="formFields"
+      [formHeader]="formTitle"
+      [isVisible]="isModalVisible"
+      [modalMessage]="'This is a custom message'"
+      (formDataChange)="handleFormDataChange($event)"
+      (closeModal)="onCloseModal()"
+    ></app-modal>
+  </div>

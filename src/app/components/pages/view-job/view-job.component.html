@@ -1,0 +1,127 @@
+<div class="container-fluid p-0">
+  <div class="bg-white p-0">
+    <app-navbar></app-navbar>
+  </div>
+
+  <div class="container-fluid vh-100 mb-3 mt-3">
+    <div class="row flex-wrap justify-content-center">
+      <div class="col-lg-6 col-11 m-1 p-0">
+        <div
+          class="header text-dark d-flex flex-column justify-content-center px-4 bg-white col-lg-12 col-12"
+        >
+          <div class="d-flex col-lg-12 col-12">
+            <div class="col col-lg-9 col-md-9 col-sm-9 col-9 py-2">
+              <h4>{{ job.designation }}</h4>
+
+              <h6>{{ employer.companyName }}</h6>
+              <span
+                ><i class="fa-solid fa-briefcase"></i
+                ><label>{{ job.experience }}</label>
+                <i class="fa-solid fa-indian-rupee-sign"></i
+                ><label>{{ job.salary }}</label>
+              </span>
+              <div>
+                <span>
+                  <i class="fa-solid fa-location-dot"></i
+                  ><label>{{ job.location }}</label>
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="col col-lg-3 col-md-3 col-sm-3 col-3 d-flex align-items-start justify-content-center p-2"
+            >
+              <div class="w-50 d-flex justify-content-center">
+                <img
+                  [src]="this.employer.companyLogo"
+                  class="img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+
+          <hr class="m-0 p-0" />
+          <!-- apply div -->
+          <div class="mt-1 p-2">
+            <div class="d-flex align-items-center flex-wrap">
+              <div class="d-flex flex-wrap col-10">
+                <span>
+                  <h6 class="text-dark">
+                    Posted:
+                    <label class="text-dark fw-bold">{{
+                      job.updatedAt | dateDiff
+                    }}</label>
+                  </h6>
+                </span>
+                <span>
+                  <h6 class="text-dark">
+                    Openings:
+                    <label class="text-dark fw-bold">{{ job.positions }}</label>
+                  </h6>
+                </span>
+                <span>
+                  <h6 class="text-dark">
+                    Applicants:
+                    <label class="text-dark fw-bold">{{ 10 }}</label>
+                  </h6>
+                </span>
+              </div>
+
+              <div>
+                <button *ngIf="!isApplied" (click)="applyJob()">Apply</button>
+                <button *ngIf="isApplied" [disabled]="true">Applied</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job description -->
+        <div class="header mt-2 p-3 col-lg-12 col-12 bg-white shadow">
+          <div>
+            <div class="header">
+              <h4>Job Description</h4>
+              <div *ngIf="job.desc" class="desc" [innerHTML]="job.desc"></div>
+              <div class="data">
+                <div><label> Role: &nbsp;</label> {{ job.designation }}</div>
+                <div><label> Industry:&nbsp; </label> {{ job.industry }}</div>
+                <div>
+                  <label>Department: &nbsp;</label> {{ job.department }}
+                </div>
+                <div>
+                  <label> Employment Type:&nbsp; </label>
+                  {{ job.employementType }}
+                </div>
+                <div><label> Work Type: &nbsp;</label> {{ job.workType }}</div>
+                <div class="">
+                  <label for="">Qualification:&nbsp; </label>
+                  {{ job.qualifications }}
+                </div>
+                <div>
+                  <label> Skills required:&nbsp;</label> {{ job.skills }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="header bg-white p-3 col col-lg-3 col-md-11 col-11 m-1 align-self-start"
+      >
+        <div>
+          <h6 class="text-dark fw-bold">Jobs you might interested in</h6>
+        </div>
+        <div>
+          <div class="jobs" *ngFor="let j of jobs">
+            <div routerLink="/view-job/{{ j._id }}">
+              <h5>{{ j.designation }}</h5>
+              <label>{{ j.department }}</label>
+              <p>
+                <i class="fa-solid fa-location-dot me-2"></i>{{ j.location }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+/* .container-fluid {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    22deg,
+    rgba(255, 255, 255, 1) 32%,
+    rgba(0, 212, 255, 1) 200%
+  );
+} */
+.link {
+  text-decoration: none;
+}
+.grey {
+  color: rgb(102, 101, 101);
+  font-weight: 600;
+}
+img {
+  max-width: 70px;
+  max-height: 70px;
+  object-fit: cover;
+}
+h3 {
+  font-weight: 550;
+  font-size: 1.5rem;
+}
+h6 {
+  color: rgb(75, 74, 74);
+  font-weight: 550;
+  
+}
+button {
+  font-size: 0.8rem;
+  border-radius: 0.4rem;
+  font-weight: 550;
+   color:rgb(20, 86, 172);
+  background-color: rgb(20, 86, 172);
+  border:1px solid rgb(20,86,172)
+}
+
+label {
+  font-size: 0.8rem;
+  color: rgb(75, 74, 74);
+  font-weight: 550;
+}
+input {
+  max-width: 80%;
+}
+input[type="text"],
+input[type="email"] {
+  font-size: 0.8rem;
+}
+.text-danger {
+  font-size: 0.7rem;
+  margin-top: 3px;
+}
+#imageUpload {
+  font-size: 0.8rem;
+}
+.imageLogo {
+  width: 5.8rem;
+  height: 5.6rem;
+
+}
+input[type="file"]::file-selector-button {
+  color: black;
+  padding: 1rem 2rem;
+  content: "Upload Image";
+  background-color: white;
+  border: 0.1rem grey solid;
+}
+.file-upload {
+  position: relative;
+  display: inline-block;
+}
+
+.file-upload-input {
+  display: none; /* Hide the default input */
+}
+
+.file-upload-label {
+  background-color: white; /* Green background */
+  color: black; /* White text */
+  border: 0.1rem solid grey;
+  padding: 10px 20px; /* Padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.file-upload-filename {
+  margin-left: 10px; /* Space between label and filename */
+}
+.scroll {
+  max-height: 85vh;
+  overflow: scroll;
+  border-top:1px solid rgb(231, 231, 231);
+}
+/* .sub-container {
+  
+  border: 1px solid rgb(196, 196, 196);
+  border-radius: 0.3rem;
+  background-color: white;
+  box-shadow: 2px 2px 2px grey;
+} */
+/* .image{
+  border:1px solid rgb(196, 196, 196);
+  border-radius:0.3rem;
+  padding:1rem 2rem;
+  box-shadow: 2px 2px 2px grey;
+} */
+.sidenav {
+  /* background: #343a40; */
+  /* background-color: rgb(20, 86, 172); */
+ /* background-color: rgb(2, 80, 153);*/
+ 
+  /* background-color: rgb(41, 129, 211); */
+}
+.back-color {
+  background-color: rgb(235, 235, 255);
+}

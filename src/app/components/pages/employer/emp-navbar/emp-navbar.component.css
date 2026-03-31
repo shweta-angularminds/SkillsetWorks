@@ -1,0 +1,11 @@
+img{
+    width:2.9rem;
+    height: 2.9rem;
+    margin-right:2rem;
+    object-fit: cover;
+  
+    border-radius: 50%;
+    text-align: center;
+   
+ 
+}

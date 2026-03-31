@@ -1,0 +1,171 @@
+
+
+
+
+.main {
+  background-color: white;
+  border-top-right-radius: 2rem;
+  border-top-left-radius: 2rem;
+}
+.img {
+  
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid rgb(216, 216, 216);
+}
+
+/* .col {
+  border-right: 1px solid rgb(226, 226, 226);
+} */
+.container-fluid {
+  background: linear-gradient(
+    180deg,
+    #e7e7f1 0.62%,
+    rgba(231, 231, 241, 0) 95.76%
+  );
+  border: 0;
+}
+h6 {
+  font-size: 0.8rem;
+  color: rgb(44, 43, 43);
+  font-weight: 500;
+}
+h5 {
+  font-size: 1rem;
+  color: rgb(66, 66, 66);
+  font-weight: 550;
+}
+.w-75 {
+  width: 90%;
+}
+i {
+  color: rgb(18, 91, 248);
+  font-size: 0.8rem;
+}
+label {
+  font-size: 0.8rem;
+  color: rgb(54, 53, 53);
+  font-weight: 500;
+}
+.content {
+  background-color: wheat;
+}
+
+.image-container {
+  width: 170px;
+  height: 170px;
+  border: 1px solid rgb(197, 197, 197);
+  background-size: cover;
+  border-radius: 50%;
+  background-image: url("/assets/images/profile-back.jpg");
+}
+.editImage {
+  background-color: rgba(0, 0, 0, 0.411);
+  width: 100%;
+  border-radius: 50%;
+  visibility: hidden;
+}
+.image-container:hover .editImage {
+  visibility: visible;
+}
+
+.modal label {
+  font-weight: 550;
+  margin-top: 4px;
+}
+.modal input {
+  font-size: 0.8rem;
+}
+
+button {
+  font-weight: 550;
+  font-size: 0.8rem;
+}
+.text-danger {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+#profilePicUpdate button {
+  padding: 0.4rem 0.8rem;
+  border: 0;
+  border-radius: 1rem;
+  color: white;
+}
+.subcontent {
+  overflow: scroll;
+  max-height: 500px;
+}
+.subcontent::-webkit-scrollbar {
+  display: none;
+}
+.scrollspy-example .section {
+  border-radius: 1rem;
+  background-color: white;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgb(201, 201, 201);
+}
+.menu {
+  color: rgb(93, 97, 109);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.orangered{
+  background-color: orangered;
+}
+.changeStyle {
+  color: black;
+  font-size: 0.9rem;
+  border-bottom: 3px solid black;
+  padding: 2px 7px;
+  transition: color 0.3s ease;
+}
+.width-90{
+  width:90%;
+}
+.resume{
+  font-size: 0.8rem;
+}
+input[type="file"]::file-selector-button {
+  color: black;
+  padding: 1rem 2rem;
+  content: "Upload Image";
+  background-color: white;
+  border: 0.1rem grey solid;
+}
+.file-upload {
+  position: relative;
+  display: inline-block;
+}
+
+.file-upload-input {
+  display: none; /* Hide the default input */
+}
+
+.file-upload-label {
+  background-color: white; /* Green background */
+  color: black; /* White text */
+  border: 0.1rem dashed rgb(189, 187, 187);
+  padding: 10px 20px; /* Padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.file-upload-filename {
+  margin-left: 10px; /* Space between label and filename */
+}
+.cursor-pointer{
+  cursor:pointer;
+}
+@media screen and (max-width: 400px) {
+  label {
+    font-size: 0.7rem;
+  }
+  .width-90{
+    width: 100%;
+  }
+}

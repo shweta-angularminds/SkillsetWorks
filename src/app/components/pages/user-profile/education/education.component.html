@@ -1,0 +1,131 @@
+<div class="d-flexflex-column justify-content-start align-items-center flex-wrap mt-4">
+  <button
+  *ngIf="education?.X && !education?.X?.board_name"
+  class="m-1"
+  (click)="onEducationLevelChange('X')"
+>
+  X <i class="fa-solid fa-plus ms-2" (click)="onEducationLevelChange('X'); openModal()"></i>
+</button>
+
+  <button
+    *ngIf="education?.XII && !education?.XII?.board_name"
+    class="m-1"
+    (click)="onEducationLevelChange('XII')"
+  >
+    XII <i class="fa-solid fa-plus ms-2" (click)="onEducationLevelChange('XII');openModal()"></i>
+  </button>
+  <button
+    *ngIf="education?.graduation && !education?.graduation?.course_name"
+    class="m-1"
+    (click)="onEducationLevelChange('graduation')"
+  >
+    Graduation <i class="fa-solid fa-plus ms-2" (click)="onEducationLevelChange('graduation');openModal()"></i>
+  </button>
+  <button
+    *ngIf="education?.postgraduation && !education?.postgraduation?.course_name"
+    class="m-1"
+    (click)="onEducationLevelChange('postgraduation')"
+  >
+    Post Graduation <i class="fa-solid fa-plus ms-2" (click)="onEducationLevelChange('postgraduation');openModal()"></i>
+  </button>
+
+<div class="content p-0 m-0 mt-4" *ngIf="education">
+  <div>
+    <div
+      class="d-flex flex-column mb-1 px-0 py-0"
+      *ngIf="!(education?.postgraduation && !education?.postgraduation?.course_name)"
+    >
+      <div class="header d-flex align-items-center">
+        {{ education.postgraduation.course_name }} from
+        {{ education.postgraduation.college_name }}
+        <i class="fa-solid fa-pen ms-2" (click)="onEducationLevelChange('postgraduation'); openModal();"></i>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="normal">
+          <p>
+            Graduated in {{ education.postgraduation.end_year }}, scored
+            <label *ngIf="education.postgraduation.cgpa"
+              >{{ education.postgraduation.cgpa }} CGPA</label
+            >
+            <label *ngIf="education.postgraduation.percentage">
+              {{ education.postgraduation.percentage }}
+            </label>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column mb-1 px-0 py-0" *ngIf="!(education?.graduation && !education?.graduation?.course_name)">
+      <div class="header d-flex align-items-center">
+        {{ education.graduation.course_name }} from
+        {{ education.graduation.college_name }}
+        <i class="fa-solid fa-pen ms-2" (click)="onEducationLevelChange('graduation'); openModal();"></i>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="normal">
+          <p>
+            Graduated in {{ education.graduation.end_year }}, scored
+            <label *ngIf="education.graduation.cgpa"
+              >{{ education.graduation.cgpa }} CGPA</label
+            >
+            <label *ngIf="education.graduation.percentage">
+              {{ education.graduation.percentage }}
+            </label>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column mb-1 px-0 py-0" *ngIf="!(education?.XII && !education?.XII?.board_name)">
+      <div class="header d-flex align-items-center">
+        Class XII <i class="fa-solid fa-pen ms-2" (click)="onEducationLevelChange('XII'); openModal();"></i>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="details">
+          {{ education.XII.board_name }}, &nbsp;{{ education.XII.medium }}
+        </div>
+
+        <div class="normal">
+          <p>
+            Passed out in
+            {{ education.XII.passing_year }}, scored
+            {{ education.XII.percentage }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column mb-1 px-0 py-0"  *ngIf="!((education?.X) && (!education?.X?.board_name))">
+      <div class="header d-flex align-items-center">
+        Class X <i class="fa-solid fa-pen ms-2" (click)="onEducationLevelChange('X'); openModal();"></i>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="details">
+          {{ education.X.board_name }}, &nbsp;{{ education.X.medium }}
+        </div>
+
+        <div class="normal">
+          <p>
+            Scored {{ education.X.percentage }}, passed out in
+            {{ education.X.passing_year }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div >
+   
+    <app-modal
+      [formFields]="educationFields"
+      [formHeader]="'Education'"
+      [isVisible]="isModalVisible"
+      [modalMessage]="'This is a custom message'"
+      (formDataChange)="handleFormDataChange($event)"
+      (closeModal)="onCloseModal()"
+    ></app-modal>
+    
+  </div>
+
+</div>
+
+</div>

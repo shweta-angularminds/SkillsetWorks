@@ -1,0 +1,47 @@
+p{
+    font-size: 0.9rem;
+    font-weight: 550;
+    color:rgb(92, 91, 91);
+
+}
+span{
+    background-color: white;
+    border: 1px solid rgb(0, 81, 255);
+    font-size: 0.8rem;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    color:rgb(0, 81, 255);
+    font-weight: 550;
+    margin:0.2rem 0.5rem;
+    min-width: 5rem;
+    min-height: 1.5rem;
+}
+span i{
+    display: none;
+}
+span:hover i{
+    display: block;
+    background-color: white;
+    transition: ease 1ms;
+    color: rgb(0, 81, 255);
+}
+.visible{
+    display: block;
+}
+span:hover .visible{
+    display :none;
+}
+
+h5 {
+  font-size: 1rem;
+  color: rgb(66, 66, 66);
+  font-weight: 550;
+}
+i {
+  color: rgb(18, 91, 248);
+  font-size: 0.8rem;
+}
+label{
+    font-size: 0.8rem;
+    font-weight: 500;
+}

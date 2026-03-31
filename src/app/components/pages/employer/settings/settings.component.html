@@ -1,0 +1,113 @@
+<div class="container-fluid w-100 vh-100 p-0">
+  <div class="subcontainer w-100 d-flex flex-column flex-lg-row vh-100 m-0 p-0">
+    
+    <div class="sidenav m-0 p-0 col-lg-2 col-md-12 col-12">
+      <app-sidenavbar></app-sidenavbar>
+    </div>
+
+    <div class="col col-lg-10 col-md-12 col-12 back-color p-0">
+      <div class="col col-12 m-0 d-flex align-items-center bg-white">
+        <div class="col-12 col-md-8 col-lg-6 bg-white">
+          <div class="sub-container py-0 px-3 d-flex align-items-center">
+            <img src="/assets/images/settings.svg" />
+            <h4 class="fw-bold">Settings</h4>
+          </div>
+        </div>
+      </div>
+      <!-- password change div -->
+      <div class="col scroll col-12 mt-4 px-3 py-3 d-flex flex-wrap">
+        <div class="col scroll col-12 px-3 py-3 d-flex flex-wrap rounded">
+          <div class="col col-12 col-lg-4 col-md-12">
+            <h6>Password</h6>
+            <label>Update your password here</label>
+          </div>
+
+          <div class="col col-12 col-lg-8 col-md-8">
+            <form
+              class="w-75"
+              [formGroup]="profileForm"
+              (ngSubmit)="onSubmit()"
+            >
+              <div class="mb-3">
+                <label for="companyName" class="form-label"
+                  >Current password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="password"
+                />
+                <!-- Error Message -->
+                <div
+                  *ngIf="
+                    password.invalid && (password.touched || password.dirty)
+                  "
+                  class="text-danger"
+                >
+                  <small *ngIf="password.errors?.['required']"
+                    >Current password is required.</small
+                  >
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="newpassword" class="form-label">New password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="newPassword"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="newPassword?.invalid && newPassword?.touched"
+                >
+                  <small *ngIf="newPassword.errors?.['required']"
+                    >New password is required.</small
+                  >
+                  <small *ngIf="passwordInvalid"
+                    >Password must contain at least one uppercase letter, one
+                    lowercase letter, one digit, one special character, and be
+                    at least 8 characters long.</small
+                  >
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="confirmpassword" class="form-label"
+                  >Confirm password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                />
+
+                <div
+                  *ngIf="profileForm.errors?.['passwordMismatch'] && profileForm.get('confirmPassword')?.touched"
+                  class="text-danger"
+                >
+                  <small>Passwords do not match!</small>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end w-75 py-3">
+                <button
+                  type="button"
+                  class="bg-white px-3 py-2 me-2"
+                  (click)="clearFields()"
+                  style="border: 1px solid #0d61fd"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="text-white border-0 px-3 py-2 ms-2"
+                  [disabled]="profileForm.invalid"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

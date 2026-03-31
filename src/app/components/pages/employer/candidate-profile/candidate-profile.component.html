@@ -1,0 +1,266 @@
+<div class="container-fluid w-100 p-0 back-color">
+  <div
+    class="subcontainer w-100 d-flex flex-column flex-lg-row vh-100 m-0 p-0 back-color"
+  >
+    <div class="sidenav m-0 p-0 col-lg-2 col-md-12 col-12">
+      <app-sidenavbar></app-sidenavbar>
+    </div>
+
+    <div class="col col-lg-10 col-md-12 col-12 back-color p-0">
+      <div class="col col-12 m-0 d-flex align-items-center bg-white">
+        <div class="col-12 col-md-8 col-lg-6 bg-white">
+          <nav
+            aria-label="breadcrumb"
+            class="pt-3 px-2 fw-normal"
+            style="font-size: 0.9rem"
+          >
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a routerLink="/employer/applicants/{{ jobId }}">Applicants</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                candidate
+              </li>
+            </ol>
+          </nav>
+          <div class="sub-container py-0 px-3 d-flex align-items-center">
+            <img src="/assets/images/profile.svg" />
+            <h4 class="fw-bold">Candidate</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 m-0 d-flex flex-column p-3 mt- scroll">
+        <div
+          class="col col-12 m-0 d-flex align-items-center justify-content-center p-3 mt-1"
+        >
+          <div class="col-12 col-md-11 col-lg-11 bg-white candidate">
+            <div class="col-12 bg-warning d-flex flex-wrap">
+              <div class="p-3 bg-white text-center col-lg-3 col-md-3 col-12">
+                <div *ngIf="profileImage">
+                  <img [src]="profileImage" />
+                </div>
+                <div *ngIf="!profileImage">
+                  <img src="/assets/images/profile-back.jpg" />
+                </div>
+              </div>
+              <div class="p-3 bg-white col-lg-9 col-md-9 col-12">
+                <span class="d-flex justify-content-between align-items-center"
+                  ><h2 class="fw-bold">{{ candidate?.user_info?.username }}</h2>
+                </span>
+                <div
+                  class="col-12 d-flex justify-content-around bg-white border-top"
+                >
+                  <div class="col border-end d-flex flex-column p-2">
+                    <span>
+                      <i class="fa-solid fa-location-dot me-2"></i>
+                      <label *ngIf="candidate.user_info.location">{{
+                        candidate.user_info?.location
+                      }}</label>
+                      <label *ngIf="!candidate.user_info.location">--</label>
+                    </span>
+                    <span>
+                      <i class="fa-solid fa-user me-2"></i
+                      ><label
+                        *ngIf="candidate.user_info.gender"
+                        class="text-capitalize"
+                        >{{ candidate.user_info?.gender }}</label
+                      >
+                      <label *ngIf="!candidate.user_info.gender">--</label>
+                    </span>
+                    <span
+                      ><i class="fa-solid fa-cake-candles me-2"></i>
+                      <label *ngIf="candidate.user_info.bdate"
+                        >{{ candidate.user_info?.bdate | date }}
+                      </label>
+                      <label *ngIf="!candidate.user_info.bdate"
+                        >--
+                      </label></span
+                    >
+                  </div>
+                  <div class="col d-flex flex-column p-2">
+                    <span
+                      ><label>
+                        <i class="fa-duotone fa-solid fa-phone me-2"></i
+                        >{{ candidate.user_info.phone }}</label
+                      ></span
+                    >
+                    <span
+                      ><label
+                        ><i class="fa-solid fa-envelope me-2"></i
+                        >{{ candidate.user_info.email }}</label
+                      ></span
+                    >
+                    <span
+                      ><i class="fa-solid fa-briefcase me-2"></i>
+                      <label
+                        *ngIf="candidate.user_info.fresher"
+                        class="text-primary"
+                        >Fresher
+                      </label>
+                      <label
+                        *ngIf="!candidate.user_info.fresher"
+                        class="text-primary"
+                        >Experienced
+                      </label></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col col-12 m-0 d-flex align-items-center justify-content-center p-3 mt-1 mb-3"
+          *ngIf="candidate.summary"
+        >
+          <div class="col-12 col-md-11 col-lg-11 bg-white">
+            <div class="p-3">
+              <h5 class="fw-bold mb-4">Profile Summary</h5>
+              <span>{{ candidate.summary }}</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col col-12 m-0 d-flex align-items-center justify-content-center p-3 mt-1"
+        >
+          <div
+            class="col-12 col-md-11 col-lg-11 bg-white"
+            *ngIf="candidate.education"
+          >
+            <div class="p-3">
+              <h5 class="fw-bold">Education</h5>
+            </div>
+            <div>
+              <ul>
+                <li *ngIf="candidate.education.postgraduation.course_name">
+                  <div class="d-flex flex-column mb-3">
+                    <h6 class="mb-0">
+                      {{ candidate.education.postgraduation.course_name }} from
+                      {{ candidate.education.postgraduation.college_name }}
+                    </h6>
+                    <label>{{
+                      candidate.education.postgraduation.university
+                    }}</label>
+                    <label
+                      >academic year :
+                      {{ candidate.education.postgraduation.start_year }} -
+                      {{ candidate.education.postgraduation.end_year }} scored
+                      {{ candidate.education.postgraduation.cgpa }} cgpa</label
+                    >
+                  </div>
+                </li>
+                <li *ngIf="candidate.education.graduation.course_name">
+                  <div class="d-flex flex-column mb-3">
+                    <h6 class="mb-0">
+                      {{ candidate.education.graduation.course_name }} from
+                      {{ candidate.education.graduation.college_name }}
+                    </h6>
+                    <label>{{
+                      candidate.education.graduation.university
+                    }}</label>
+                    <label
+                      >academic year :
+                      {{ candidate.education.graduation.start_year }} -
+                      {{ candidate.education.graduation.end_year }} scored
+                      {{ candidate.education.graduation.cgpa }} cgpa</label
+                    >
+                  </div>
+                </li>
+                <li *ngIf="candidate.education.XII.board_name">
+                  <div class="d-flex flex-column mb-3">
+                    <h6 class="mb-0">
+                      12<sup>th</sup> from
+                      {{ candidate.education.XII.board_name }} in
+                      {{ candidate.education.XII.medium }} medium
+                    </h6>
+
+                    <label
+                      >passed out in
+                      {{ candidate.education.XII.passing_year }}
+                      scored
+                      {{ candidate.education.XII.percentage }}
+                    </label>
+                  </div>
+                </li>
+                <li *ngIf="candidate.education.X.board_name">
+                  <div class="d-flex flex-column mb-3">
+                    <h6 class="mb-0">
+                      10<sup>th</sup> from
+                      {{ candidate.education.X.board_name }} in
+                      {{ candidate.education.X.medium }} medium
+                    </h6>
+
+                    <label
+                      >passed out in
+                      {{ candidate.education.X.passing_year }}
+                      scored
+                      {{ candidate.education.X.percentage }}
+                    </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col col-12 m-0 d-flex align-items-center justify-content-center p-3 mt-1 mb-3"
+          *ngIf="candidate.preference"
+        >
+          <div class="col-12 col-md-11 col-lg-11 bg-white">
+            <div class="p-3">
+              <h5 class="fw-bold mb-4">Job Preference</h5>
+              <div>
+                <h6
+                  class="text-capitalize"
+                  *ngIf="candidate.preference.job_type?.length !== 0"
+                >
+                  Job Type : {{ candidate.preference.job_type.join(", ") }}
+                </h6>
+                <h6
+                  class="text-capitalize"
+                  *ngIf="candidate.preference.locations?.length !== 0"
+                >
+                  Work Location :
+                  {{ candidate.preference.locations.join(", ") }}
+                </h6>
+                <h6
+                  class="text-capitalize"
+                  *ngIf="candidate.preference.join_time"
+                >
+                  Joining time: {{ candidate.preference.join_time }}
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col col-12 m-0 d-flex align-items-center justify-content-center p-3 mt-1 mb-3"
+          *ngIf="candidate.languages.length !== 0"
+        >
+          <div class="col-12 col-md-11 col-lg-11 bg-white">
+            <div class="p-3">
+              <h5 class="fw-bold mb-4">Languages</h5>
+              <span *ngFor="let lang of candidate.languages" class="keys">
+                {{ lang }}</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col col-12 m-0 d-flex align-items-center justify-content-center p-3 mt-1 mb-3"
+          *ngIf="candidate.skills?.length !== 0"
+        >
+          <div class="col-12 col-md-11 col-lg-11 bg-white">
+            <div class="p-3">
+              <h5 class="fw-bold mb-4">Skills</h5>
+              <span *ngFor="let skill of candidate.skills" class="keys">
+                {{ skill }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

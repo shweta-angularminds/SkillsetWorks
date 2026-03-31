@@ -1,0 +1,21 @@
+img {
+  width: 900px;
+  height: 400px;
+}
+.container-fluid {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    22deg,
+    rgba(255, 255, 255, 1) 32%,
+    rgba(0, 212, 255, 1) 200%
+  );
+}
+.blurred-image {
+  max-width: 95%;
+
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(221, 233, 236, 0.5); /* Adjust shadow for blur effect */
+}
+h1 {
+  color: #0f1137;
+}

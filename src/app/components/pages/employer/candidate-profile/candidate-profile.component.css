@@ -1,0 +1,80 @@
+.container-fluid{
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidenav {
+  /* background: #343a40; */
+  background-color: rgb(20, 86, 172);
+  overflow-y: auto;
+
+}
+img{
+    width: 70px;
+    height: 70px;
+}
+
+h3 {
+  font-weight: 550;
+}
+h6 {
+  /* color: rgb(75, 74, 74); */
+  color: black;
+  font-weight: 550;
+}
+button {
+  font-size: 0.8rem;
+  border-radius: 0.4rem;
+  font-weight: 550;
+  color: rgb(20, 86, 172);
+  background-color: rgb(20, 86, 172);
+}
+
+label {
+  font-size: 0.8rem;
+  color: rgb(75, 74, 74);
+  font-weight: 550;
+}
+
+.text-danger {
+  font-size: 0.7rem;
+  margin-top: 3px;
+}
+.block {
+  font-size: 0.8rem;
+  color: red;
+}
+.scroll {
+  border-top: 1px solid rgb(231, 231, 231);
+  max-height: 95vh;
+  overflow: scroll;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide the scrollbar for Firefox */
+.scroll {
+  scrollbar-width: none; /* Firefox */
+}
+.back-color {
+  background-color: rgb(235, 235, 255);
+}
+.candidate img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid rgb(216, 216, 216);
+}
+.keys{
+  padding:0.5rem 1rem;
+  border:1px solid rgb(0, 89, 255);
+  background-color: white;
+  color:rgb(0, 89, 255);
+  font-weight: 550;
+  font-size: 0.8rem;
+  margin:1rem;
+  border-radius: 1rem;
+}

@@ -1,0 +1,107 @@
+<nav class="navbar navbar-expand-lg text-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand text-dark fw-bold fs-2 p-0" routerLink="#">
+      Skill<span class="text-primary">Set</span>
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse p-0" id="navbarSupportedContent">
+      <div class="mx-auto p-0">
+        <ul class="navbar-nav mb-2  d-flex justify-content-center align-items-center gap-3 mb-lg-0" style="font-weight: 550">
+          <li class="nav-item ">
+            <a
+              class="nav-link"
+              aria-current="page"
+              routerLink="/home"
+              routerLinkActive="active"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              routerLink="/companies"
+              routerLinkActive="active"
+              >Companies</a
+            >
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Services
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item">Action</a></li>
+              <li><a class="dropdown-item">Another action</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item">Something else here</a></li>
+            </ul>
+          </li> -->
+        </ul>
+      </div>
+
+      <div class="d-flex flex-wrap">
+      
+        <div class="d-flex flex-wrap" *ngIf="!isUserLoggedIn">
+          <a
+            class="nav-link login fw-bold py-2 px-4 me-2"
+            routerLink="/auth/login/jobseeker"
+            >Login</a
+          >
+          <a
+            class="nav-link register fw-bold py-2 px-4 me-3"
+            routerLink="/auth/register/jobseeker"
+            >Register</a
+          >
+        </div>
+
+        <div class="d-flex flex-wrap" *ngIf="isUserLoggedIn">
+          <a
+            class="nav-link login fw-bold py-2 px-4 me-2"
+            routerLink="/jobseeker/profile"
+            >profile</a
+          >
+          <a
+            class="nav-link register fw-bold py-2 px-4 me-3"
+            (click)="logOut()"
+            routerLink="/auth/login/jobseeker"
+            >Logout</a
+          >
+        </div>
+
+        <a
+          class="nav-link py-2 px-3 me-5 employer"
+          routerLink="/auth/login/employer"
+          style="font-weight: 550"
+          *ngIf="!isLoggedIn"
+        >
+          For employers</a
+        >
+      </div>
+      <div class="vertical-line" *ngIf="isLoggedIn"></div>
+      <div class="d-flex" *ngIf="isLoggedIn">
+        <a
+          class="nav-link text-white bg-primary fw-bold py-2 px-4 me-5"
+          routerLink="/employer/profile"
+          >Employer</a
+        >
+      </div>
+    </div>
+  </div>
+</nav>

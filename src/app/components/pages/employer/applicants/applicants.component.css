@@ -1,0 +1,78 @@
+.sidenav {
+  background-color: rgb(2, 80, 153);
+}
+.back-color {
+  background-color: rgb(235, 235, 255);
+}
+
+.table-group-divider{
+  
+  color:rgb(95, 183, 255);
+}
+th{
+  padding: 1rem 0.5rem;
+  vertical-align: start;
+  font-size: 0.9rem;
+  color:rgb(1, 83, 189);
+}
+td {
+  font-size: 0.8rem;
+  vertical-align: middle;
+  font-weight: 550;
+}
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  color: white;
+  font-weight: 550;
+  font-size: 0.7rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+}
+.confirmBtn {
+  background-color: rgb(224, 255, 224);
+  color: rgb(27, 116, 27);
+}
+.confirmBtn:hover{
+ background-color: rgb(206, 255, 206);
+}
+.rejectBtn:hover{
+   background-color: #facccc;
+
+}
+.rejectBtn {
+  background-color: #ffdfdf;
+
+  color: rgb(177, 7, 7);
+}
+.shortListBtn{
+  background-color: #d7f3fd;
+  color: #0077ff;
+}
+.active{
+  background-color: rgb(1, 83, 189);
+  color:white;
+  font-weight: 550;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  margin:1rem;
+}
+span{
+  font-size: 0.8rem;
+  font-weight: 550;
+}
+  .my-pagination ::ng-deep .ngx-pagination .current {
+    background: rgb(0, 81, 255);
+  }
+
+
+  .dropdown-menu li{
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: start;
+    color:rgb(0, 110, 255);
+    border-bottom:1px solid rgb(239, 252, 255);
+    padding:0.2rem;
+    margin-left:0.8rem;
+  }

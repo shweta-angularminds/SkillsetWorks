@@ -1,0 +1,186 @@
+<div class="container-fluid w-100 vh-100 p-0 back-color">
+  <div class="subcontainer w-100 d-flex flex-column flex-lg-row vh-100 m-0 p-0">
+  
+    <div class="sidenav m-0 p-0 col-lg-2 col-md-12 col-12">
+      <app-sidenavbar></app-sidenavbar>
+    </div>
+
+ 
+    <div class="col col-lg-10 col-md-12 col-12">
+      <div class="col-12 bg-white rounded shadow-sm p-3">
+        <nav
+          aria-label="breadcrumb"
+          class="pt-2 px-2 fw-normal"
+          style="font-size: 0.9rem"
+        >
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a routerLink="/employer/dashboard">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">applications</li>
+          </ol>
+        </nav>
+        <h4 class="fw-bold">{{ Job.designation }}</h4>
+      </div>
+      <div
+        class="mt-4 col-12 back-color rounded d-flex justify-content-around flex-wrap"
+      >
+        <div class="col col-lg-5 col-md-5 col-12 bg-white p-3 mt-1">
+          <app-pie-chart
+            [approved]="approved"
+            [pending]="pending"
+            [rejected]="rejected"
+            [shortlisted]="shortlisted"
+          ></app-pie-chart>
+        </div>
+        <div class="col col-lg-5 col-md-5 col-12 bg-white p-3 mt-1">
+          <app-bar-chart [responseData]="res"></app-bar-chart>
+        </div>
+      </div>
+
+      <div class="mt-4 col-12 bg-white rounded shadow-sm p-3 table-responsive">
+        <table class="table" *ngIf="applicants.length !== 0">
+          <thead>
+            <tr class="text-start table-primary">
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Resume</th>
+              <th scope="col">
+                <div class="dropdown-center">
+                  Handle
+
+                  <i
+                    class="fa-solid fa-caret-down"
+                    type="button"
+                    aria-expanded="false"
+                    id="dropdownMenuButton"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                  >
+                  </i>
+
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <li
+                      (click)="selectOption(option)"
+                      *ngFor="let option of selectOptions"
+                    >
+                      {{ option }}
+                    </li>
+                  </ul>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr
+              *ngFor="
+                let applicant of applicants
+                  | paginate : { itemsPerPage: 10, currentPage: p };
+                let i = index
+              "
+            >
+              <th scope="row">{{ i + 1 }}</th>
+              <td>
+                <a
+                  routerLink="/employer/candidate/{{ jobId }}/{{
+                    applicant._id
+                  }}"
+                >
+                  {{ applicant.username }}</a
+                >
+              </td>
+              <td>{{ applicant.email }}</td>
+              <td class="">
+                <i
+                  class="fa-solid fa-file-pdf text-primary fs-4"
+                  (click)="openPdf(applicant.resume)"
+                ></i>
+              </td>
+              <td>
+                <div *ngIf="applicant.status === 'approved'">
+                  <button class="confirmBtn">Approved</button>
+                </div>
+                <div *ngIf="applicant.status === 'shortlisted'">
+                  <button class="shortListBtn">Shortlisted</button>
+                  <button
+                    class="confirmBtn"
+                    (click)="changeStatus('approved', applicant.applicationId)"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    class="rejectBtn"
+                    (click)="changeStatus('rejected', applicant.applicationId)"
+                  >
+                    Reject
+                  </button>
+                </div>
+                <div *ngIf="applicant.status === 'pending'">
+                  <button
+                    class="confirmBtn"
+                    (click)="changeStatus('approved', applicant.applicationId)"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    class="rejectBtn"
+                    (click)="changeStatus('rejected', applicant.applicationId)"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    class="shortListBtn"
+                    (click)="
+                      changeStatus('shortlisted', applicant.applicationId)
+                    "
+                  >
+                    Shortlist
+                  </button>
+                </div>
+
+                <div *ngIf="applicant.status === 'rejected'">
+                  <button class="rejectBtn">Rejected</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <pagination-controls
+                  class="my-pagination p-3 text-end"
+                  (pageChange)="p = $event"
+                ></pagination-controls>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="pdfViewModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="exampleModalToggleLabel">
+          Resume
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <app-pdf-viewer [pdfFileUrl]="pdfFilePath"></app-pdf-viewer>
+    </div>
+  </div>
+</div>

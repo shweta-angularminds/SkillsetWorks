@@ -1,0 +1,51 @@
+<div class="container-fluid p-0 m-0 w-100">
+  <!-- no applications display -->
+  <div class="text-center" *ngIf="applications.length === 0">
+    <h6 class="fw-bold" style="color: rgb(49, 48, 48); font-size: 0.9rem">
+      You haven’t applied to any jobs yet – but don’t worry, your future boss is
+      just a click away!
+    </h6>
+    <!-- <img
+      src="/assets/images/nojobapply.jpg"
+      style="width: 10rem; height: 10rem; opacity: 0.9"
+    /> -->
+  </div>
+
+  <!-- All applications display -->
+  <div class="w-100" *ngIf="applications.length > 0">
+    <!-- <div>
+      <h6>Your Applications</h6>
+    </div> -->
+
+    <div class="p-0 w-100 d-flex flex-wrap">
+      <div class="bg-white col col-lg-3 col-md-3 col-sm-3 col-12 m-2 shadow-sm">
+        <div
+          class="text-dark p-3"
+          [ngClass]="{
+            selected:
+              application.application_id === SelectedApplication.application_id
+          }"
+          *ngFor="
+            let application of applications
+              | paginate : { itemsPerPage: 3, currentPage: p }
+          "
+        >
+          <div (click)="SelectedApplication = application">
+            <h6 class="fw-bold">{{ application.designation }}</h6>
+            <label class="grey-black">{{ application.company_name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-lg-8 col-md-8 col-sm-8 col-12 m-2 shadow-sm">
+        <app-view-applications
+          [application]="SelectedApplication"
+        ></app-view-applications>
+      </div>
+      <pagination-controls
+        class="my-pagination p-3 text-end"
+        (pageChange)="p = $event"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>

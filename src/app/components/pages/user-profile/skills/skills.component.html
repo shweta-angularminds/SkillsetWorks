@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-between w-100">
+  <div class="">
+    <h5 id="list-item-4">
+      <i class="fa-solid fa-shield-halved me-2 fs-5"></i>Skills
+    </h5>
+    <p></p>
+  </div>
+  <div>
+    <i class="fa-solid fa-plus me-2 fs-5" (click)="openModal()"></i>
+  </div>
+</div>
+<div class="mt-2 d-flex flex-wrap align-items-center justify-content-start" *ngIf="skills?.length !== 0">
+  <span *ngFor="let skill of skills">
+    <div class="d-flex align-items-center">
+      <div class="visible text-center me-2">
+        {{ skill }}
+      </div>
+      <i
+        class="fa-solid fa-xmark text-center fs-6"
+        (click)="deleteSkill(skill)"
+      ></i>
+    </div>
+  </span>
+</div>
+<div class="mt-2" *ngIf="skills?.length === 0">
+  <label>Add your skills here to unlock more job opportunities, access diverse roles, and increase your chances of getting hired!</label>
+</div>
+<div>
+  <div>
+    <app-modal
+      [formFields]="formFields.fields"
+      [formHeader]="formTitle"
+      [isVisible]="isModalVisible"
+      [modalMessage]="'This is a custom message'"
+      (formDataChange)="handleFormDataChange($event)"
+      (closeModal)="onCloseModal()"
+    ></app-modal>
+  </div>
+</div>

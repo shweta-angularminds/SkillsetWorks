@@ -1,0 +1,19 @@
+.grey-black{
+    color:rgb(53, 50, 50);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+h6{
+    font-size: 0.9rem;
+}
+.selected{
+    background-color: rgb(225, 253, 255);
+    
+}
+.my-pagination ::ng-deep .ngx-pagination .current {
+    background: rgb(0, 81, 255);
+  }
+  .my-pagination{
+    font-size: 0.9rem;
+    font-weight: 600;
+  }

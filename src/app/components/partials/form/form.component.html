@@ -1,0 +1,80 @@
+<div class="row p-3 border w-50" *ngIf="type === 'text'">
+  <label>
+{{ label }}:
+  </label>
+  <input 
+    [(ngModel)]="value" 
+    [type]="type" 
+    [name]="name" 
+    #input="ngModel" 
+    (blur)="onValueChange()"
+    [required]="true" 
+    [minlength]="type === 'text' && name === 'designation' ? 3 : null" 
+    [maxlength]="type === 'text' && name === 'salary' ? 10 : null"  
+    (keyup.enter)="onValueChange()">
+  <div *ngIf="input.invalid && input.touched" class="text-danger text-start">
+    <div *ngIf="input.errors?.['required']">This field is required.</div>
+    <div *ngIf="input.errors?.['minlength']">Minimum length is 3 characters.</div>
+    <div *ngIf="input.errors?.['maxlength']">Maximum length is 10 characters.</div>
+  </div>
+</div>
+
+<div class="row p-3 border w-50 text-start" *ngIf="type === 'select'">
+  <label>{{ label }}</label>
+  <select [(ngModel)]="value" [name]="name" #input="ngModel" (blur)="onValueChange()" (keyup.enter)="onValueChange()" [required]="true">
+    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+  </select>
+  <div *ngIf="input.invalid && input.touched" class="text-danger">
+    <div *ngIf="input.errors?.['required']">This field is required.</div>
+  </div>
+</div>
+
+<!-- Radio Button Handling -->
+<div class="row p-3 border w-50 text-start" *ngIf="type === 'radio'">
+  <label>{{ label }}</label>
+  <div *ngFor="let option of options">
+    <input 
+      type="radio" 
+      [name]="name" 
+      [value]="option" 
+      [(ngModel)]="value" 
+      (change)="onValueChange()">
+    <span> {{ option }}</span>
+  </div>
+  <div *ngIf="!value" class="text-danger">
+    Please select a job type.
+  </div>
+</div>
+
+
+<div class="row p-3 border w-50" *ngIf="type === 'checkbox' && options.length === 0">
+  <label>{{ label }}</label>
+  <input 
+    type="checkbox" 
+    [(ngModel)]="value" 
+    [name]="name"
+    (change)="onValueChange()">
+  <div *ngIf="!value" class="text-danger">
+    This field is required.
+  </div>
+</div>
+
+<div class="row p-3 border w-50 text-dark" *ngIf="type === 'checkbox' && options">
+  <label>{{ label }}</label>
+  <div *ngFor="let option of options">
+    <input 
+      type="checkbox" 
+      [value]="option" 
+      [(ngModel)]="selectedOptions" 
+      [name]="option"
+      (change)="onValueChange()">
+    <label>{{ option }}</label>
+  </div>
+
+  <!-- Show validation message if no option is selected -->
+  <div *ngIf="selectedOptions.length === 0" class="text-danger">
+    Please select at least one option.
+  </div>
+</div>
+
+

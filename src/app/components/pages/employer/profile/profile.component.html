@@ -1,0 +1,261 @@
+<div class="container-fluid w-100 vh-100 p-0">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="d-flex ">
+    <div
+      class="subcontainer w-100 d-flex flex-column flex-lg-row vh-100 m-0 p-0 back-color"
+    >
+     
+      <div
+        class="sidenav m-0 p-0 col-lg-2 col-md-12 col-sm-12 col-xs-12 col-12"
+      >
+        <app-sidenavbar></app-sidenavbar>
+      </div>
+
+      
+      <div class="col col-lg-10 col-md-10 col-12 bg-white px-0">
+       
+        <div class="col col-12 m-0 d-flex align-items-center bg-white">
+      
+          <div class="p-3">
+            <div class="image">
+              <img
+                [src]="this.employer.companyLogo"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+
+        
+          <div class="col-12 col-md-8 col-lg-6">
+            <div class="sub-container py-3 px-3">
+              <h3>{{ employer.companyName }}</h3>
+              <h6 style="font-size:0.9rem;">
+                <i class="fa-solid fa-envelope me-2"></i>{{ employer.email }}
+              </h6>
+            </div>
+          </div>
+        </div>
+      
+        <div class="scroll col col-12 m-0">
+          <div class="col col-12 m-0 py-2">
+            <div class="company-profile px-3 py-3  d-flex bg-white">
+              <div class="col col-lg-4 col-md-4 d-none d-md-block">
+                <h6>Company Profile</h6>
+                <label>Update your company Info here</label>
+              </div>
+              <div class="col col-lg-8 col-md-8 col-12">
+                <div class="mb-3">
+                  <label for="companyName" class="form-label"
+                    >Company Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="companyName"
+                  />
+             
+                  <div
+                    *ngIf="
+                      companyName.invalid &&
+                      (companyName.touched || companyName.dirty)
+                    "
+                    class="text-danger"
+                  >
+                    <small *ngIf="companyName.errors?.['required']"
+                      >Company Name is required.</small
+                    >
+                    <small *ngIf="companyName.errors?.['maxLength']"
+                      >Maximum 25 characters and spaces allowed only.</small
+                    >
+                    <small *ngIf="companyName.errors?.['minLength']"
+                      >Minimum 2 characters are required!</small
+                    >
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="employerName" class="form-label">CEO</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="employerName"
+                  />
+                  <!-- Error Message -->
+                  <div
+                    *ngIf="
+                      employerName.invalid &&
+                      (employerName.touched || employerName.dirty)
+                    "
+                    class="text-danger"
+                  >
+                    <small *ngIf="employerName.errors?.['required']"
+                      >Employer Name is required.</small
+                    >
+                    <small *ngIf="employerName.errors?.['maxLength']"
+                      >Maximum 25 characters and spaces allowed only.</small
+                    >
+                    <small *ngIf="employerName.errors?.['minLength']"
+                      >Minimum 3 characters are required!</small
+                    >
+                    <small *ngIf="employerName.errors?.['pattern']"
+                      >Only alphabets and spaces are allowed!</small
+                    >
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                  />
+                  <!-- Error Message -->
+                  <div
+                    *ngIf="email.invalid && (email.touched || email.dirty)"
+                    class="text-danger"
+                  >
+                    <small *ngIf="email.errors?.['required']"
+                      >Email is required.</small
+                    >
+                    <small *ngIf="email.errors?.['email']"
+                      >Please enter a valid email address.</small
+                    >
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="address"
+                  />
+                  <!-- Error Message -->
+                  <div
+                    *ngIf="
+                      address.invalid && (address.dirty || address.touched)
+                    "
+                    class="text-danger"
+                  >
+                    <small *ngIf="address.errors?.['required']"
+                      >Address is required.</small
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- logo update div -->
+          <div class="col col-12  px-3 py-3 d-flex bg-white">
+            <div class="col col-lg-4 col-md-4 d-none d-md-block bg-white">
+              <h6>Company Logo</h6>
+              <label>Update your company logo here</label>
+            </div>
+
+            <div class="col col-12 col-lg-8 col-md-8">
+              <div
+                class="d-flex align-items-center justify-content-between w-75"
+              >
+                <div
+                  class="imageLogo"
+                  [ngStyle]="{
+                    background:
+                      'url(' + imageUrl + ') no-repeat center center / contain'
+                  }"
+                >
+                  <!-- <img [src]="imageUrl" /> -->
+                </div>
+                <div>
+                  <div class="file-upload">
+                    <input
+                      type="file"
+                      id="file-upload"
+                      class="file-upload-input"
+                      (change)="onFileSelected($event)"
+                      accept="image/*"
+                    />
+                    <label
+                      for="file-upload"
+                      class="file-upload-label text-center"
+                      ><i class="fa-solid fa-upload"></i><br />
+                      click to upload Image</label
+                    >
+                    <!-- <span class="file-upload-filename">No file chosen</span>  -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- contact div -->
+          <div class="col col-12  px-3 py-3 d-flex bg-white">
+            <div class="col col-lg-4 col-md-4 d-none d-md-block">
+              <h6>Company Contacts</h6>
+              <label>Update your company contacts here</label>
+            </div>
+
+            <div class="col col-12 col-lg-8 col-md-8">
+              <div class="mb-3">
+                <label for="companyName" class="form-label">Contact No.</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="contactNumber"
+                />
+                <!-- Error Message -->
+                <div
+                  *ngIf="
+                    contactNumber.invalid &&
+                    (contactNumber.touched || contactNumber.dirty)
+                  "
+                  class="text-danger"
+                >
+                  <small *ngIf="contactNumber.errors?.['required']"
+                    >Contact number is required.</small
+                  >
+                  <small *ngIf="contactNumber.errors?.['pattern']"
+                    >Only 10 digits are allowed.</small
+                  >
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="employerName" class="form-label">Website</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="website"
+                />
+                <!-- Error Message -->
+                <div
+                  *ngIf="website.invalid && (website.touched || website.dirty)"
+                  class="text-danger"
+                >
+                  <small *ngIf="website.errors?.['required']"
+                    >website url is required.</small
+                  >
+                  <small *ngIf="website.errors?.['pattern']"
+                    >Website url format is invalid!</small
+                  >
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mt-4 ">
+                 <button
+                  type="button"
+                  class="bg-white   px-3 py-2 ms-2 me-2"
+                  (click)="resetForm()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class=" text-white border-0 px-3 py-2 me-5"
+                  [disabled]="profileForm.invalid"
+                >
+                  Save Changes
+                </button>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

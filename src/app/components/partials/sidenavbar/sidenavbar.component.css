@@ -1,0 +1,174 @@
+.container-fluid{
+   /* background-color:#E6E6FA; */
+   background: linear-gradient(to right bottom,rgb(239, 247, 255),#a8c5fc);
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+h2 {
+  font-weight: 550;
+  text-align: start;
+}
+.container {
+  color: rgb(20, 86, 172);
+  margin-left: 0;
+  margin-top: 5px;
+}
+hr {
+  color: rgb(50, 107, 173);
+}
+li {
+  font-weight: 510;
+  margin-top: 1.5rem;
+  margin-right: 0;
+  margin-left: 0;
+  list-style: none;
+  padding: 0.6rem 0.4rem;
+  border-radius: 1rem;
+  color: rgb(20, 86, 172);
+}
+li:hover {
+  background-color: white;
+  color: rgb(20, 86, 172);
+}
+
+i {
+  margin-right: 10px;
+  width: 1.3rem;
+  height: 1.3rem;
+  text-align: center;
+}
+a {
+   color: rgb(20, 86, 172);
+}
+
+.active {
+  li {
+    background-color: white;
+    color: rgb(20, 86, 172);
+  }
+}
+a:hover {
+  background-color: white;
+  color: rgb(20, 86, 172);
+}
+.toggle {
+  display: none;
+}
+@media screen and (max-width: 992px) {
+  li i {
+    display: none;
+  }
+  hr {
+    display: none;
+  }
+  .toggle {
+    display: block;
+  }
+  .toggle i {
+    font-size: 2rem;
+    margin-right: 19px;
+  }
+  #toggle-content {
+    opacity: 0; /* Initially invisible */
+    height: 0; /* Initially collapsed */
+    overflow: hidden; /* Hide content that overflows */
+    transition: opacity 0.3s ease, height 0.3s ease; /* Transition on opacity and height */
+  }
+
+  /* Make the element visible and fully expanded when active */
+  #toggle-content.visible {
+    opacity: 1; /* Fully visible */
+    height: 500px; /* Adjust height as needed */
+  }
+  .active {
+    li {
+      background-color: white;
+      color: rgb(20, 86, 172);
+      border-radius: 0;
+      padding-left: 20px;
+      text-align: start;
+      margin: 0;
+    }
+  }
+  li {
+    margin: 5px 15px;
+    text-align: text-center;
+  }
+}
+@media screen and (max-width: 768px) {
+  /* nav {
+    display: flex;
+    justify-content: space-evenly;
+  } */
+  a {
+    text-decoration: none;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  nav {
+    background: linear-gradient(
+      to right bottom,
+     rgb(2, 80, 153),
+      rgb(8, 123, 231)
+    );
+  }
+  .active {
+    li {
+      background-color: white;
+      color: rgb(20, 86, 172);
+      border-radius: 0;
+      padding-left: 20px;
+      text-align: start;
+      margin: 0;
+    }
+  }
+  li i {
+    display: none;
+  }
+  hr {
+    display: none;
+  }
+  .toggle {
+    display: block;
+  }
+  .toggle i {
+    font-size: 2rem;
+    margin-right: 19px;
+  }
+  /* Initially set the element to be hidden */
+  #toggle-content {
+    opacity: 0; /* Initially invisible */
+    height: 0; /* Initially collapsed */
+    overflow: hidden; /* Hide content that overflows */
+    transition: opacity 0.3s ease, height 0.3s ease; /* Transition on opacity and height */
+  }
+
+  /* Make the element visible and fully expanded when active */
+  #toggle-content.visible {
+    opacity: 1; /* Fully visible */
+    height: 500px; /* Adjust height as needed */
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  li {
+    margin: 5px 15px;
+    text-align: text-center;
+  }
+  li:hover {
+    border-radius: 50%;
+  }
+  .active {
+    padding: 0.4rem 0.1rem;
+    border-radius: 50%;
+    /* background-color: rgb(255, 255, 255); */
+    text-align: center;
+  }
+}

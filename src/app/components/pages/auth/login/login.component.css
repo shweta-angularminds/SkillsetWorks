@@ -1,0 +1,64 @@
+.container-fluid {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    3deg,
+    rgba(255, 255, 255, 1) 32%,
+    rgba(0, 212, 255, 1) 200%
+  );
+}
+.link {
+  text-decoration: none;
+  font-weight: 400;
+}
+.grey {
+  color: rgb(102, 101, 101);
+  font-weight: 600;
+}
+h3{
+  color: rgb(46, 46, 73);
+  font-weight: 550;
+}
+img {
+  max-width: 25rem;
+}
+label {
+  font-size: 0.7rem;
+  color: rgb(71, 71, 71);
+}
+.error {
+  font-size: 0.7rem;
+}
+
+input {
+  font-size: 0.7rem;
+  border: 0;
+  border-bottom: 1px solid grey;
+  border-radius: 0;
+}
+input:focus {
+  box-shadow: none;
+  border-bottom: 2px solid cadetblue;
+}
+i {
+  color: black;
+}
+.text-main {
+  font-size: 1.3rem;
+}
+.row {
+  min-height: 75vh;
+}
+.col {
+  border: 0.01rem solid rgb(231, 231, 231);
+  border-collapse: collapse;
+}
+@media screen and (max-width: 992px) {
+  img {
+    max-width: 20rem;
+  }
+}
+@media screen and (max-width: 952px) {
+  img {
+    max-width: 15rem;
+  }
+}

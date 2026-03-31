@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-between">
+  <div>
+    <h5 id="list-item-2">
+      <i class="fa-solid fa-book-open-reader me-2 fs-5"></i>Profile Summary
+    </h5>
+  </div>
+  <div>
+    <i class="fa-solid fa-plus me-2 fs-5" (click)="openModal()"></i>
+  </div>
+</div>
+<div class="mt-2">
+  <p *ngIf="summary">
+    {{ summary }}
+  </p>
+  <label *ngIf="!summary"
+    >A strong profile summary highlights your key strengths and experiences,
+    helping you stand out to employers, unlock diverse job opportunities, and
+    increase your chances of getting hired.</label
+  >
+</div>
+<div>
+  <div>
+    <app-modal
+      [formFields]="formFields.fields"
+      [formHeader]="formTitle"
+      [isVisible]="isModalVisible"
+      [modalMessage]="'This is a custom message'"
+      (formDataChange)="handleFormDataChange($event)"
+      (closeModal)="onCloseModal()"
+    ></app-modal>
+  </div>
+</div>
