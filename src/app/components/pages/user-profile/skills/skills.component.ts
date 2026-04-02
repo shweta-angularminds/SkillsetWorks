@@ -9,6 +9,8 @@ import {
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
+import { CommonModule } from '@angular/common';
+import { ModalComponent } from "../../../partials/modal/modal.component";
 
 export const Skill = [
   {
@@ -24,9 +26,11 @@ export const Skill = [
   },
 ];
 @Component({
+  standalone:true,
   selector: 'app-skills',
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.css',
+  imports: [CommonModule, ModalComponent]
 })
 export class SkillsComponent implements OnInit, OnChanges {
   isModalVisible = false;

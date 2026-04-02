@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
+import { CommonModule } from '@angular/common';
+import { ModalComponent } from "../../../partials/modal/modal.component";
 const formFields = [
   {
     label: 'Preferred Work Type',
@@ -47,9 +49,11 @@ const formFields = [
 ];
 
 @Component({
+  standalone:true,
   selector: 'app-preference',
   templateUrl: './preference.component.html',
   styleUrl: './preference.component.css',
+  imports: [CommonModule, ModalComponent]
 })
 export class PreferenceComponent {
   isModalVisible = false;

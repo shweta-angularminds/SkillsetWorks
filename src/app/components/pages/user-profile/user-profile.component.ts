@@ -15,17 +15,29 @@ import {
   user_update_profile_pic_url,
   user_url,
 } from '../../../../constants/url/urls';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { LocalstorageService } from '../../../services/localstorage.service';
 import { NotifyService } from '../../../services/notify.service';
 import { Router } from '@angular/router';
 import { Education } from '../../../../constants/interfaces/user.interface';
+import { CommonModule } from '@angular/common';
+import { LanguagesComponent } from './languages/languages.component';
+import { SkillsComponent } from './skills/skills.component';
+import { EducationComponent } from './education/education.component';
+import { PreferenceComponent } from './preference/preference.component';
+import { SummaryComponent } from './summary/summary.component';
+import { InternshipsComponent } from './internships/internships.component';
+import { ApplicantsComponent } from '../employer/applicants/applicants.component';
+import { ApplicationsComponent } from './applications/applications.component';
+import { NavbarComponent } from "../../partials/navbar/navbar.component";
 
 @Component({
+  standalone:true,
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, LanguagesComponent, SkillsComponent, EducationComponent, PreferenceComponent, SummaryComponent, InternshipsComponent, ApplicationsComponent, NavbarComponent]
 })
 export class UserProfileComponent implements OnInit, AfterViewInit {
   user: any;

@@ -12,3 +12,16 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
 };
+
+
+
+export const jobSeekerAuthGuard : CanActivateFn=(route,state)=>{
+  const localStorage = inject(LocalstorageService)
+  const router = inject(Router)
+  if(localStorage.isLoggedIn('userToken')){
+    return true
+  }else{
+    router.navigate(['auth/login/jobseeker'])
+    return false
+  }
+}

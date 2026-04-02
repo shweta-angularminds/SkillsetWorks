@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
+import { CommonModule } from '@angular/common';
+import { ModalComponent } from "../../../partials/modal/modal.component";
 
 export const Summary = [
   {
@@ -17,9 +19,11 @@ export const Summary = [
   },
 ];
 @Component({
+  standalone:true,
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.css',
+  imports: [CommonModule, ModalComponent]
 })
 export class SummaryComponent implements OnInit {
   @Input()

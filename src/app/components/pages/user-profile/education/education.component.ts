@@ -7,10 +7,15 @@ import { user_add_education_url } from '../../../../../constants/url/urls';
 
 import { Education } from '../../../../../constants/interfaces/user.interface';
 import { EducationField } from '../../../../../constants/data/form-fields';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ModalComponent } from "../../../partials/modal/modal.component";
 @Component({
+  standalone:true,
   selector: 'app-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.css'],
+  imports: [CommonModule, FormsModule, ModalComponent]
 })
 export class EducationComponent implements OnInit {
   @Input()

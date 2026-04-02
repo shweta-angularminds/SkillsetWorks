@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/pages/home/home.component';
-import { CompaniesComponent } from './components/pages/companies/companies.component';
-import { authGuard } from './guards/auth.guard';
-import { ViewCompanyComponent } from './components/pages/view-company/view-company.component';
-import { ViewJobComponent } from './components/pages/view-job/view-job.component';
-import { UserProfileComponent } from './components/pages/user-profile/user-profile.component';
+import { authGuard, jobSeekerAuthGuard } from './guards/auth.guard';
+
 
 const routes: Routes = [
   {
@@ -16,15 +13,16 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    
   },
   {
     path: 'companies',
-    component: CompaniesComponent,
+    loadComponent: () =>
+      import('./components/pages/companies/companies.component').then(
+        (c) => c.CompaniesComponent,
+      ),
   },
   {
     path: 'auth',
-    
     loadChildren: () =>
       import('./components/pages/auth/auth.module').then((m) => m.AuthModule),
   },
@@ -33,20 +31,30 @@ const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () =>
       import('./components/pages/employer/employer.module').then(
-        (m) => m.EmployerModule
+        (m) => m.EmployerModule,
       ),
   },
   {
-    path:'view-company/:id',
-    component:ViewCompanyComponent
+    path: 'view-company/:id',
+    loadComponent: () =>
+      import('./components/pages/view-company/view-company.component').then(
+        (c) => c.ViewCompanyComponent,
+      ),
   },
   {
-    path:'view-job/:id',
-    component:ViewJobComponent
+    path: 'view-job/:id',
+    loadComponent: () =>
+      import('./components/pages/view-job/view-job.component').then(
+        (c) => c.ViewJobComponent,
+      ),
   },
   {
-    path:'jobseeker/profile',
-    component:UserProfileComponent
+    path: 'jobseeker/profile',
+   
+    loadComponent: () =>
+      import('./components/pages/user-profile/user-profile.component').then(
+        (c) => c.UserProfileComponent,
+      ),
   },
   {
     path: '**',
