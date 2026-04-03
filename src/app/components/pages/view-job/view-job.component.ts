@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Job } from '../../../../constants/interfaces/job.interface';
 import {
   apply_job_url,
@@ -14,17 +14,23 @@ import { HttpService } from '../../../services/http.service';
 import { employer } from '../../../../constants/interfaces/employer.interface';
 import { LocalstorageService } from '../../../services/localstorage.service';
 import { NotifyService } from '../../../services/notify.service';
+import { DateDiffPipe } from "../../../pipes/date-diff.pipe";
+import { CommonModule } from '@angular/common';
+import { NavbarComponent } from "../../partials/navbar/navbar.component";
 
 @Component({
+  standalone:true,
   selector: 'app-view-job',
   templateUrl: './view-job.component.html',
   styleUrl: './view-job.component.css',
+  imports: [DateDiffPipe, CommonModule, RouterLink, NavbarComponent],
+
 })
 export class ViewJobComponent implements OnInit {
   id!: string;
-  job!: Job;
-  employer!: employer;
-  jobs!: Job[];
+  job: Job|null = null;
+  employer: employer|null = null;
+  jobs: Job[] = [];
   isApplied: boolean = true;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -73,7 +79,7 @@ export class ViewJobComponent implements OnInit {
     });
   }
   getEmployerDetails() {
-    this.http.get(employer_url + '/' + this.job.employer_id).subscribe({
+    this.http.get(employer_url + '/' + this.job?.employer_id).subscribe({
       next: (res: any) => {
         this.employer = res;
         this.getAllJobsOfCompany();
@@ -86,7 +92,7 @@ export class ViewJobComponent implements OnInit {
     return base_url + path;
   }
   getAllJobsOfCompany() {
-    this.http.get(get_job_by_company + this.job.employer_id).subscribe({
+    this.http.get(get_job_by_company + this.job?.employer_id).subscribe({
       next: (res: any) => {
         this.jobs = res.filter((job: Job) => job._id !== this.id);
       },

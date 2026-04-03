@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployerModule } from '../employer/employer.module';
 import { employer } from '../../../../constants/interfaces/employer.interface';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import {
   base_url,
@@ -10,16 +10,22 @@ import {
 } from '../../../../constants/url/urls';
 import { Job } from '../../../../constants/interfaces/job.interface';
 import { HttpParams } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from "ngx-pagination";
+import { DateDiffPipe } from '../../../pipes/date-diff.pipe';
+import { NavbarComponent } from "../../partials/navbar/navbar.component";
 
 @Component({
+  standalone:true,
   selector: 'app-view-company',
   templateUrl: './view-company.component.html',
   styleUrl: './view-company.component.css',
+  imports: [CommonModule, NgxPaginationModule, DateDiffPipe, RouterLink, NavbarComponent]
 })
 export class ViewCompanyComponent implements OnInit {
   p: number = 1;
-  company!: employer;
-  jobs!: Job[];
+  company: employer|null = null;
+  jobs: Job[]=[];
   id!: string;
   department: string = '';
   limit: number = 10;

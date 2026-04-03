@@ -18,14 +18,14 @@ import { ModalComponent } from './components/partials/modal/modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoaderComponent } from './components/partials/loader/loader.component';
+import { provideLottieOptions } from 'ngx-lottie';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ViewCompanyComponent,
-    DateDiffPipe,
-    ViewJobComponent,
+   
+
   ],
   imports: [
     BrowserModule,
@@ -39,14 +39,18 @@ import { LoaderComponent } from './components/partials/loader/loader.component';
     NgChartsModule,
     ModalComponent,
     NgxPaginationModule,
-    LoaderComponent
-  ],
+    LoaderComponent,
+    DateDiffPipe
+],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
       multi: true,
     },
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+    }),
   ],
   bootstrap: [AppComponent],
 })
