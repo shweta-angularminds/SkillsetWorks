@@ -19,7 +19,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { Validators } from '@angular/forms';
 import { LocalstorageService } from '../../../services/localstorage.service';
 import { NotifyService } from '../../../services/notify.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Education } from '../../../../constants/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { LanguagesComponent } from './languages/languages.component';
@@ -37,7 +37,7 @@ import { NavbarComponent } from "../../partials/navbar/navbar.component";
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, LanguagesComponent, SkillsComponent, EducationComponent, PreferenceComponent, SummaryComponent, InternshipsComponent, ApplicationsComponent, NavbarComponent]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, LanguagesComponent, SkillsComponent, EducationComponent, PreferenceComponent, SummaryComponent, InternshipsComponent, ApplicationsComponent, NavbarComponent,RouterLink]
 })
 export class UserProfileComponent implements OnInit, AfterViewInit {
   user: any;

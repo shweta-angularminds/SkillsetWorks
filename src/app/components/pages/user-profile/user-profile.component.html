@@ -2,8 +2,7 @@
   <app-navbar></app-navbar>
 </div>
 <div
-*ngIf="user"
-
+  *ngIf="user"
   class="container-fluid d-flex flex-column justify-content-start align-items-center p-0 m-0 vh-100"
 >
   <div class="main bg-custom py-3 mt-4 shadow-sm" style="width: 90%">
@@ -19,7 +18,7 @@
                 (user?.profilePic
                   ? getImageUrl(user.profilePic)
                   : '/assets/images/profile-back.jpg') +
-                ')'
+                ')',
             }"
           >
             <span
@@ -142,32 +141,38 @@
           <div id="list-example" class="list-group">
             <a
               class="list-group-item list-group-item-action"
-              href="#list-item-1"
+              [routerLink]="[]"
+              fragment="list-item-1"
               >Education</a
             >
             <a
               class="list-group-item list-group-item-action"
-              href="#list-item-2"
+              [routerLink]="[]"
+              fragment="list-item-2"
               >Preference</a
             >
             <a
               class="list-group-item list-group-item-action"
-              href="#list-item-3"
+              [routerLink]="[]"
+              fragment="list-item-3"
               >Profile Summary</a
             >
             <a
               class="list-group-item list-group-item-action"
-              href="#list-item-4"
+              [routerLink]="[]"
+              fragment="list-item-4"
               >Skills</a
             >
             <a
               class="list-group-item list-group-item-action"
-              href="#list-item-5"
+              [routerLink]="[]"
+              fragment="list-item-5"
               >Languages</a
             >
             <a
               class="list-group-item list-group-item-action"
-              href="#list-item-6"
+              [routerLink]="[]"
+              fragment="list-item-6"
               >Resume</a
             >
           </div>
