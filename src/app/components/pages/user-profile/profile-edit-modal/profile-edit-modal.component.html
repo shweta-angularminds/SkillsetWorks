@@ -1,0 +1,178 @@
+<div
+    class="modal fade"
+    id="updateProfileModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog .modal-fullscreen-lg-down">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+            All about you
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="userForm">
+            <div class="mb-3">
+              <label class="col-form-label"> Full name </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="username"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  username?.invalid && (username?.touched || username?.dirty)
+                "
+              >
+                <small *ngIf="username?.errors?.['required']"
+                  >User name is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Date of birth </label>
+              <input type="date" class="form-control" formControlName="bdate" />
+              <div
+                class="text-danger"
+                *ngIf="bdate?.invalid && (bdate?.touched || bdate?.dirty)"
+              >
+                <small *ngIf="bdate?.errors?.['required']"
+                  >Birth date is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Gender</label>
+              <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="gender"
+                    value="male"
+                    id="male"
+                    name="gender"
+                  />
+                  <label for="male" class="form-check-label">Male</label>
+                </div>
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="gender"
+                    value="female"
+                    id="female"
+                    name="gender"
+                  />
+                  <label for="female" class="form-check-label">Female</label>
+                </div>
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="gender"
+                    value="other"
+                    id="other"
+                    name="gender"
+                  />
+                  <label for="other" class="form-check-label">Other</label>
+                </div>
+              </div>
+              <div
+                *ngIf="gender?.invalid && (gender?.touched || gender?.dirty)"
+                class="text-danger"
+              >
+                <small *ngIf="gender?.errors?.['required']"
+                  >Gender is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Current location </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="location"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  location?.invalid && (location?.touched || location?.dirty)
+                "
+              >
+                <small *ngIf="location?.errors?.['required']"
+                  >Location is required</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Mobile Number </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="contactNumber"
+              />
+              <div
+                *ngIf="
+                  contactNumber?.invalid &&
+                  (contactNumber?.touched || contactNumber?.dirty)
+                "
+                class="text-danger"
+              >
+                <small *ngIf="contactNumber?.errors?.['required']"
+                  >Contact number is required.</small
+                >
+                <small *ngIf="contactNumber?.errors?.['pattern']"
+                  >Only 10 digits are allowed.</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label"> Your email </label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+              />
+              <div
+                *ngIf="email?.invalid && (email?.touched || email?.dirty)"
+                class="text-danger"
+              >
+                <small *ngIf="email?.errors?.['required']"
+                  >email is required.</small
+                >
+                <small *ngIf="email?.errors?.['email']">Invalid email</small>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary fw-bold"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="onSave()"
+            data-bs-dismiss="modal"
+            [disabled]="userForm.invalid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

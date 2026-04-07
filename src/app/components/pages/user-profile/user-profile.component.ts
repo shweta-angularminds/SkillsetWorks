@@ -31,13 +31,16 @@ import { InternshipsComponent } from './internships/internships.component';
 import { ApplicantsComponent } from '../employer/applicants/applicants.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { NavbarComponent } from "../../partials/navbar/navbar.component";
+import { ProfileEditModalComponent } from "./profile-edit-modal/profile-edit-modal.component";
+import { ProfileHeaderComponent } from "./profile-header/profile-header.component";
+import { ProfileImageModalComponent } from "./profile-image-modal/profile-image-modal.component";
 
 @Component({
   standalone:true,
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, LanguagesComponent, SkillsComponent, EducationComponent, PreferenceComponent, SummaryComponent, InternshipsComponent, ApplicationsComponent, NavbarComponent,RouterLink]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, LanguagesComponent, SkillsComponent, EducationComponent, PreferenceComponent, SummaryComponent, InternshipsComponent, ApplicationsComponent, NavbarComponent, RouterLink, ProfileEditModalComponent, ProfileHeaderComponent, ProfileImageModalComponent]
 })
 export class UserProfileComponent implements OnInit, AfterViewInit {
   user: any;
@@ -208,7 +211,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
 
   deletePic() {
-    alert();
+   
     this.http.delete(user_delete_profile_pic_url, 'userToken').subscribe({
       next: (res: any) => {
         this.notify.notifyMessage(
