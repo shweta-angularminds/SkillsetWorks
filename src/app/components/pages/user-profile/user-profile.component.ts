@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { HttpService } from '../../../services/http.service';
 import {
+  add_details,
   base_url,
   download_resume_url,
   user_delete_profile_pic_url,
@@ -120,11 +121,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
 
   getUserDetails() {
+    const url = `${add_details}/${this.user.id}/details`
     this.http
       .get(
-        'https://jobportal-backend-zmjx.onrender.com/skillset/jobseeker/' +
-          this.user.id +
-          '/details',
+        url
       )
       .subscribe({
         next: (res: any) => {

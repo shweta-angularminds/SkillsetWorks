@@ -35,6 +35,8 @@ export const user_profile_update_url = user_url + '/update-profile';
 export const user_update_profile_pic_url = user_url + '/upload-pic';
 export const user_delete_profile_pic_url = user_url + '/delete-profile-pic';
 
+
+
 export const add_details = base_url + 'skillset/jobseeker';
 export const user_add_education_url = add_details + '/';
 export const get_education_details_url = add_details + '/fetch/';
