@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpService } from '../../../services/http.service';
 import { employer_url } from '../../../../constants/url/urls';
 import { employer } from '../../../../constants/interfaces/employer.interface';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from "../../partials/navbar/navbar.component";
+import { NotifyService } from '../../../services/notify.service';
 
 @Component({
   standalone:true,
@@ -15,6 +16,7 @@ import { NavbarComponent } from "../../partials/navbar/navbar.component";
 })
 export class CompaniesComponent implements OnInit {
   companies: employer[] = [];
+  private notify = inject(NotifyService)
   constructor(private http: HttpService) {}
 
   ngOnInit(): void {
@@ -27,11 +29,8 @@ export class CompaniesComponent implements OnInit {
         this.companies = res;
       },
       error: (err: any) => {
-        
+       this.notify.notifyMessage('error', err.error);
       },
     });
-  }
-  getImageUrl(path: string): string {
-    return `http://localhost:5000/${path}`;
   }
 }
