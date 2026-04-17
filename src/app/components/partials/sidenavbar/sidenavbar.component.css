@@ -1,157 +1,158 @@
-.container-fluid{
-   /* background-color:#E6E6FA; */
-   background: linear-gradient(to right bottom,rgb(239, 247, 255),#a8c5fc);
+/* =========================
+   BASE LAYOUT
+========================= */
+.container-fluid {
+  background: linear-gradient(to right bottom, rgb(239, 247, 255), #a8c5fc);
 }
 
-ul {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-}
 h2 {
   font-weight: 550;
   text-align: start;
 }
-.container {
-  color: rgb(20, 86, 172);
-  margin-left: 0;
-  margin-top: 5px;
-}
+
 hr {
   color: rgb(50, 107, 173);
 }
+
+/* =========================
+   NAVIGATION
+========================= */
+nav {
+  margin: 0;
+  padding: 0 1rem;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   NAV ITEMS
+========================= */
 li {
+  list-style: none;
   font-weight: 510;
   margin-top: 1.5rem;
-  margin-right: 0;
-  margin-left: 0;
-  list-style: none;
   padding: 0.6rem 0.4rem;
   border-radius: 1rem;
   color: rgb(20, 86, 172);
 }
+
 li:hover {
   background-color: white;
+}
+
+/* =========================
+   LINKS & ICONS
+========================= */
+a {
   color: rgb(20, 86, 172);
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: white;
 }
 
 i {
   margin-right: 10px;
   width: 1.3rem;
-  height: 1.3rem;
   text-align: center;
 }
-a {
-   color: rgb(20, 86, 172);
-}
 
-.active {
-  li {
-    background-color: white;
-    color: rgb(20, 86, 172);
-  }
-}
-a:hover {
+/* =========================
+   ACTIVE STATE
+========================= */
+.active li {
   background-color: white;
   color: rgb(20, 86, 172);
 }
+
+/* =========================
+   TOGGLE BUTTON
+========================= */
 .toggle {
+  padding-right: 10px;
   display: none;
 }
+
+/* =========================
+   TABLET (<= 992px)
+========================= */
 @media screen and (max-width: 992px) {
   li i {
     display: none;
   }
+
   hr {
     display: none;
   }
+
   .toggle {
     display: block;
   }
+
   .toggle i {
     font-size: 2rem;
     margin-right: 19px;
   }
+
+  /* COLLAPSE MENU */
   #toggle-content {
-    opacity: 0; /* Initially invisible */
-    height: 0; /* Initially collapsed */
-    overflow: hidden; /* Hide content that overflows */
-    transition: opacity 0.3s ease, height 0.3s ease; /* Transition on opacity and height */
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition:
+      opacity 0.3s ease,
+      height 0.3s ease;
   }
 
-  /* Make the element visible and fully expanded when active */
   #toggle-content.visible {
-    opacity: 1; /* Fully visible */
-    height: 500px; /* Adjust height as needed */
+    opacity: 1;
+    height: 500px;
   }
-  .active {
-    li {
-      background-color: white;
-      color: rgb(20, 86, 172);
-      border-radius: 0;
-      padding-left: 20px;
-      text-align: start;
-      margin: 0;
-    }
-  }
+
   li {
     margin: 5px 15px;
-    text-align: text-center;
+    text-align: center;
+  }
+
+  .active li {
+    border-radius: 0;
+    padding-left: 20px;
+    text-align: center;
+    margin: 0;
   }
 }
+
+/* =========================
+   MOBILE (<= 768px)
+========================= */
 @media screen and (max-width: 768px) {
-  /* nav {
-    display: flex;
-    justify-content: space-evenly;
-  } */
-  a {
-    text-decoration: none;
-    margin-right: 0;
-    margin-left: 0;
-  }
   nav {
     background: linear-gradient(
       to right bottom,
-     rgb(2, 80, 153),
+      rgb(2, 80, 153),
       rgb(8, 123, 231)
     );
   }
-  .active {
-    li {
-      background-color: white;
-      color: rgb(20, 86, 172);
-      border-radius: 0;
-      padding-left: 20px;
-      text-align: start;
-      margin: 0;
-    }
-  }
-  li i {
-    display: none;
-  }
-  hr {
-    display: none;
-  }
-  .toggle {
-    display: block;
-  }
-  .toggle i {
-    font-size: 2rem;
-    margin-right: 19px;
-  }
-  /* Initially set the element to be hidden */
-  #toggle-content {
-    opacity: 0; /* Initially invisible */
-    height: 0; /* Initially collapsed */
-    overflow: hidden; /* Hide content that overflows */
-    transition: opacity 0.3s ease, height 0.3s ease; /* Transition on opacity and height */
+
+  /* TEXT COLOR FIX */
+  li,
+  a {
+    color: white;
   }
 
-  /* Make the element visible and fully expanded when active */
-  #toggle-content.visible {
-    opacity: 1; /* Fully visible */
-    height: 500px; /* Adjust height as needed */
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ACTIVE */
+  .active li {
+    background-color: white;
+    color: rgb(20, 86, 172);
   }
 
   .container {
@@ -159,16 +160,19 @@ a:hover {
   }
 
   li {
-    margin: 5px 15px;
-    text-align: text-center;
+    display: flex;
+    justify-content: center;   /* horizontal center */
+    align-items: center;       /* vertical center */
+    text-align: center;
   }
+
   li:hover {
     border-radius: 50%;
   }
+
   .active {
     padding: 0.4rem 0.1rem;
     border-radius: 50%;
-    /* background-color: rgb(255, 255, 255); */
     text-align: center;
   }
 }

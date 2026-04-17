@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpService,
 
     private notify: NotifyService,
-    private localstorage: LocalstorageService
+    private localstorage: LocalstorageService,
   ) {
     this.profileForm = new FormGroup({
       companyName: new FormControl('', [
@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
       website: new FormControl('', [
         Validators.required,
         Validators.pattern(
-          /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\- .\/?%&=]*)?$/
+          /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\- .\/?%&=]*)?$/,
         ),
       ]),
       companyLogo: new FormControl('', [Validators.required]),
@@ -60,7 +60,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getEmployerDetails();
   }
-
+ 
+  
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -90,9 +91,7 @@ export class ProfileComponent implements OnInit {
         });
         this.imageUrl = this.getImageUrl(this.employer.companyLogo);
       },
-      error: (err: any) => {
-      
-      },
+      error: (err: any) => {},
     });
   }
 
@@ -111,7 +110,7 @@ export class ProfileComponent implements OnInit {
         formData.append(
           'companyLogo',
           this.selectedFile,
-          this.selectedFile.name
+          this.selectedFile.name,
         );
       }
 
