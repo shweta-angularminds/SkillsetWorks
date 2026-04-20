@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/pages/home/home.component';
 import { authGuard, jobSeekerAuthGuard } from './guards/auth.guard';
+import { JobsComponent } from './components/pages/jobs/jobs.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
       import('./components/pages/companies/companies.component').then(
         (c) => c.CompaniesComponent,
       ),
+  },
+  {
+    path:'jobs',
+    loadComponent:()=> import('./components/pages/jobs/jobs.component').then((c)=>c.JobsComponent)
   },
   {
     path: 'auth',

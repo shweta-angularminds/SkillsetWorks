@@ -14,22 +14,21 @@ import { HttpService } from '../../../services/http.service';
 import { employer } from '../../../../constants/interfaces/employer.interface';
 import { LocalstorageService } from '../../../services/localstorage.service';
 import { NotifyService } from '../../../services/notify.service';
-import { DateDiffPipe } from "../../../pipes/date-diff.pipe";
+import { DateDiffPipe } from '../../../pipes/date-diff.pipe';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from "../../partials/navbar/navbar.component";
+import { NavbarComponent } from '../../partials/navbar/navbar.component';
 
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-view-job',
   templateUrl: './view-job.component.html',
   styleUrl: './view-job.component.css',
   imports: [DateDiffPipe, CommonModule, RouterLink, NavbarComponent],
-
 })
 export class ViewJobComponent implements OnInit {
   id!: string;
-  job: Job|null = null;
-  employer: employer|null = null;
+  job: Job | null = null;
+  employer: employer | null = null;
   jobs: Job[] = [];
   isApplied: boolean = true;
   constructor(
@@ -37,7 +36,7 @@ export class ViewJobComponent implements OnInit {
     private route: Router,
     private http: HttpService,
     private localstorage: LocalstorageService,
-    private notify: NotifyService
+    private notify: NotifyService,
   ) {}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -52,20 +51,23 @@ export class ViewJobComponent implements OnInit {
 
   checkJobApply() {
     const user = this.localstorage.getItem('userID');
+    if (user) {
+      console.log(user);
+      this.http.get(view_all_applications_url + user).subscribe({
+        next: (res: any[]) => {
+          const jobItem = res.find((item: any) => item.job_id === this.id);
 
-    this.http.get(view_all_applications_url + user).subscribe({
-      next: (res: any[]) => {
-        const jobItem = res.find((item: any) => item.job_id === this.id);
-
-        if (jobItem) {
-          this.isApplied = true;
-        } else {
-          this.isApplied = false;
-        }
-      },
-      error: (err: any) => {
-      },
-    });
+          if (jobItem) {
+            this.isApplied = true;
+          } else {
+            this.isApplied = false;
+          }
+        },
+        error: (err: any) => {},
+      });
+    } else {
+      this.isApplied = false;
+    }
   }
 
   getJobDetails() {
@@ -74,8 +76,7 @@ export class ViewJobComponent implements OnInit {
         this.job = res;
         this.getEmployerDetails();
       },
-      error: (error) => {
-      },
+      error: (error) => {},
     });
   }
   getEmployerDetails() {
@@ -84,8 +85,7 @@ export class ViewJobComponent implements OnInit {
         this.employer = res;
         this.getAllJobsOfCompany();
       },
-      error: (err: any) => {
-      },
+      error: (err: any) => {},
     });
   }
   getImageUrl(path: string): string {
@@ -96,14 +96,14 @@ export class ViewJobComponent implements OnInit {
       next: (res: any) => {
         this.jobs = res.filter((job: Job) => job._id !== this.id);
       },
-      error: (error: any) => {
-      },
+      error: (error: any) => {},
     });
   }
 
   applyJob() {
     if (!this.localstorage.getItem('userToken')) {
       this.route.navigateByUrl('/auth/login/jobseeker');
+      return
     }
     const user_Id = this.localstorage.getItem('userID');
     const resume = '';

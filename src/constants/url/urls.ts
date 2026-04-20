@@ -24,6 +24,8 @@ export const add_new_job_url = employer_job_base_url + '/add';
 export const update_job_url = employer_job_base_url + '/update/';
 export const delete_job_url = employer_job_base_url + '/delete/';
 
+
+export const get_all_jobs = employer_job_base_url + '/find';
 //user
 
 export const get_job_by_company = employer_job_base_url + '/company/';

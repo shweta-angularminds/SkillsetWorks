@@ -17,9 +17,12 @@
     </button>
 
     <div class="collapse navbar-collapse p-0" id="navbarSupportedContent">
-      <div class="mx-auto p-0">
-        <ul class="navbar-nav mb-2  d-flex justify-content-center align-items-center gap-3 mb-lg-0" style="font-weight: 550">
-          <li class="nav-item ">
+      <div class="d-flex justify-content-center flex-grow-1 ms-lg-5">
+        <ul
+          class="navbar-nav mb-2 d-flex justify-content-center align-items-center gap-3 mb-lg-0"
+          style="font-weight: 550"
+        >
+          <li class="nav-item">
             <a
               class="nav-link"
               aria-current="page"
@@ -35,6 +38,15 @@
               routerLink="/companies"
               routerLinkActive="active"
               >Companies</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              routerLink="/jobs"
+              routerLinkActive="active"
+              >Jobs</a
             >
           </li>
           <!-- <li class="nav-item dropdown">
@@ -55,52 +67,69 @@
           </li> -->
         </ul>
       </div>
-
-      <div class="d-flex flex-wrap">
-      
-        <div class="d-flex flex-wrap" *ngIf="!isUserLoggedIn">
+      <div
+        class="d-flex flex-column flex-lg-row align-items-center justify-content-center justify-content-lg-end w-100"
+      >
+        <!-- Login/Register -->
+        <div
+          class="d-flex flex-column flex-lg-row align-items-center"
+          *ngIf="!isUserLoggedIn"
+        >
           <a
-            class="nav-link login fw-bold py-2 px-4 me-2"
+            class="nav-link login fw-bold py-2 px-4 me-lg-2 mb-2 mb-lg-0"
             routerLink="/auth/login/jobseeker"
             >Login</a
           >
+
           <a
-            class="nav-link register fw-bold py-2 px-4 me-3"
+            class="nav-link register fw-bold py-2 px-4 me-lg-3 mb-2 mb-lg-0"
             routerLink="/auth/register/jobseeker"
             >Register</a
           >
         </div>
 
-        <div class="d-flex flex-wrap" *ngIf="isUserLoggedIn">
+        <!-- Profile/Logout -->
+        <div
+          class="d-flex flex-column flex-lg-row align-items-center"
+          *ngIf="isUserLoggedIn"
+        >
           <a
-            class="nav-link login fw-bold py-2 px-4 me-2"
+            class="nav-link login fw-bold py-2 px-4 me-lg-2 mb-2 mb-lg-0"
             routerLink="/jobseeker/profile"
-            >profile</a
+            >Profile</a
           >
+
           <a
-            class="nav-link register fw-bold py-2 px-4 me-3"
+            class="nav-link register fw-bold py-2 px-4 me-lg-3 mb-2 mb-lg-0"
             (click)="logOut()"
             routerLink="/auth/login/jobseeker"
             >Logout</a
           >
         </div>
 
+        <!-- Employer Login (for job seekers) -->
         <a
-          class="nav-link py-2 px-3 me-5 employer"
+          class="nav-link py-2 px-3 fw-bold employer text-center mt-2 mt-lg-0 ms-lg-3"
           routerLink="/auth/login/employer"
-          style="font-weight: 550"
           *ngIf="!isLoggedIn"
         >
-          For employers</a
+          For employers
+        </a>
+
+        <!-- Employer Profile -->
+        <div
+          class="d-flex flex-column flex-lg-row align-items-center mt-2 mt-lg-0 ms-lg-3"
+          *ngIf="isLoggedIn"
         >
-      </div>
-      <div class="vertical-line" *ngIf="isLoggedIn"></div>
-      <div class="d-flex" *ngIf="isLoggedIn">
-        <a
-          class="nav-link text-white bg-primary fw-bold py-2 px-4 me-5"
-          routerLink="/employer/profile"
-          >Employer</a
-        >
+          <div class="vertical-line d-none d-lg-block"></div>
+
+          <a
+            class="nav-link text-white bg-primary fw-bold py-2 px-4 mt-2 mt-lg-0"
+            routerLink="/employer/profile"
+          >
+            Employer
+          </a>
+        </div>
       </div>
     </div>
   </div>

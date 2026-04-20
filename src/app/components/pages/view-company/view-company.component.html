@@ -12,18 +12,18 @@
           </div>
           <div class="col col-lg-7 col-md-6 col-sm-6 col-xs-7">
             <h5>{{ company?.companyName }}</h5>
-            <h6>
+            <h6 class="company-email">
               <i class="fa-solid fa-envelope me-2"></i>{{ company?.email }}
             </h6>
           </div>
         </div>
       </div>
       <div class="row bg-white mt-3">
-        <div class="header p-3">
+        <div class="header p-3" *ngIf="jobs.length > 0">
           <!-- <li [ngClass]="{ boldBlack: isClick }" (click)="isClick = true">
             Overview
           </li> -->
-          <li [ngClass]="{ boldBlack: !isClick }" (click)="isClick = false">
+          <li  [ngClass]="{ boldBlack: !isClick }" (click)="isClick = false">
             jobs
           </li>
         </div>
@@ -35,8 +35,8 @@
             doloribus! Magni explicabo rerum fugit.
           </p> -->
           <div class="jobs mt-3" *ngIf="!isClick">
-            <div class="p-2" *ngIf="jobs.length <= 0">
-              <h2>No Job Openings right now but stay connected!</h2>
+            <div class="p-2 text-center" *ngIf="jobs.length <= 0">
+              <h4>No Job Openings right now but stay connected!</h4>
             </div>
             <div class="p-2 mt-2 mb-2 border" *ngIf="jobs.length > 0">
               <label class="text-dark fw-bold"
@@ -109,7 +109,7 @@
               </div>
 
               <div class="d-flex">
-                <span class="col col-lg-2 col-md-3 col-5 me-2">
+                <span class="col col-lg-2 col-md-3 col-5 me-2" style="min-width: 90px;">
                   <i class="fa-solid fa-briefcase"></i
                   ><label>{{ job.experience }}</label></span
                 >
@@ -131,6 +131,7 @@
             </div>
           </div>
           <pagination-controls
+          *ngIf="jobs.length > 0"
             class="my-pagination p-3 text-end"
             (pageChange)="p = $event"
           ></pagination-controls>
