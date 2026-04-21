@@ -39,7 +39,7 @@
               <select
                 class="form-select small rounded-pill"
                 [(ngModel)]="filters.location"
-                (change)="searchJobs()"
+                (change)="searchJobs(true)"
               >
                 <option value="" disabled>Location</option>
                 <option>Pune</option>
@@ -54,7 +54,7 @@
               <select
                 class="form-select small rounded-pill"
                 [(ngModel)]="filters.experience"
-                (change)="searchJobs()"
+                (change)="searchJobs(true)"
               >
                 <option value="" disabled>Experience</option>
                 <option>Fresher</option>
@@ -72,7 +72,7 @@
               <select
                 class="form-select small rounded-pill"
                 [(ngModel)]="filters.employementType"
-                (change)="searchJobs()"
+                (change)="searchJobs(true)"
               >
                 <option value="" disabled>Job Type</option>
                 <option>Full time</option>
@@ -94,46 +94,44 @@
     </div>
 
     <!-- 📋 JOB LIST -->
-    <div class="row">
-      <cdk-virtual-scroll-viewport itemSize="320" class="viewport mt-4">
-        <div class="row" *cdkVirtualFor="let row of chunkedJobs">
-          <div class="col-lg-4 col-md-6 col-12 mb-4" *ngFor="let job of row">
-            <div class="card h-100 shadow border job-card rounded-4">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title fw-bold mb-1">
-                  {{ job.designation | titlecase }}
-                </h5>
-
-                <p class="text-muted mb-1 small">
-                  {{ job.industry }}
-                </p>
-
-                <p class="text-gray mb-2 small">📍 {{ job.location }}</p>
-
-                <hr class="my-2" />
-
-                <div class="mt-auto">
-                  <div class="d-flex flex-wrap gap-2 mb-3">
-                    <span class="badge bg-light text-dark small">
-                      💼 {{ job.positions }} Openings
-                    </span>
-                    <span class="badge bg-light text-dark small">
-                      ⏱ {{ job.updatedAt | dateDiff }}
-                    </span>
-                  </div>
-
-                  <a
-                    [routerLink]="['/view-job', job._id]"
-                    class="btn w-100 rounded-pill"
-                  >
-                    View Details
-                  </a>
-                </div>
+    <div class="row mt-4">
+      <div
+        class="col-lg-4 col-md-6 col-12 mb-4"
+        *ngFor="let job of jobs; trackBy: trackById"
+      >
+        <div class="card h-100 shadow border job-card rounded-4">
+          <div class="card-body d-flex flex-column">
+            <!-- Title -->
+            <h5 class="card-title fw-bold mb-1">
+              {{ job.designation | titlecase }}
+            </h5>
+            <!-- Company -->
+            <p class="text-muted mb-1 small">{{ job.industry }}</p>
+            <!-- Location -->
+            <p class="text-gray mb-2 small">📍 {{ job.location }}</p>
+            <!-- Divider -->
+            <hr class="my-2" />
+            <!-- Footer -->
+            <div class="mt-auto">
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge bg-light text-dark small">
+                  💼 {{ job.positions }} Openings
+                </span>
+                <span class="badge bg-light text-dark small">
+                  ⏱ {{ job.updatedAt | dateDiff }}
+                </span>
               </div>
+              <a
+                [routerLink]="['/view-job', job._id]"
+                class="btn w-100 rounded-pill"
+              >
+                View Details
+              </a>
             </div>
           </div>
         </div>
-      </cdk-virtual-scroll-viewport>
+      </div>
+      
     </div>
 
     <div *ngIf="jobs.length === 0" class="text-center mt-5">

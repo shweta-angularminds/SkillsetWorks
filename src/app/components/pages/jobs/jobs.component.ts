@@ -1,4 +1,10 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { NavbarComponent } from '../../partials/navbar/navbar.component';
 import { RouterLink } from '@angular/router';
 import { NgFor, NgIf, SlicePipe, TitleCasePipe } from '@angular/common';
@@ -10,7 +16,7 @@ import { Job } from '../../../../constants/interfaces/job.interface';
 import { HttpParams } from '@angular/common/http';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 
-import { ScrollingModule } from '@angular/cdk/scrolling';
+
 
 @Component({
   standalone: true,
@@ -25,7 +31,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     FormsModule,
     DateDiffPipe,
     TitleCasePipe,
-    ScrollingModule,
   ],
 })
 export class JobsComponent implements OnInit, OnDestroy {
@@ -41,22 +46,33 @@ export class JobsComponent implements OnInit, OnDestroy {
     employementType: '',
   };
 
-  chunkedJobs: Job[][] = [];
+  page = 1;
+  limit = 9; // 9 jobs (3x3 grid)
+
+  hasMore = true;
 
   private serachSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
     this.setupSearch();
-    this.searchJobs();
-    window.addEventListener('resize', () => {
-      this.updateChunkedJobs();
-    });
+    this.searchJobs(true);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+ 
+  // ============================= window Scroller ========================
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 200;
+
+    if (scrollPosition >= threshold && this.hasMore) {
+      this.searchJobs();
+    }
   }
 
   // ========================= SEARCH HANDLER ====================
@@ -65,7 +81,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(800), takeUntil(this.destroy$))
       .subscribe((value) => {
         this.searchTerm = value.trim();
-        this.searchJobs();
+        this.searchJobs(true);
       });
   }
 
@@ -74,7 +90,14 @@ export class JobsComponent implements OnInit, OnDestroy {
   }
 
   // ================================= API ==========================
-  searchJobs(): void {
+  searchJobs(isNewSearch = false): void {
+    if (!this.hasMore) return;
+
+    if (isNewSearch) {
+      this.page = 1;
+      this.jobs = [];
+      this.hasMore = true;
+    }
     const params = this.buildQueryParams();
 
     this.http
@@ -82,12 +105,18 @@ export class JobsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.jobs = res.data || [];
-          this.updateChunkedJobs();
+          const newJobs = res.data || [];
+
+          this.jobs = [...this.jobs, ...newJobs];
+
+          // if less than limit → no more data
+          if (newJobs.length < this.limit) {
+            this.hasMore = false;
+          } else {
+            this.page++;
+          }
         },
-        error: () => {
-          this.jobs = [];
-        },
+        error: () => {},
       });
   }
 
@@ -98,10 +127,12 @@ export class JobsComponent implements OnInit, OnDestroy {
     const query = {
       search: this.searchTerm,
       ...this.filters,
+      page: this.page,
+      limit: this.limit,
     };
 
     Object.entries(query).forEach(([key, value]) => {
-      if (value) {
+      if (value !== '' && value !== null) {
         params = params.set(key, value);
       }
     });
@@ -118,26 +149,10 @@ export class JobsComponent implements OnInit, OnDestroy {
       employementType: '',
     };
 
-    this.searchJobs();
+    this.searchJobs(true);
   }
 
-  // ==================================== Scroll Virtualization =================================
-  private chunkArray(arr: Job[], size: number): Job[][] {
-    const result: Job[][] = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  }
-  getChunkSize(): number {
-    const width = window.innerWidth;
-
-    if (width < 768) return 1; // mobile
-    if (width < 992) return 2; // tablet
-    return 3; // desktop
-  }
-  updateChunkedJobs() {
-    const size = this.getChunkSize();
-    this.chunkedJobs = this.chunkArray(this.jobs, size);
+  trackById(index: number, item: Job) {
+    return item._id;
   }
 }
