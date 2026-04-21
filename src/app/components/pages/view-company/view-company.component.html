@@ -5,13 +5,10 @@
       <div class="row bg-white p-2">
         <div class="d-flex align-items-center p-2">
           <div class="col col-lg-2 col-md-3 col-sm-4 col-xs-2">
-            <img
-              [src]="this.company?.companyLogo"
-              class="img-fluid"
-            />
+            <img [src]="this.company?.companyLogo" class="img-fluid" />
           </div>
           <div class="col col-lg-7 col-md-6 col-sm-6 col-xs-7">
-            <h5>{{ company?.companyName }}</h5>
+            <h5>{{ company?.companyName | titlecase }}</h5>
             <h6 class="company-email">
               <i class="fa-solid fa-envelope me-2"></i>{{ company?.email }}
             </h6>
@@ -19,24 +16,24 @@
         </div>
       </div>
       <div class="row bg-white mt-3">
-        <div class="header p-3" *ngIf="jobs.length > 0">
-          <!-- <li [ngClass]="{ boldBlack: isClick }" (click)="isClick = true">
+        <div class="header p-3">
+          <li [ngClass]="{ boldBlack: isClick }" (click)="isClick = true">
             Overview
-          </li> -->
-          <li  [ngClass]="{ boldBlack: !isClick }" (click)="isClick = false">
+          </li>
+          <li [ngClass]="{ boldBlack: !isClick }" (click)="isClick = false">
             jobs
           </li>
         </div>
-        <div class="content">
-          <!-- <p class="mt-3" *ngIf="isClick">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Necessitatibus, aliquid? Molestias quia aspernatur saepe harum illo
-            at, rerum veritatis maiores fuga numquam mollitia culpa facilis
-            doloribus! Magni explicabo rerum fugit.
-          </p> -->
-          <div class="jobs mt-3" *ngIf="!isClick">
+
+        <div class="content" *ngIf="!isClick">
+          <div class="jobs mt-3">
             <div class="p-2 text-center" *ngIf="jobs.length <= 0">
               <h4>No Job Openings right now but stay connected!</h4>
+              <img
+                src="assets/images/profile-cover.svg"
+                class="img-fluid"
+                style="min-width: 300px; border: 0"
+              />
             </div>
             <div class="p-2 mt-2 mb-2 border" *ngIf="jobs.length > 0">
               <label class="text-dark fw-bold"
@@ -58,11 +55,11 @@
                     <ul class="dropdown-menu">
                       <li
                         *ngFor="let department of uniqueDepartments"
-                        (click)="setQuery('department', department)"
+                        (click)="setFilter('department', department)"
                       >
                         {{ department }}
                       </li>
-                      <li (click)="setQuery('department', '')">All</li>
+                      <li (click)="setFilter('department', '')">All</li>
                     </ul>
                   </div>
                   <!-- experience -->
@@ -78,12 +75,12 @@
                     <ul class="dropdown-menu">
                       <li
                         *ngFor="let experience of uniqueExperiences"
-                        (click)="setQuery('experience', experience)"
+                        (click)="setFilter('experience', experience)"
                       >
                         {{ experience }}
                       </li>
                       <br />
-                      <li (click)="setQuery('experience', '')">All</li>
+                      <li (click)="setFilter('experience', '')">All</li>
                     </ul>
                   </div>
                 </div>
@@ -91,7 +88,7 @@
                   <span
                     style="cursor: pointer"
                     class="text-primary fw-bold"
-                    (click)="setQuery('filter', 'clear')"
+                    (click)="clearFilters()"
                   >
                     Clear All
                   </span>
@@ -100,7 +97,9 @@
             </div>
             <div
               class="card mb-3 shadow-sm"
-              *ngFor="let job of jobs| paginate : { itemsPerPage: 5, currentPage: p };"
+              *ngFor="
+                let job of jobs | paginate: { itemsPerPage: 5, currentPage: p }
+              "
               routerLink="/view-job/{{ job._id }}"
             >
               <div class="d-flex justify-content-between flex-wrap">
@@ -109,7 +108,10 @@
               </div>
 
               <div class="d-flex">
-                <span class="col col-lg-2 col-md-3 col-5 me-2" style="min-width: 90px;">
+                <span
+                  class="col col-lg-2 col-md-3 col-5 me-2"
+                  style="min-width: 90px"
+                >
                   <i class="fa-solid fa-briefcase"></i
                   ><label>{{ job.experience }}</label></span
                 >
@@ -131,10 +133,33 @@
             </div>
           </div>
           <pagination-controls
-          *ngIf="jobs.length > 0"
+            *ngIf="jobs.length > 0"
             class="my-pagination p-3 text-end"
             (pageChange)="p = $event"
           ></pagination-controls>
+        </div>
+
+        <div class="content" *ngIf="isClick">
+          <div *ngIf="isClick">
+            <div class="row g-2 px-3 py-3">
+              <div class="col-12">
+                <strong>Founder : </strong>
+                {{ company?.employer_name | titlecase }}
+              </div>
+              <div class="col-12">
+                <strong>Phone : </strong> {{ company?.contactNumber }}
+              </div>
+              <div class="col-12">
+                <strong>Address : </strong> {{ company?.address }}
+              </div>
+              <div class="col-12">
+                <strong>Website : </strong>
+                <a [href]="company?.website" target="_blank">
+                  {{ company?.website }}
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

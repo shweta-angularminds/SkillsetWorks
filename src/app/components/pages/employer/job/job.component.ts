@@ -1,10 +1,4 @@
-import {
-  BootstrapOptions,
-  Component,
-  OnDestroy,
-  OnInit,
-  VERSION,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Job } from '../../../../../constants/interfaces/job.interface';
 import { HttpService } from '../../../../services/http.service';
@@ -13,13 +7,11 @@ import {
   delete_job_url,
   get_all_active_jobs_url,
   get_applicants_count_url,
-  profile_url,
   update_job_url,
 } from '../../../../../constants/url/urls';
 import { NotifyService } from '../../../../services/notify.service';
 
 import { Editor, Toolbar } from 'ngx-editor';
-import { schema } from 'ngx-editor/schema';
 
 declare var bootstrap: any;
 @Component({
@@ -28,7 +20,7 @@ declare var bootstrap: any;
   styleUrl: './job.component.css',
 })
 export class JobComponent implements OnInit, OnDestroy {
-  jobs!: Job[];
+  jobs: Job[] = [];
   applicants: any;
   inputs: string[] = [];
   jobForm: FormGroup;
@@ -52,7 +44,7 @@ export class JobComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private http: HttpService,
-    private notify: NotifyService
+    private notify: NotifyService,
   ) {
     this.jobForm = this.fb.group({
       designation: ['', Validators.required],
@@ -91,9 +83,7 @@ export class JobComponent implements OnInit, OnDestroy {
 
         this.getTotalApplicants();
       },
-      error: (error: any) => {
-        
-      },
+      error: (error: any) => {},
     });
   }
 
@@ -113,9 +103,7 @@ export class JobComponent implements OnInit, OnDestroy {
           this.notify.notifyMessage('success', res.message);
           this.getActiveJobs();
         },
-        error: (error: any) => {
-     
-        },
+        error: (error: any) => {},
       });
     }
   }
@@ -177,7 +165,6 @@ export class JobComponent implements OnInit, OnDestroy {
           this.getActiveJobs();
         },
         error: (error: any) => {
-   
           this.resetForm();
           this.notify.notifyMessage('error', error.message);
         },
@@ -208,14 +195,12 @@ export class JobComponent implements OnInit, OnDestroy {
       next: (res: any) => {
         this.applicants = res;
       },
-      error: (err: any) => {
-        
-      },
+      error: (err: any) => {},
     });
   }
   getApplicantsCount(jobId: string): number {
     const applicants = this.applicants.result.find(
-      (data: any) => data.job_Id === jobId
+      (data: any) => data.job_Id === jobId,
     );
     return applicants ? applicants.applicantsCount : 0;
   }

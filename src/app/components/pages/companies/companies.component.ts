@@ -4,11 +4,12 @@ import { employer_url } from '../../../../constants/url/urls';
 import { employer } from '../../../../constants/interfaces/employer.interface';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { NavbarComponent } from "../../partials/navbar/navbar.component";
+import { NavbarComponent } from '../../partials/navbar/navbar.component';
 import { NotifyService } from '../../../services/notify.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-companies',
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.css',
@@ -16,21 +17,28 @@ import { NotifyService } from '../../../services/notify.service';
 })
 export class CompaniesComponent implements OnInit {
   companies: employer[] = [];
-  private notify = inject(NotifyService)
-  constructor(private http: HttpService) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private http: HttpService,
+    private notify: NotifyService,
+  ) {}
 
   ngOnInit(): void {
     this.getAllCompanies();
   }
 
   getAllCompanies() {
-    this.http.get(employer_url).subscribe({
-      next: (res: employer[]) => {
-        this.companies = res;
-      },
-      error: (err: any) => {
-       this.notify.notifyMessage('error', err.error);
-      },
-    });
+    this.http
+      .get<employer[]>(employer_url)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.companies = res;
+        },
+        error: (err: any) => {
+          this.notify.notifyMessage('error', 'Please try again later!');
+        },
+      });
   }
 }

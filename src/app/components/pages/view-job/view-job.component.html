@@ -9,8 +9,8 @@
         <div
           class="header text-dark d-flex flex-column justify-content-center px-4 bg-white col-lg-12 col-12"
         >
-          <div class=" d-flex col-lg-12 col-12">
-            <div class=" col col-lg-9 col-md-9 col-sm-9 col-9 py-2">
+          <div class="d-flex col-lg-12 col-12">
+            <div class="col col-lg-9 col-md-9 col-sm-9 col-9 py-2">
               <h4>{{ job?.designation }}</h4>
 
               <h6>{{ employer?.companyName }}</h6>
@@ -29,13 +29,13 @@
             </div>
 
             <div
-              class="  col col-lg-3 col-md-3 col-sm-3 col-3 d-flex align-items-center justify-content-center p-2"
+              class="col col-lg-3 col-md-3 col-sm-3 col-3 d-flex align-items-center justify-content-center p-2"
             >
-              <div class="w-50 d-flex justify-content-center ">
+              <div class="w-50 d-flex justify-content-center">
                 <img
                   [src]="this.employer?.companyLogo"
                   class="img-fluid"
-                  style="min-width: 100px;"
+                  style="min-width: 100px"
                 />
               </div>
             </div>
@@ -74,56 +74,48 @@
               </div>
             </div>
           </div> -->
-       <div class="mt-1 py-3 px-2">
-  <div class="row align-items-center">
+          <div class="mt-1 py-3 px-2">
+            <div class="row align-items-center">
+              <!-- LEFT SIDE (Details) -->
+              <div class="col-12 col-md-8 d-flex flex-wrap gap-3">
+                <h6 class="text-dark m-0">
+                  Posted:
+                  <span class="fw-bold">
+                    {{ job?.updatedAt! | dateDiff }}
+                  </span>
+                </h6>
 
-    <!-- LEFT SIDE (Details) -->
-    <div class="col-12 col-md-8 d-flex flex-wrap gap-3">
-      
-      <h6 class="text-dark m-0">
-        Posted:
-        <span class="fw-bold">
-          {{ job?.updatedAt! | dateDiff }}
-        </span>
-      </h6>
+                <h6 class="text-dark m-0">
+                  Openings:
+                  <span class="fw-bold">{{ job?.positions }}</span>
+                </h6>
 
-      <h6 class="text-dark m-0">
-        Openings:
-        <span class="fw-bold">{{ job?.positions }}</span>
-      </h6>
+                <h6 class="text-dark m-0">
+                  Applicants:
+                  <span class="fw-bold">{{ 10 }}</span>
+                </h6>
+              </div>
 
-      <h6 class="text-dark m-0">
-        Applicants:
-        <span class="fw-bold">{{ 10 }}</span>
-      </h6>
+              <!-- RIGHT SIDE (Button) -->
+              <div class="col-12 col-md-4 text-md-end mt-4 mt-md-0">
+                <button
+                  *ngIf="!isApplied"
+                  (click)="applyJob()"
+                  class="btn btn-primary w-100 w-md-auto py-1"
+                >
+                  Apply
+                </button>
 
-    </div>
-
-    <!-- RIGHT SIDE (Button) -->
-    <div class="col-12 col-md-4 text-md-end mt-4 mt-md-0">
-      
-      <button 
-        *ngIf="!isApplied" 
-        (click)="applyJob()" 
-        class="btn btn-primary w-100 w-md-auto py-1"
-      >
-        Apply
-      </button>
-
-      <button 
-        *ngIf="isApplied" 
-        class="btn btn-success w-100 w-md-auto" 
-        disabled
-      >
-        Applied
-      </button>
-
-    </div>
-
-  </div>
-</div>
-       
-       
+                <button
+                  *ngIf="isApplied"
+                  class="btn btn-success w-100 w-md-auto"
+                  disabled
+                >
+                  Applied
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Job description -->
@@ -142,9 +134,12 @@
                   <label> Employment Type:&nbsp; </label>
                   {{ job?.employementType }}
                 </div>
-                <div><label> Work Type: &nbsp;</label> {{ job?.workType }}</div>
+                <div>
+                  <label for="workType"> Work Type: &nbsp;</label>
+                  {{ job?.workType }}
+                </div>
                 <div class="">
-                  <label for="">Qualification:&nbsp; </label>
+                  <label for="qualifications">Qualification:&nbsp; </label>
                   {{ job?.qualifications }}
                 </div>
                 <div>

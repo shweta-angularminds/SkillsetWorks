@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EmployerModule } from '../employer/employer.module';
 import { employer } from '../../../../constants/interfaces/employer.interface';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -11,115 +11,134 @@ import {
 import { Job } from '../../../../constants/interfaces/job.interface';
 import { HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { NgxPaginationModule } from "ngx-pagination";
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DateDiffPipe } from '../../../pipes/date-diff.pipe';
-import { NavbarComponent } from "../../partials/navbar/navbar.component";
+import { NavbarComponent } from '../../partials/navbar/navbar.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-view-company',
   templateUrl: './view-company.component.html',
   styleUrl: './view-company.component.css',
-  imports: [CommonModule, NgxPaginationModule, DateDiffPipe, RouterLink, NavbarComponent]
+  imports: [
+    CommonModule,
+    NgxPaginationModule,
+    DateDiffPipe,
+    RouterLink,
+    NavbarComponent,
+  ],
 })
-export class ViewCompanyComponent implements OnInit {
+export class ViewCompanyComponent implements OnInit, OnDestroy {
+  //Pagination
   p: number = 1;
-  company: employer|null = null;
-  jobs: Job[]=[];
+
+  //Data
+  company: employer | null = null;
+  jobs: Job[] = [];
+
+  //Route
   id!: string;
-  department: string = '';
-  limit: number = 10;
-  experience: string = '';
+
+  //Filters
+  filters = {
+    department: '',
+    experience: '',
+    limit: 10,
+  };
+
+  //UI state
   isClick: Boolean = false;
+
+  //Dropdown Data
   uniqueDepartments: string[] = [];
   uniqueExperiences: string[] = [];
+
+  //Cleanup
+  private destroy$ = new Subject<void>();
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
-    private http: HttpService
+    private http: HttpService,
   ) {}
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
 
-      this.getEmployerData();
-      this.getJobs();
-    });
-    if (!this.id) {
-      this.route.navigateByUrl('/companies');
-    }
+  ngOnInit(): void {
+    this.activatedRoute.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.id = params['id'];
+        if (!this.id) {
+          this.route.navigateByUrl('/companies');
+        }
+        this.loadData();
+      });
   }
 
-  getEmployerData() {
-    this.http.get(employer_url + '/' + this.id).subscribe({
-      next: (res: any) => {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // ========================== MAIN LOAD =======================
+  loadData(): void {
+    this.getEmployerData();
+    this.getJobs();
+  }
+
+  // ========================== API CALLS ========================
+  getEmployerData(): void {
+    this.http.get<employer>(`${employer_url}/${this.id}`).subscribe({
+      next: (res) => {
         this.company = res;
       },
-      error: (err: any) => {
-      },
+      error: (err: any) => {},
     });
   }
-  getJobs() {
+  getJobs(): void {
+    const params = this.buildQueryParams();
+
+    this.http
+      .get<Job[]>(`${get_job_by_company}${this.id}`, { params })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.jobs = res || [];
+          this.extractFilters();
+        },
+        error: (err) => {
+          if (err.status === 404) {
+            this.jobs = [];
+          }
+        },
+      });
+  }
+  // ================= HELPERS =================
+  buildQueryParams(): HttpParams {
     let params = new HttpParams();
 
-    if (this.experience) {
-      params = params.set('experience', this.experience);
-    }
-    if (this.department) {
-      params = params.set('department', this.department);
-    }
-    if (this.limit) {
-      params = params.set('limit', this.limit.toString());
-    }
-    this.http.get(get_job_by_company + this.id, { params }).subscribe({
-      next: (res: any) => {
-        this.jobs = res;
-
-        this.getUniqueDepartments();
-        this.getUniqueExperiences();
-      },
-      error: (err: any) => {
-        if (err.status === 404) {
-          this.jobs = [];
-        }
-    
-      },
+    Object.entries(this.filters).forEach(([key, value]) => {
+      if (value) {
+        params = params.set(key, value.toString());
+      }
     });
+
+    return params;
   }
-  setQuery(key: string, value: string) {
-    if (key === 'experience') {
-      if (value !== '') {
-        this.experience = value;
-        this.getJobs();
-      } else {
-        this.experience = '';
-        this.getJobs();
-      }
-    } else if (key === 'department') {
-      if (value !== '') {
-        this.department = value;
-        this.getJobs();
-      } else {
-        this.department = '';
-        this.getJobs();
-      }
-    } else {
-      this.experience = '';
-      this.department = '';
-      this.getJobs();
-    }
+
+  extractFilters(): void {
+    this.uniqueDepartments = [...new Set(this.jobs.map((j) => j.department))];
+    this.uniqueExperiences = [...new Set(this.jobs.map((j) => j.experience))];
   }
-  getImageUrl(path: string): string {
-    return base_url + path;
+  // ================= FILTER HANDLING =================
+  setFilter(key: 'department' | 'experience', value: string): void {
+    this.filters[key] = value || '';
+    this.getJobs();
   }
-  getUniqueDepartments() {
-    this.uniqueDepartments = [
-      ...new Set(this.jobs.map((job) => job.department)),
-    ];
-  }
-  getUniqueExperiences() {
-    this.uniqueExperiences = [
-      ...new Set(this.jobs.map((job) => job.experience)),
-    ];
+
+  clearFilters(): void {
+    this.filters.department = '';
+    this.filters.experience = '';
+    this.getJobs();
   }
 }

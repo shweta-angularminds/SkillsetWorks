@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../partials/navbar/navbar.component';
 import { RouterLink } from '@angular/router';
 import { NgFor, NgIf, SlicePipe, TitleCasePipe } from '@angular/common';
@@ -7,6 +7,8 @@ import { HttpService } from '../../../services/http.service';
 import { DateDiffPipe } from '../../../pipes/date-diff.pipe';
 import { get_all_jobs } from '../../../../constants/url/urls';
 import { Job } from '../../../../constants/interfaces/job.interface';
+import { HttpParams } from '@angular/common/http';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -23,43 +25,83 @@ import { Job } from '../../../../constants/interfaces/job.interface';
     TitleCasePipe,
   ],
 })
-export class JobsComponent implements OnInit {
-  searchTerm: string = '';
+export class JobsComponent implements OnInit, OnDestroy {
+  private http = inject(HttpService);
+
   jobs: Job[] = [];
+
+  searchTerm: string = '';
+
   filters = {
     location: '',
     experience: '',
     employementType: '',
   };
 
-  private debounceTimer: any;
+  private serachSubject = new Subject<void>();
+  private destroy$ = new Subject<void>();
+
   ngOnInit() {
+    this.setupSearch();
     this.searchJobs();
   }
-  onSearchChange() {
-    clearTimeout(this.debounceTimer);
 
-    this.debounceTimer = setTimeout(() => {
-      this.searchJobs();
-    }, 1000); // 500ms delay
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-  private http = inject(HttpService);
-  searchJobs() {
-    const queryParams = {
-      params: {
-        search: this.searchTerm || '',
-        location: this.filters.location || '',
-        experience: this.filters.experience || '',
-        employementType: this.filters.employementType || '',
-      },
+
+  // ========================= SEARCH HANDLER ====================
+  setupSearch(): void {
+    this.serachSubject
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.searchJobs();
+      });
+  }
+
+  onSearchChange(): void {
+    this.serachSubject.next();
+  }
+
+  // ================================= API ==========================
+  searchJobs(): void {
+    const params = this.buildQueryParams();
+
+    this.http
+      .get<{ data: Job[] }>(get_all_jobs, { params })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.jobs = res.data || [];
+        },
+        error: () => {
+          this.jobs = [];
+        },
+      });
+  }
+
+  // ================= HELPERS =================
+  buildQueryParams(): HttpParams {
+    let params = new HttpParams();
+
+    const query = {
+      search: this.searchTerm,
+      ...this.filters,
     };
-    this.http.get(get_all_jobs, queryParams).subscribe((res: any) => {
-      this.jobs = res.data;
-    });
-  }
-  clearFilters() {
-    this.searchTerm = '';
 
+    Object.entries(query).forEach(([key, value]) => {
+      if (value) {
+        params = params.set(key, value);
+      }
+    });
+
+    return params;
+  }
+
+  // ==================================== CLEAR ================
+  clearFilters(): void {
+    this.searchTerm = '';
     this.filters = {
       location: '',
       experience: '',

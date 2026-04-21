@@ -25,8 +25,8 @@ export class ApplicationsComponent implements OnInit {
     this.getAllApplications();
   }
   getAllApplications() {
-    this.http.get(view_all_applications_url + this.UserId).subscribe({
-      next: (res: Application[]) => {
+    this.http.get<Application[]>(view_all_applications_url + this.UserId).subscribe({
+      next: (res) => {
         this.applications = res;
 
         if (this.applications.length !== 0) {

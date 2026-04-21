@@ -12,20 +12,19 @@ import { employer_url } from '../../../../../constants/url/urls';
 export class EmpNavbarComponent implements OnInit {
   ID: string = '';
   employer!: employer;
-  constructor( private http: HttpService) {}
+
+  constructor(private http: HttpService) {}
+
   ngOnInit(): void {
-  
     this.getEmployerDetails();
   }
+  
   getEmployerDetails() {
-    this.http.get(`${employer_url}/${this.ID}`).subscribe({
-      next: (res: employer) => {
+    this.http.get<employer>(`${employer_url}/${this.ID}`).subscribe({
+      next: (res) => {
         this.employer = res;
-        
       },
-      error: (err: any) => {
-       
-      },
+      error: (err: any) => {},
     });
   }
 }

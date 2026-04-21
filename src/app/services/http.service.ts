@@ -9,11 +9,11 @@ import { LocalstorageService } from './localstorage.service';
 export class HttpService {
   constructor(
     private http: HttpClient,
-    private localstorage: LocalstorageService
+    private localstorage: LocalstorageService,
   ) {}
 
-  get(url: string, params?: any): Observable<any> {
-    return this.http.get<any>(url, params);
+  get<T>(url: string, options?: { params?: HttpParams }): Observable<T> {
+    return this.http.get<T>(url, options);
   }
 
   post(url: string, data: any): Observable<any> {
