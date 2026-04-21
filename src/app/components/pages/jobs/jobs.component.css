@@ -33,3 +33,17 @@
 .form-control{
   font-size:1rem;
 }
+
+.viewport {
+  height: 600px;
+  width: 100%;
+  overflow: auto;
+
+  
+  scrollbar-width: none;        
+  -ms-overflow-style: none;   
+}
+
+.viewport::-webkit-scrollbar {
+  display: none;               
+}

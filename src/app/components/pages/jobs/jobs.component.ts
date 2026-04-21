@@ -10,8 +10,7 @@ import { Job } from '../../../../constants/interfaces/job.interface';
 import { HttpParams } from '@angular/common/http';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 
-
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   standalone: true,
@@ -26,6 +25,7 @@ import { debounceTime, Subject, takeUntil } from 'rxjs';
     FormsModule,
     DateDiffPipe,
     TitleCasePipe,
+    ScrollingModule,
   ],
 })
 export class JobsComponent implements OnInit, OnDestroy {
@@ -41,12 +41,17 @@ export class JobsComponent implements OnInit, OnDestroy {
     employementType: '',
   };
 
+  chunkedJobs: Job[][] = [];
+
   private serachSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
     this.setupSearch();
     this.searchJobs();
+    window.addEventListener('resize', () => {
+      this.updateChunkedJobs();
+    });
   }
 
   ngOnDestroy(): void {
@@ -59,12 +64,12 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.serachSubject
       .pipe(debounceTime(800), takeUntil(this.destroy$))
       .subscribe((value) => {
-        this.searchTerm=value.trim()
+        this.searchTerm = value.trim();
         this.searchJobs();
       });
   }
 
-  onSearchChange(value:string): void {
+  onSearchChange(value: string): void {
     this.serachSubject.next(value);
   }
 
@@ -78,6 +83,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.jobs = res.data || [];
+          this.updateChunkedJobs();
         },
         error: () => {
           this.jobs = [];
@@ -113,5 +119,25 @@ export class JobsComponent implements OnInit, OnDestroy {
     };
 
     this.searchJobs();
+  }
+
+  // ==================================== Scroll Virtualization =================================
+  private chunkArray(arr: Job[], size: number): Job[][] {
+    const result: Job[][] = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  }
+  getChunkSize(): number {
+    const width = window.innerWidth;
+
+    if (width < 768) return 1; // mobile
+    if (width < 992) return 2; // tablet
+    return 3; // desktop
+  }
+  updateChunkedJobs() {
+    const size = this.getChunkSize();
+    this.chunkedJobs = this.chunkArray(this.jobs, size);
   }
 }
