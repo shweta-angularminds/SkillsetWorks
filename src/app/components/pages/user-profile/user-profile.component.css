@@ -161,6 +161,11 @@ input[type="file"]::file-selector-button {
 .cursor-pointer{
   cursor:pointer;
 }
+
+.list-group-item{
+  font-size: 0.9rem;
+  font-weight: 550;
+}
 @media screen and (max-width: 400px) {
   label {
     font-size: 0.7rem;

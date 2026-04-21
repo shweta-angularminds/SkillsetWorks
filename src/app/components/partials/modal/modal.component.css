@@ -79,3 +79,8 @@ textarea{
   padding: 0.5rem 1rem;
   width: 72%;
 }
+@media (max-width: 750px) {
+  .modal-content {
+    width: 90% !important;
+  }
+}

@@ -10,6 +10,9 @@ import { Job } from '../../../../constants/interfaces/job.interface';
 import { HttpParams } from '@angular/common/http';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 
+
+
+
 @Component({
   standalone: true,
   selector: 'app-jobs',
@@ -38,7 +41,7 @@ export class JobsComponent implements OnInit, OnDestroy {
     employementType: '',
   };
 
-  private serachSubject = new Subject<void>();
+  private serachSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
@@ -54,14 +57,15 @@ export class JobsComponent implements OnInit, OnDestroy {
   // ========================= SEARCH HANDLER ====================
   setupSearch(): void {
     this.serachSubject
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe(() => {
+      .pipe(debounceTime(800), takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.searchTerm=value.trim()
         this.searchJobs();
       });
   }
 
-  onSearchChange(): void {
-    this.serachSubject.next();
+  onSearchChange(value:string): void {
+    this.serachSubject.next(value);
   }
 
   // ================================= API ==========================

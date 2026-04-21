@@ -28,7 +28,7 @@
           <input
             type="text"
             [(ngModel)]="searchTerm"
-            (input)="onSearchChange()"
+            (ngModelChange)="onSearchChange($event)"
             class="form-control rounded-pill px-4 py-2 small mb-3"
             placeholder="Search jobs, skills, companies..."
           />
@@ -96,7 +96,7 @@
     <!-- 📋 JOB LIST -->
     <div class="row mt-4">
       <div class="col-lg-4 col-md-6 col-12 mb-4" *ngFor="let job of jobs">
-        <div class="card h-100 shadow-sm border job-card rounded-4">
+        <div class="card h-100 shadow border job-card rounded-4">
           <div class="card-body d-flex flex-column">
             <!-- Title -->
             <h5 class="card-title fw-bold mb-1">
@@ -109,21 +109,25 @@
             </p>
 
             <!-- Location -->
-            <p class="text-muted mb-2 small">📍 {{ job.location }}</p>
+            <p class="text-gray mb-2 small">📍 {{ job.location }}</p>
 
             <!-- Divider -->
             <hr class="my-2" />
 
             <!-- Footer -->
             <div class="mt-auto">
-              <div class="d-flex justify-content-between small mb-2">
-                <span>💼 {{ job.positions }} Openings</span>
-                <span>⏱ {{ job.updatedAt | dateDiff }}</span>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge bg-light text-dark small">
+                  💼 {{ job.positions }} Openings
+                </span>
+                <span class="badge bg-light text-dark small">
+                  ⏱ {{ job.updatedAt | dateDiff }}
+                </span>
               </div>
 
               <a
                 [routerLink]="['/view-job', job._id]"
-                class="btn btn-outline-primary w-100 rounded-pill"
+                class="btn w-100 rounded-pill"
               >
                 View Details
               </a>

@@ -4,11 +4,11 @@
       <h5>{{ formHeader }}</h5>
     </div>
 
-    <div class="form-field d-flex p-3" *ngFor="let field of formFields">
-      <div class="col col-3">
+    <div class="form-field row align-items-start p-3" *ngFor="let field of formFields">
+      <div class="col-12 col-md-4 mb-2 mb-md-0">
         <label>{{ field.label }}</label>
       </div>
-      <div class="col col-9">
+      <div class="col-12 col-md-8">
         <!-- Conditionally render input, textarea, or dropdown (select)-->
         <ng-container *ngIf="field.inputType === 'textarea'">
           <textarea
