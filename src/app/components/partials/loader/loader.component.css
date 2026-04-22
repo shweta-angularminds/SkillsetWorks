@@ -41,8 +41,8 @@ body {
 /* Tablet */
 @media (min-width: 768px) {
   .lottie-loader {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
   }
 
   .loader-text {
@@ -53,8 +53,8 @@ body {
 /* Desktop */
 @media (min-width: 1200px) {
   .lottie-loader {
-    width: 240px;
-    height: 240px;
+    width: 180px;
+    height: 180px;
   }
 
   .loader-text {

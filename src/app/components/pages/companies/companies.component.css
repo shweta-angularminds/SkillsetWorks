@@ -1,91 +1,122 @@
-/* Banner */
-.banner-img {
+/* 🔷 HERO */
+.hero-section {
+  background: linear-gradient(to right, #EEF1F9, #EEF1F9);
+  padding: 60px 0;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.hero-subtitle {
+  color: #666;
+  margin-top: 10px;
+}
+
+.hero-img {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-/* Card */
-.card {
-  height: 250px; /* FIXED HEIGHT */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  
-  border-radius: 10px;
-  transition: transform 0.2s ease;
-}
-
-/* Hover effect */
-.card:hover {
-  transform: translateY(-5px);
-}
-
-/* Image container */
-.img-wrapper {
-  height: 90px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Image */
-.img-wrapper img {
-  max-width: 70px;
-  max-height: 70px;
+  max-height: 100%;
   object-fit: contain;
 }
 
-/* Text */
-.card-title {
-  font-size: 1rem;
-  margin-bottom: 0;
-  text-decoration: none;
-}
-
-h6{
-  font-size:0.9rem;
-}
-
+/* 🔍 Search */
 .search-box {
   position: relative;
-  width: 60%;
-  margin: auto;
+  width: 100%;
+  max-width: 500px;
 }
-
 
 .search-box input {
   width: 100%;
-  height: 45px;
+  height: 50px;
   border-radius: 30px;
   border: 1px solid #ddd;
   padding: 0 45px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  background: #f9fafc;
+  background: #fff;
+  transition: 0.3s;
 }
 
 .search-box input:focus {
   outline: none;
-  border: 2px solid #317ace;
-  background: #fff;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
+  border: 2px solid #2563eb;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
 }
 
 .search-icon {
   position: absolute;
+  left: 15px;
   top: 50%;
-  left: 20px;
   transform: translateY(-50%);
   color: #888;
-  font-size: 14px;
 }
 
+/* 🔘 Filters */
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
+.filter-btn {
+  border-radius: 20px;
+  padding: 6px 15px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 0.9rem;
+  
+}
+
+.filter-btn.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* 🏢 Cards */
+.company-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  transition: 0.3s;
+  border: 1px solid #e0e0e0;
+}
+
+.company-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.company-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+/* Info */
+.category {
+  font-size: 12px;
+  color: #2563eb;
+}
+
+.info p {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0;
+}
+
+/* Sort */
+.sort-dropdown {
+  width: 180px;
+  border-radius: 20px;
+}
+
+/* 📱 Mobile */
 @media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
   .search-box {
-    width: 100%;
-    padding: 0 10px; 
+    max-width: 100%;
   }
 }

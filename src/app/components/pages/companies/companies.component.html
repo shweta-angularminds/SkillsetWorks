@@ -1,49 +1,101 @@
 <div class="container-fluid p-0">
   <app-navbar></app-navbar>
 
-  <!-- Banner -->
-  <div class="w-100 mt-4">
-    <img src="/assets/images/company2.jpg" style="width: 100%; height: 300px" />
+  <!--  HERO SECTION -->
+  <div class="hero-section p-0 m-0">
+  <div class="container-fluid m-0 p-0">
+    <div class="row align-items-center g-0">
+
+      <!--  LEFT CONTENT -->
+      <div class="col-12 col-md-6 hero-text d-flex justify-content-center align-items-center p-3">
+        <div class="content-wrapper">
+          <h1 class="hero-title">Discover Top Companies</h1>
+          <p class="hero-subtitle">
+            Explore opportunities at top organizations and accelerate your career journey.
+          </p>
+
+          <!--  Search -->
+          <div class="search-box mt-3">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input
+              type="search"
+              placeholder="Search companies, industries, or keywords..."
+              [(ngModel)]="searchText"
+              (input)="onSearch()"
+            />
+          </div>
+
+          <!--  Filters -->
+          <div class="filters mt-3">
+            <button class="btn filter-btn active">All Companies</button>
+            <button class="btn filter-btn">Technology</button>
+            <button class="btn filter-btn">Finance</button>
+            <button class="btn filter-btn">Healthcare</button>
+            <button class="btn filter-btn">More</button>
+          </div>
+        </div>
+      </div>
+
+      <!--  RIGHT IMAGE -->
+      <div class="col-12 col-md-6 hero-image">
+        <img src="/assets/svg/companyBg.svg" alt="hero" />
+      </div>
+
+    </div>
   </div>
+</div>
 
-  <!-- Main Section -->
-  <div class="container mt-4" *ngIf="companies.length > 0">
-    <!-- Title -->
-    <h4 class="text-center text-main fw-bold mb-4">Explore By Company</h4>
+  <!--  COMPANY LIST -->
+  <div class="container mt-5" *ngIf="companies.length > 0">
 
-    <!-- Search Box -->
-    <div class="search-box mx-auto mb-4">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="search"  placeholder="Search companies..." [(ngModel)]="searchText" (input)="onSearch()" />
-     
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h4 class="fw-bold">All Companies</h4>
+        <p class="text-muted small">
+          Explore companies and find the right opportunity for you.
+        </p>
+      </div>
+
+      <!-- <select class="form-select sort-dropdown">
+        <option>Sort by: Popular</option>
+        <option>Newest</option>
+      </select> -->
     </div>
 
-    <!-- Cards Grid -->
-    <div class="row g-4 mt-4 mb-5">
-      <div *ngFor="let company of companies" class="col-6 col-md-4 col-lg-3">
+    <!-- Cards -->
+    <div class="row g-4">
+      <div *ngFor="let company of companies" class="col-12 col-sm-6 mb-5 col-md-6 col-lg-3">
         <a
           [routerLink]="'/view-company/' + company._id"
           class="text-decoration-none"
         >
-          <div class="card text-center shadow-sm h-100">
-            <!-- Logo -->
-            <div class="d-flex justify-content-center align-items-center mt-3">
+          <div class="company-card">
+            
+            <!-- Logo + Name -->
+            <div class="d-flex align-items-center mb-3">
               <img
                 [src]="company.companyLogo"
-                alt="logo"
-                style="width: 80px; height: 80px; object-fit: contain"
+                class="company-logo"
               />
+              <div class="ms-3">
+                <h6 class="mb-0 fw-bold text-black">
+                  {{ company.companyName }}
+                </h6>
+                <span class="category">Technology</span>
+              </div>
             </div>
 
-            <!-- Content -->
-            <div class="card-body">
-              <h6 class="fw-bold mb-0">
-                {{ company?.companyName }}
-              </h6>
+            <!-- Info -->
+            <div class="info">
+              <p><i class="fa-solid fa-location-dot"></i> India </p>
+              <p><i class="fa-solid fa-users"></i> Employees</p>
             </div>
+
           </div>
         </a>
       </div>
     </div>
+
   </div>
 </div>
