@@ -48,7 +48,7 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   page = 1;
   limit = 9; // 9 jobs (3x3 grid)
-
+  isLoading = false;
   hasMore = true;
 
   private serachSubject = new Subject<string>();
@@ -63,14 +63,14 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
- 
+
   // ============================= window Scroller ========================
   @HostListener('window:scroll', [])
   onScroll(): void {
     const scrollPosition = window.innerHeight + window.scrollY;
     const threshold = document.body.offsetHeight - 200;
 
-    if (scrollPosition >= threshold && this.hasMore) {
+    if (scrollPosition >= threshold && !this.isLoading && this.hasMore) {
       this.searchJobs();
     }
   }
@@ -91,7 +91,9 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   // ================================= API ==========================
   searchJobs(isNewSearch = false): void {
-    if (!this.hasMore) return;
+   if (this.isLoading || (!this.hasMore && !isNewSearch)) return;
+
+   this.isLoading = true;
 
     if (isNewSearch) {
       this.page = 1;
@@ -115,8 +117,11 @@ export class JobsComponent implements OnInit, OnDestroy {
           } else {
             this.page++;
           }
+          this.isLoading = false; 
         },
-        error: () => {},
+        error: () => {
+          this.isLoading = false; 
+        },
       });
   }
 

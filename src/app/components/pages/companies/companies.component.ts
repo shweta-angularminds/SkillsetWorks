@@ -6,17 +6,22 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../partials/navbar/navbar.component';
 import { NotifyService } from '../../../services/notify.service';
-import { Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-companies',
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.css',
-  imports: [CommonModule, RouterLink, NavbarComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent,FormsModule],
 })
 export class CompaniesComponent implements OnInit {
   companies: employer[] = [];
+
+  searchText:string = '';
+
+  searchSubject = new Subject<string>()
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -26,11 +31,16 @@ export class CompaniesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCompanies();
+     this.searchSubject
+       .pipe(debounceTime(800), distinctUntilChanged())
+       .subscribe((value) => {
+         this.getAllCompanies(value);
+       });
   }
 
-  getAllCompanies() {
+  getAllCompanies(search:string='') {
     this.http
-      .get<employer[]>(employer_url)
+      .get<employer[]>(`${employer_url}?search=${search}`)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
@@ -40,5 +50,9 @@ export class CompaniesComponent implements OnInit {
           this.notify.notifyMessage('error', 'Please try again later!');
         },
       });
+  }
+
+  onSearch():void{
+    this.searchSubject.next(this.searchText.trim());
   }
 }
