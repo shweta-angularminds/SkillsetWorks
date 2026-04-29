@@ -75,6 +75,10 @@ label {
   color:rgb(0, 89, 255);
   font-weight: 550;
   font-size: 0.8rem;
-  margin:1rem;
+  min-width:90px;
   border-radius: 1rem;
+  text-align: center;
+}
+.sub-heading{
+  font-size:0.9rem;
 }
