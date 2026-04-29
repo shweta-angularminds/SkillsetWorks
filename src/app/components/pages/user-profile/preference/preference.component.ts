@@ -91,6 +91,7 @@ export class PreferenceComponent {
     // You can now use transformedData for further processing, such as emitting or saving
   }
   updatePreference(data:any){
+
     this.http.Patch(add_details+'/'+this.Id+'/preference',data).subscribe({
       next:(res:any)=>{
         this.notify.notifyMessage('success','Preference updated successfully');

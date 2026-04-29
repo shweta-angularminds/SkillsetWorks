@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+   
 }
 
 .modal-content {
@@ -16,6 +17,12 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 70%;
+
+
+  max-height: 90vh;   /* 🔥 LIMIT HEIGHT */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 .form-field {
   padding: 1rem;
@@ -83,4 +90,11 @@ textarea{
   .modal-content {
     width: 90% !important;
   }
+}
+
+.modal-body-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+  flex: 1; /* takes remaining space */
 }

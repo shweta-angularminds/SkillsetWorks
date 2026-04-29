@@ -23,8 +23,8 @@ export class HttpService {
     return this.http.put<any>(url, data);
   }
 
-  securePut(url: string, data: any): Observable<any> {
-    const token = this.localstorage.getItem('authToken');
+  securePut(url: string, data: any,key:string): Observable<any> {
+    const token = this.localstorage.getItem(key);
 
     if (!token) {
       return throwError(() => new Error('User is not logged in.'));
@@ -74,8 +74,8 @@ export class HttpService {
 
     return this.http.get<any>(url, { headers });
   }
-  securePost(url: string, data: any): Observable<any> {
-    const token = this.localstorage.getItem('authToken');
+  securePost(url: string, data: any,key:string): Observable<any> {
+    const token = this.localstorage.getItem(key);
 
     if (!token) {
       return throwError(() => new Error('User is not logged in.'));

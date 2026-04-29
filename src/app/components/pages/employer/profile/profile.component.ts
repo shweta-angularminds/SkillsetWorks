@@ -60,8 +60,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getEmployerDetails();
   }
- 
-  
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -91,7 +90,9 @@ export class ProfileComponent implements OnInit {
         });
         this.imageUrl = this.getImageUrl(this.employer.companyLogo);
       },
-      error: (err: any) => {},
+      error: (err: any) => {
+        this.localstorage.removeItem('authToken')
+      },
     });
   }
 
@@ -114,7 +115,7 @@ export class ProfileComponent implements OnInit {
         );
       }
 
-      this.http.securePut(profile_update_url, formData).subscribe({
+      this.http.securePut(profile_update_url, formData, 'authToken').subscribe({
         next: (res) => {
           this.localstorage.setItem('authToken', res.token);
 

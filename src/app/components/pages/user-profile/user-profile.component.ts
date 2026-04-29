@@ -16,7 +16,12 @@ import {
   user_update_profile_pic_url,
   user_url,
 } from '../../../../constants/url/urls';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { LocalstorageService } from '../../../services/localstorage.service';
 import { NotifyService } from '../../../services/notify.service';
@@ -31,23 +36,42 @@ import { SummaryComponent } from './summary/summary.component';
 import { InternshipsComponent } from './internships/internships.component';
 import { ApplicantsComponent } from '../employer/applicants/applicants.component';
 import { ApplicationsComponent } from './applications/applications.component';
-import { NavbarComponent } from "../../partials/navbar/navbar.component";
-import { ProfileEditModalComponent } from "./profile-edit-modal/profile-edit-modal.component";
-import { ProfileHeaderComponent } from "./profile-header/profile-header.component";
-import { ProfileImageModalComponent } from "./profile-image-modal/profile-image-modal.component";
+import { NavbarComponent } from '../../partials/navbar/navbar.component';
+import { ProfileEditModalComponent } from './profile-edit-modal/profile-edit-modal.component';
+import { ProfileHeaderComponent } from './profile-header/profile-header.component';
+import { ProfileImageModalComponent } from './profile-image-modal/profile-image-modal.component';
+import { ExperienceComponent } from './experience/experience.component';
 
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, LanguagesComponent, SkillsComponent, EducationComponent, PreferenceComponent, SummaryComponent, InternshipsComponent, ApplicationsComponent, NavbarComponent, RouterLink, ProfileEditModalComponent, ProfileHeaderComponent, ProfileImageModalComponent]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    LanguagesComponent,
+    SkillsComponent,
+    EducationComponent,
+    PreferenceComponent,
+    SummaryComponent,
+    InternshipsComponent,
+    ApplicationsComponent,
+    NavbarComponent,
+    RouterLink,
+    ProfileEditModalComponent,
+    ProfileHeaderComponent,
+    ProfileImageModalComponent,
+    ExperienceComponent,
+  ],
 })
 export class UserProfileComponent implements OnInit, AfterViewInit {
   user: any;
   userForm: FormGroup;
   details: any;
   education!: Education | null;
+  experiences: any[] = [];
   languages!: string[];
   imageUrl: string | ArrayBuffer | null = null;
   isEdit: boolean = true;
@@ -78,14 +102,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     if (!this.fileInput) {
-     
     }
   }
   loadUserProfile() {
     this.http.secureGet(user_profile_url, 'userToken').subscribe({
       next: (res: any) => {
         this.user = res.user;
-      
+
         this.userForm.setValue({
           username: this.user.username || '',
           email: this.user.email || '',
@@ -115,32 +138,26 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
         setTimeout(() => {
           this.router.navigateByUrl('/home');
         }, 1000);
-       
       },
     });
   }
 
   getUserDetails() {
-    const url = `${add_details}/${this.user.id}/details`
-    this.http
-      .get(
-        url
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.details = res[0];
-
-          this.education = this.details.education;
-          if (!this.education) {
-            this.education = null;
-          }
-          this.languages = this.details.languages;
-        },
-        error: (err: any) => {
-          this.notify.notifyMessage('error', 'something went wrong!');
-          
-        },
-      });
+    const url = `${add_details}/${this.user.id}/details`;
+    this.http.get(url).subscribe({
+      next: (res: any) => {
+        this.details = res[0];
+        this.experiences = this.details.experience;
+        this.education = this.details.education;
+        if (!this.education) {
+          this.education = null;
+        }
+        this.languages = this.details.languages;
+      },
+      error: (err: any) => {
+        this.notify.notifyMessage('error', 'something went wrong!');
+      },
+    });
   }
   formatDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -211,7 +228,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
 
   deletePic() {
-   
     this.http.delete(user_delete_profile_pic_url, 'userToken').subscribe({
       next: (res: any) => {
         this.notify.notifyMessage(
@@ -243,7 +259,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   downloadResume(resumeUrl: string) {
     if (!resumeUrl) return;
     window.open(resumeUrl, '_blank');
-    // const fileName = resumeUrl.split('/').pop(); 
+    // const fileName = resumeUrl.split('/').pop();
 
     // const a = document.createElement('a');
     // a.href = resumeUrl;

@@ -145,7 +145,7 @@ export class JobComponent implements OnInit, OnDestroy {
 
     if (this.isEditMode && this.currentJobId) {
       this.http
-        .securePut(update_job_url + this.currentJobId, formData)
+        .securePut(update_job_url + this.currentJobId, formData, 'authToken')
         .subscribe({
           next: (res: any) => {
             this.notify.notifyMessage('success', 'Job updated successfully!');
@@ -158,7 +158,7 @@ export class JobComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.http.securePost(add_new_job_url, formData).subscribe({
+      this.http.securePost(add_new_job_url, formData, 'authToken').subscribe({
         next: (res: any) => {
           this.resetForm();
           this.notify.notifyMessage('success', 'Job Added Succesfully!');

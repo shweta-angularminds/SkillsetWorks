@@ -32,7 +32,7 @@ export class ApplicantsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: HttpService,
-    private router: Router
+    private router: Router,
   ) {}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -72,9 +72,7 @@ export class ApplicantsComponent implements OnInit {
           }
         });
       },
-      error: (error: any) => {
-       
-      },
+      error: (error: any) => {},
     });
   }
   openPdf(path: string) {
@@ -93,14 +91,14 @@ export class ApplicantsComponent implements OnInit {
       application_Id: Id,
     };
 
-    this.http.securePut(update_application_status_url, data).subscribe({
-      next: (res: any) => {
-        this.getAllApplicants();
-      },
-      error: (err: any) => {
-        
-      },
-    });
+    this.http
+      .securePut(update_application_status_url, data, 'authToken')
+      .subscribe({
+        next: (res: any) => {
+          this.getAllApplicants();
+        },
+        error: (err: any) => {},
+      });
   }
 
   selectOption(value: string): void {

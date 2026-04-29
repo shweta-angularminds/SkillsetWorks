@@ -21,7 +21,10 @@ export class SettingsComponent implements OnInit {
   Id: string = '';
   profileForm: FormGroup;
 
-  constructor(private http: HttpService, private notify: NotifyService) {
+  constructor(
+    private http: HttpService,
+    private notify: NotifyService,
+  ) {
     this.profileForm = new FormGroup(
       {
         password: new FormControl('', Validators.required),
@@ -31,7 +34,7 @@ export class SettingsComponent implements OnInit {
         ]),
         confirmPassword: new FormControl('', Validators.required),
       },
-      [passwordMatchValidator('newPassword', 'confirmPassword')]
+      [passwordMatchValidator('newPassword', 'confirmPassword')],
     );
   }
 
@@ -50,7 +53,6 @@ export class SettingsComponent implements OnInit {
       },
       error: (err: any) => {
         this.notify.notifyMessage('error', err.error.message);
-     
       },
     });
   }
@@ -63,7 +65,7 @@ export class SettingsComponent implements OnInit {
       if (newPassword !== confirmPassword) {
         this.notify.notifyMessage(
           'error',
-          'New password and confirm password do not match!'
+          'New password and confirm password do not match!',
         );
         return;
       }
@@ -73,7 +75,7 @@ export class SettingsComponent implements OnInit {
         newPassword: newPassword,
       };
 
-      this.http.securePut(password_change_url, payload).subscribe({
+      this.http.securePut(password_change_url, payload, 'authToken').subscribe({
         next: (res: any) => {
           this.notify.notifyMessage('success', 'Password Updated Succesfully!');
           this.clearFields();

@@ -46,6 +46,8 @@ export const get_education_details_url = add_details + '/fetch/';
 //language
 export const add_language_url = add_details + '/';
 
+export const add_experience_url = add_details + '/experience'
+
 export const application = base_url + 'skillset/application';
 export const view_application_url = application + '/view/';
 export const view_all_applications_url = application + '/viewAll/';

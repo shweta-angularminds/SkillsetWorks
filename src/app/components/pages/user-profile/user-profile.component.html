@@ -43,6 +43,12 @@
               class="list-group-item list-group-item-action"
               [routerLink]="[]"
               fragment="list-item-1"
+              >Experience</a
+            >
+            <a
+              class="list-group-item list-group-item-action"
+              [routerLink]="[]"
+              fragment="list-item-7"
               >Education</a
             >
             <a
@@ -86,8 +92,14 @@
             class="scrollspy-example"
             tabindex="0"
           >
-            <div class="section">
-              <h5 id="list-item-1">
+            <div class="section" id="list-item-1">
+              <p>
+                <app-experience [id]="user.id" [experiences]="experiences">
+                </app-experience>
+              </p>
+            </div>
+            <div class="section" id="list-item-7">
+              <h5 id="list-item-7">
                 <i class="fa-solid fa-graduation-cap me-2 fs-5"></i>Education
               </h5>
               <p>

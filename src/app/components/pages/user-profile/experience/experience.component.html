@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between">
+  <h5 id="list-item-1">
+    <i class="fa-solid fa-briefcase-cap me-2 fs-5"></i>Experience
+  </h5>
+  <i class="fa-solid fa-plus me-2 fs-5" (click)="openModal()"></i>
+</div>
+
+<!-- Experience List -->
+<div *ngIf="experienceList.length > 0" class="mt-3">
+  <div *ngFor="let exp of experienceList" class="card p-3 mb-3 shadow-sm">
+    <div class="d-flex justify-content-between">
+      <div>
+        <h6>{{ exp.jobTitle }} - {{ exp.companyName }}</h6>
+        <small>{{ exp.location }} • {{ exp.employmentType }}</small>
+
+        <p class="mb-1">
+          {{ exp.startDate | date }} -
+          {{ exp.isCurrentJob ? "Present" : (exp.endDate | date) }}
+        </p>
+
+        <p>{{ exp.description }}</p>
+
+        <div>
+          <span *ngFor="let tech of exp.technologiesUsed" class="badge me-1">
+            {{ tech }}
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <i class="fa-solid fa-pen me-2" (click)="openModal(exp)"></i>
+        <i
+          class="fa-solid fa-trash text-danger"
+          (click)="deleteExperience(exp._id)"
+        ></i>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- Empty State -->
+<div *ngIf="experiences?.length === 0">
+  <label>Add your experience to improve job chances.</label>
+</div>
+<div>
+    <app-modal
+      [formFields]="formFields.fields"
+      [formHeader]="formTitle"
+      [isVisible]="isModalVisible"
+      (formDataChange)="handleFormDataChange($event)"
+     
+      (closeModal)="onCloseModal()"
+      [formData]="selectedExperience"
+    ></app-modal>
+  </div>
