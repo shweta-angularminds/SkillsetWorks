@@ -1,4 +1,4 @@
-<div class="container-fluid w-100 vh-100 p-0 back-color">
+<div class="container-fluid w-100 vh-100 p-0 back-color" *ngIf="JobApplicants">
   <div class="subcontainer w-100 d-flex flex-column flex-lg-row vh-100 m-0 p-0">
   
     <div class="sidenav m-0 p-0 col-lg-2 col-md-12 col-12">
@@ -20,7 +20,7 @@
             <li class="breadcrumb-item" aria-current="page">applications</li>
           </ol>
         </nav>
-        <h4 class="fw-bold">{{ Job?.designation }}</h4>
+        <h4 class="fw-bold">{{ Job.designation }}</h4>
       </div>
       <div
         class="mt-4 col-12 back-color rounded d-flex justify-content-around flex-wrap"
@@ -34,7 +34,7 @@
           ></app-pie-chart>
         </div>
         <div class="col col-lg-5 col-md-5 col-12 bg-white p-3 mt-1">
-          <app-bar-chart [responseData]="res"></app-bar-chart>
+          <app-bar-chart [responseData]="JobApplicants"></app-bar-chart>
         </div>
       </div>
 
@@ -80,7 +80,8 @@
               *ngFor="
                 let applicant of applicants
                   | paginate : { itemsPerPage: 10, currentPage: p };
-                let i = index
+                let i = index;
+                trackBy:trackByApplicantId
               "
             >
               <th scope="row">{{ i + 1 }}</th>
@@ -148,7 +149,7 @@
               </td>
             </tr>
           </tbody>
-          <tfoot>
+          <!-- <tfoot>
             <tr>
               <td colspan="5">
                 <pagination-controls
@@ -157,7 +158,7 @@
                 ></pagination-controls>
               </td>
             </tr>
-          </tfoot>
+          </tfoot> -->
         </table>
 
        
