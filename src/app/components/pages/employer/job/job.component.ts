@@ -199,7 +199,7 @@ export class JobComponent implements OnInit, OnDestroy {
     });
   }
   getApplicantsCount(jobId: string): number {
-    const applicants = this.applicants.result.find(
+    const applicants = this.applicants?.result.find(
       (data: any) => data.job_Id === jobId,
     );
     return applicants ? applicants.applicantsCount : 0;

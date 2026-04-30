@@ -28,7 +28,7 @@
       >
         <div>
           <h6>Total Applicant</h6>
-          <label>{{ applicants.total }}</label>
+          <label>{{ applicants?.total }}</label>
         </div>
         <div class="me-2 bg-white rounded-circle">
           <i class="fa-solid fa-users"></i>
@@ -40,7 +40,7 @@
       >
         <div>
           <h6>Short listed</h6>
-          <label>{{applicants.shortlisted}}</label>
+          <label>{{applicants?.shortlisted}}</label>
         </div>
         <div class="me-2 bg-white rounded-circle">
           <i class="fa-solid fa-file"></i>
@@ -66,9 +66,9 @@
 
   <!-- third row -->
   <div class="row back-color pt-3 mb-3" *ngIf="jobs.length !== 0">
-    <div class="filter col col-lg-1 col-md-1 col-12">
+    <!-- <div class="filter col col-lg-1 col-md-1 col-12">
       <i class="fa-solid fa-filter"></i>
-    </div>
+    </div> -->
     <div
       class="jobs d-flex flex-wrap justify-content-start col col-lg-11 col-md-11 col-12"
     >
@@ -186,7 +186,7 @@
             </div>
           </div>
           <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
-            <label for="Location" class="col-form-label">Location:</label>
+            <label for="location" class="col-form-label">Location:</label>
             <input
               type="text"
               class="form-control"
@@ -206,7 +206,7 @@
             </div>
           </div>
           <div class="mb-3 col col-lg-3 col-md-5 col-12 m-1">
-            <label for="Salary" class="col-form-label">Salary:</label>
+            <label for="salary" class="col-form-label">Salary:</label>
             <input
               type="text"
               class="form-control"
