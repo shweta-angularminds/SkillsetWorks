@@ -7,12 +7,15 @@
     linear-gradient(
       22deg,
       rgba(255, 255, 255, 1) 32%,
-      rgba(0, 212, 255, 1) 200%
+      rgb(130, 220, 255) 200%
     );
   background-size: cover, cover;
   background-position: center, center;
 }
-
+.bg-custom{
+  border-radius: 20px;
+    background: linear-gradient(45deg, #f8fbff, #C8E7FA);
+}
 .blurred-image {
   width: 900px; /* default size */
   max-width: 100%;
