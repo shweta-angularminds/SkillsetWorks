@@ -256,17 +256,17 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     return path;
   }
 
-  downloadResume(resumeUrl: string) {
+  downloadResume(resumeUrl: string, candidateName: string) {
     if (!resumeUrl) return;
-    window.open(resumeUrl, '_blank');
-    // const fileName = resumeUrl.split('/').pop();
 
-    // const a = document.createElement('a');
-    // a.href = resumeUrl;
-    // a.download = fileName || 'resume.pdf';
-    // document.body.appendChild(a);
-    // a.click();
-    // document.body.removeChild(a);
+    const customFileName = `${candidateName.replace(/\s+/g, '_')}_Resume`;
+
+    const updatedUrl = resumeUrl.replace(
+      '/upload/',
+      `/upload/fl_attachment:${customFileName}/`,
+    );
+
+    window.open(updatedUrl, '_blank');
   }
 
   updateResume() {

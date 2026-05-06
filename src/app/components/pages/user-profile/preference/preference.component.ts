@@ -20,6 +20,7 @@ const formFields = [
     inputType: 'radio',
     name: 'join_time', // Unique name for form handling
     options: [
+      { label: 'Immediate', value: 'immediate' },
       { label: '15 Days', value: '15 days' },
       { label: '1 Month', value: '1 month' },
       { label: '2 Months', value: '2 months' },
