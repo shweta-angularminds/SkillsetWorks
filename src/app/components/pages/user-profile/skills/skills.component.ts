@@ -10,7 +10,7 @@ import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from "../../../partials/modal/modal.component";
+import { ModalComponent } from '../../../partials/modal/modal.component';
 
 export const Skill = [
   {
@@ -26,11 +26,11 @@ export const Skill = [
   },
 ];
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-skills',
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.css',
-  imports: [CommonModule, ModalComponent]
+  imports: [CommonModule, ModalComponent],
 })
 export class SkillsComponent implements OnInit, OnChanges {
   isModalVisible = false;
@@ -41,7 +41,10 @@ export class SkillsComponent implements OnInit, OnChanges {
   Id!: string;
   @Input()
   skills: any;
-  constructor(private http: HttpService, private notify: NotifyService) {}
+  constructor(
+    private http: HttpService,
+    private notify: NotifyService,
+  ) {}
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {}
   openModal() {
@@ -55,18 +58,41 @@ export class SkillsComponent implements OnInit, OnChanges {
   }
 
   handleFormDataChange(labelValuePairs: any) {
-    this.AddLanguge(labelValuePairs[0].value);
+    this.AddSkill(labelValuePairs[0].value);
   }
 
-  AddLanguge(skill: string) {
-    const body = { skill: skill };
+  AddSkill(skill: string) {
+    const trimmedSkill = skill?.trim();
+
+    // Empty or only spaces
+    if (!trimmedSkill) {
+      this.notify.notifyMessage('error', 'Please enter a skill.');
+      return;
+    }
+
+    // Duplicate skill
+    if (
+      this.skills?.some(
+        (s: string) => s.toLowerCase() === trimmedSkill.toLowerCase(),
+      )
+    ) {
+      this.notify.notifyMessage('error', 'This skill has already been added.');
+      return;
+    }
+
+    const body = { skill: trimmedSkill };
     this.http.post(add_details + '/' + this.Id + '/skills', body).subscribe({
       next: (res: any) => {
         this.notify.notifyMessage('success', 'Skill Added Succesfully!');
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
-      error: (err: any) => {
-        this.notify.notifyMessage('error', err.message);
+      error: () => {
+        this.notify.notifyMessage(
+          'error',
+          'Unable to add the skill at the moment. Please try again later.',
+        );
       },
     });
   }
@@ -79,8 +105,11 @@ export class SkillsComponent implements OnInit, OnChanges {
           window.location.reload();
         }, 1000);
       },
-      error: (err: any) => {
-        this.notify.notifyMessage('error', err.message);
+      error: () => {
+        this.notify.notifyMessage(
+          'error',
+          'Unable to delete the skill at the moment. Please try again later.',
+        );
       },
     });
   }
