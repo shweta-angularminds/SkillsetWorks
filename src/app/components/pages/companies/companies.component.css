@@ -64,7 +64,7 @@
   border: 1px solid #ddd;
   background: #fff;
   font-size: 0.9rem;
-  
+  cursor:text;
 }
 
 .filter-btn.active {

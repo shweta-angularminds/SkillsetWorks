@@ -153,7 +153,7 @@ export class JobComponent implements OnInit, OnDestroy {
             this.resetForm();
           },
           error: (error: any) => {
-            console.error('Update failed', error);
+            
             this.notify.notifyMessage('error', error.message);
           },
         });

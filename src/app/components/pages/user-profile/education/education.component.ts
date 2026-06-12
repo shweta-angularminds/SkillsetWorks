@@ -4,18 +4,17 @@ import { NotifyService } from '../../../../services/notify.service';
 import { LocalstorageService } from '../../../../services/localstorage.service';
 import { user_add_education_url } from '../../../../../constants/url/urls';
 
-
 import { Education } from '../../../../../constants/interfaces/user.interface';
 import { EducationField } from '../../../../../constants/data/form-fields';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalComponent } from "../../../partials/modal/modal.component";
+import { ModalComponent } from '../../../partials/modal/modal.component';
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.css'],
-  imports: [CommonModule, FormsModule, ModalComponent]
+  imports: [CommonModule, FormsModule, ModalComponent],
 })
 export class EducationComponent implements OnInit {
   @Input()
@@ -29,7 +28,7 @@ export class EducationComponent implements OnInit {
   constructor(
     private http: HttpService,
     private notify: NotifyService,
-    private localstorage: LocalstorageService
+    private localstorage: LocalstorageService,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +37,7 @@ export class EducationComponent implements OnInit {
 
   setEducationFields(educationLevel: string): void {
     const selectedEducationLevel = this.educationData.find(
-      (education) => education.title === educationLevel
+      (education) => education.title === educationLevel,
     );
     if (selectedEducationLevel) {
       this.educationFields = selectedEducationLevel.fields;
@@ -79,7 +78,22 @@ export class EducationComponent implements OnInit {
     labelValuePairs.forEach((item: { name: string; value: string }) => {
       educationData[item.name] = item.value;
     });
+    // Check if education level is selected
+    if (!this.selectedEducation) {
+      this.notify.notifyMessage('error', 'Please select an education level.');
+      return;
+    }
 
+    // Check required fields
+    for (const field of this.educationFields) {
+      const value = educationData[field.name];
+
+      if (!value || !String(value).trim()) {
+        this.notify.notifyMessage('error', `${field.label} is required.`);
+        return;
+      }
+    }
+   
     const body = {
       educationField: this.selectedEducation,
       educationData: educationData,
@@ -89,10 +103,17 @@ export class EducationComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.notify.notifyMessage('success', 'Education added succesfully!');
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         },
         error: (err: any) => {
-          this.notify.notifyMessage('error', err.message);
+         
+          this.notify.notifyMessage(
+            'error',
+            err?.error?.message ||
+              'Unable to save education details. Please try again later.',
+          );
         },
       });
   }

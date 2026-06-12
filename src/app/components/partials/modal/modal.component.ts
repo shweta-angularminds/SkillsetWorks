@@ -88,7 +88,7 @@ export class ModalComponent implements OnInit, OnChanges {
     }));
 
     this.formDataChange.emit(result);
-    this.close();
+    // this.close();
   }
 
   close() {

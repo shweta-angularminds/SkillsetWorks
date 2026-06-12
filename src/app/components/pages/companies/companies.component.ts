@@ -14,14 +14,14 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-companies',
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.css',
-  imports: [CommonModule, RouterLink, NavbarComponent,FormsModule],
+  imports: [CommonModule, RouterLink, NavbarComponent, FormsModule],
 })
 export class CompaniesComponent implements OnInit {
   companies: employer[] = [];
 
-  searchText:string = '';
-
-  searchSubject = new Subject<string>()
+  searchText: string = '';
+  isSearching = false;
+  searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -31,14 +31,14 @@ export class CompaniesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCompanies();
-     this.searchSubject
-       .pipe(debounceTime(800), distinctUntilChanged())
-       .subscribe((value) => {
-         this.getAllCompanies(value);
-       });
+    this.searchSubject
+      .pipe(debounceTime(800), distinctUntilChanged())
+      .subscribe((value) => {
+        this.getAllCompanies(value);
+      });
   }
 
-  getAllCompanies(search:string='') {
+  getAllCompanies(search: string = '') {
     this.http
       .get<employer[]>(`${employer_url}?search=${search}`)
       .pipe(takeUntil(this.destroy$))
@@ -52,7 +52,8 @@ export class CompaniesComponent implements OnInit {
       });
   }
 
-  onSearch():void{
+  onSearch(): void {
+      this.isSearching = this.searchText.trim().length > 0;
     this.searchSubject.next(this.searchText.trim());
   }
 }

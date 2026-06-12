@@ -81,8 +81,7 @@ export class SettingsComponent implements OnInit {
           this.clearFields();
         },
         error: (err: any) => {
-          console.error('Error changing password', err);
-
+         
           this.notify.notifyMessage('error', err.error);
           this.clearFields();
         },

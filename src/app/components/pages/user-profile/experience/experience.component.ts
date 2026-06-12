@@ -84,6 +84,46 @@ export class ExperienceComponent {
       formData.endDate = null;
     }
 
+    
+
+    // REQUIRED FIELD VALIDATION
+    if (!formData.companyName?.trim()) {
+      this.notify.notifyMessage('error', 'Company Name is required.');
+        this.isModalVisible = true;
+      return;
+    }
+
+    if (!formData.jobTitle?.trim()) {
+      this.notify.notifyMessage('error', 'Job Title is required.');
+      return;
+    }
+
+    if (!formData.employmentType) {
+      this.notify.notifyMessage('error', 'Employment Type is required.');
+      return;
+    }
+
+    if (!formData.startDate) {
+      this.notify.notifyMessage('error', 'Start Date is required.');
+      return;
+    }
+
+    // End Date required if not current job
+    if (!formData.isCurrentJob && !formData.endDate) {
+      this.notify.notifyMessage('error', 'End Date is required.');
+      return;
+    }
+    // Date validation
+    if (
+      formData.endDate &&
+      new Date(formData.startDate) > new Date(formData.endDate)
+    ) {
+      this.notify.notifyMessage(
+        'error',
+        'Start Date cannot be later than End Date.',
+      );
+      return;
+    }
     // ✅ ADD vs UPDATE
     if (this.editingExpId) {
       this.updateExperience(formData);
@@ -97,8 +137,12 @@ export class ExperienceComponent {
         this.notify.notifyMessage('success', 'Experience Added!');
         window.location.reload();
       },
-      error: (err) => {
-        this.notify.notifyMessage('error', err.message);
+      error: (err: any) => {
+     
+        this.notify.notifyMessage(
+          'error',
+          err?.error?.message || 'Unable to add experience. Please try again.',
+        );
       },
     });
   }
@@ -106,22 +150,36 @@ export class ExperienceComponent {
   deleteExperience(expId: string) {
     this.http.delete(`${add_experience_url}/${expId}`, 'userToken').subscribe({
       next: () => {
-        this.notify.notifyMessage('success', 'Deleted!');
+        this.notify.notifyMessage('success', 'Deleted Experience Successfully!');
 
         window.location.reload();
+      },
+      error: (err: any) => {
+        this.notify.notifyMessage(
+          'error',
+          err?.error?.message || 'Unable to delete experience. Please try again.',
+        );
       },
     });
   }
   updateExperience(body: any) {
     this.http
-      .securePut(`${add_experience_url}/${this.editingExpId}`, body, 'userToken')
+      .securePut(
+        `${add_experience_url}/${this.editingExpId}`,
+        body,
+        'userToken',
+      )
       .subscribe({
         next: () => {
           this.notify.notifyMessage('success', 'Experience Updated!');
           window.location.reload();
         },
-        error: (err) => {
-          this.notify.notifyMessage('error', err.message);
+        error: (err: any) => {
+          this.notify.notifyMessage(
+            'error',
+            err?.error?.message ||
+              'Unable to update experience. Please try again.',
+          );
         },
       });
   }

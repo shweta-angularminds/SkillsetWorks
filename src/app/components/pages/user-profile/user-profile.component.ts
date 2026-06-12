@@ -108,7 +108,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     this.http.secureGet(user_profile_url, 'userToken').subscribe({
       next: (res: any) => {
         this.user = res.user;
-
+        console.log(this.user);
         this.userForm.setValue({
           username: this.user.username || '',
           email: this.user.email || '',
@@ -130,25 +130,25 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
         this.localstorage.setItem('userID', this.user.id);
       },
       error: (err: any) => {
-          if (err.status === 401 || err.status === 403) {
-            this.notify.notifyMessage(
-              'error',
-              'Your session has expired. Please login again.',
-            );
-
-            this.localstorage.removeItem('userToken');
-            this.localstorage.removeItem('userID');
-
-            this.router.navigateByUrl('/auth/login/jobseeker');
-            return;
-          }
-
+        if (err.status === 401 || err.status === 403) {
           this.notify.notifyMessage(
             'error',
-            'Unable to load profile. Please try again later.',
+            'Your session has expired. Please login again.',
           );
 
-          this.router.navigateByUrl('/home');
+          this.localstorage.removeItem('userToken');
+          this.localstorage.removeItem('userID');
+
+          this.router.navigateByUrl('/auth/login/jobseeker');
+          return;
+        }
+
+        this.notify.notifyMessage(
+          'error',
+          'Unable to load profile. Please try again later.',
+        );
+
+        this.router.navigateByUrl('/home');
       },
     });
   }
@@ -294,6 +294,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (res: any) => {
           this.notify.notifyMessage('success', 'Resume updated successfully!');
+
+          if (res.token) {
+            this.localstorage.setItem('userToken', res.token);
+          }
+
+          this.loadUserProfile();
+
+          this.selectedFile = null;
         },
         error: (err: any) => {
           this.notify.notifyMessage('error', err.message);
