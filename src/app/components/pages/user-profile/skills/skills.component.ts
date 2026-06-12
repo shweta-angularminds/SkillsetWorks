@@ -36,7 +36,7 @@ export class SkillsComponent implements OnInit, OnChanges {
   isModalVisible = false;
   formFields = Skill[0];
 
-  formTitle = 'Add Language';
+  formTitle = 'Add Skill';
   @Input()
   Id!: string;
   @Input()

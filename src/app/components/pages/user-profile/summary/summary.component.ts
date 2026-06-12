@@ -55,14 +55,28 @@ export class SummaryComponent implements OnInit {
   }
 
   AddSummary(summary: string) {
-    const body = { summary: summary };
+    const trimmedSummary = summary?.trim();
+
+    if (!trimmedSummary) {
+      this.notify.notifyMessage('error', 'Please enter a profile summary.');
+      return;
+    }
+
+    const body = { summary: trimmedSummary };
     this.http.Patch(add_details + '/' + this.id + '/summary', body).subscribe({
       next: (res: any) => {
         this.notify.notifyMessage('success', res.message);
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       error: (err: any) => {
-        this.notify.notifyMessage('error', err.message);
+        this.notify.notifyMessage(
+          'error',
+          err?.error?.message ||
+            'Unable to save profile summary. Please try again later.',
+        );
+        
       },
     });
   }
