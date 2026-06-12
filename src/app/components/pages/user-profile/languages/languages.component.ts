@@ -1,12 +1,11 @@
-import { Component, Input,  OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
 import { add_language_url } from '../../../../../constants/url/urls';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalComponent } from "../../../partials/modal/modal.component";
-
+import { ModalComponent } from '../../../partials/modal/modal.component';
 
 export const LanguageD = [
   {
@@ -22,11 +21,11 @@ export const LanguageD = [
   },
 ];
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-languages',
   templateUrl: './languages.component.html',
   styleUrl: './languages.component.css',
-  imports: [CommonModule, FormsModule, ModalComponent]
+  imports: [CommonModule, FormsModule, ModalComponent],
 })
 export class LanguagesComponent implements OnInit {
   isModalVisible = false;
@@ -36,17 +35,17 @@ export class LanguagesComponent implements OnInit {
   @Input()
   Id!: string;
   @Input()
-  Languages: string[]=[];
-  constructor(private http: HttpService, private notify: NotifyService) {}
-  ngOnInit(): void {
-   
-  }
- 
+  Languages: string[] = [];
+  constructor(
+    private http: HttpService,
+    private notify: NotifyService,
+  ) {}
+  ngOnInit(): void {}
+
   openModal() {
     this.formFields = LanguageD[0];
-  
+
     this.isModalVisible = true;
-  
   }
 
   onCloseModal() {
@@ -57,20 +56,49 @@ export class LanguagesComponent implements OnInit {
     this.AddLanguge(labelValuePairs[0].value);
   }
 
-  submitForm() {
-   
-  }
-
   AddLanguge(lang: string) {
-    const body = { language: lang };
+    const trimmedLang = lang?.trim();
+
+    if (!trimmedLang) {
+      this.notify.notifyMessage('error', 'Please enter a language');
+      return;
+    }
+    const languageRegex = /^[A-Za-z\s]+$/;
+
+    if (!languageRegex.test(trimmedLang)) {
+      this.notify.notifyMessage(
+        'error',
+        'Language name should contain only letters and spaces.',
+      );
+      return;
+    }
+
+    if (
+      this.Languages?.some(
+        (l: string) => l.toLowerCase() === trimmedLang.toLowerCase(),
+      )
+    ) {
+      this.notify.notifyMessage(
+        'error',
+        'This language has already been added.',
+      );
+
+      return;
+    }
+    const body = { language: trimmedLang };
+
     this.http.post(add_language_url + this.Id + '/language', body).subscribe({
       next: (res: any) => {
         this.notify.notifyMessage('success', 'Language Added Succesfully!');
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       error: (err: any) => {
-        this.notify.notifyMessage('error', err.message);
-        
+        this.notify.notifyMessage(
+          'error',
+          'Unable to add the language at the moment. Please try again later.',
+        );
       },
     });
   }
@@ -78,13 +106,16 @@ export class LanguagesComponent implements OnInit {
     const body = { language: lang };
     this.http.Put(add_language_url + this.Id + '/language', body).subscribe({
       next: (res: any) => {
-        this.notify.notifyMessage('success', 'Deleted Successfully!');
+        this.notify.notifyMessage('success', 'Language Deleted Successfully!');
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       },
       error: (err: any) => {
-        this.notify.notifyMessage('error', err.message);
+        this.notify.notifyMessage(
+          'error',
+          'Unable to delete the language at the moment. Please try again later.',
+        );
       },
     });
   }
