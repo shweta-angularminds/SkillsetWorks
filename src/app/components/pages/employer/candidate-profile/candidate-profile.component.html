@@ -126,7 +126,7 @@
         >
           <div
             class="col-12 col-md-11 col-lg-11 bg-white rounded shadow-sm"
-            *ngIf="candidate.experience.length"
+            *ngIf="candidate?.experience?.length"
           >
             <div class="p-3 border-bottom">
               <h5 class="fw-bold mb-0">Experience</h5>
@@ -163,7 +163,7 @@
                 <label class="mb-2"> Description: {{ exp.description }} </label>
 
                 <!-- Technologies -->
-                <div *ngIf="exp.technologiesUsed.length">
+                <div *ngIf="exp?.technologiesUsed?.length">
                   <label>Technologies worked on:</label>
                   <div
                     class="d-flex justify-content-start flex-wrap gap-2 mt-2"
@@ -177,7 +177,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="exp.achievements.length">
+                <div *ngIf="exp?.achievements?.length">
                   <label>Achievements:</label>
                   <div
                     class="d-flex justify-content-start flex-wrap gap-2 mt-2"
@@ -196,7 +196,7 @@
           <!-- No Experience -->
           <div
             class="col-12 col-md-11 col-lg-11 bg-white rounded shadow-sm p-4 text-center"
-            *ngIf="candidate.experience.length === 0"
+            *ngIf="candidate?.experience?.length === 0"
           >
             <p class="mb-0 text-muted">No experience added yet.</p>
           </div>
@@ -295,13 +295,13 @@
               <div>
                 <h6
                   class="text-capitalize sub-heading"
-                  *ngIf="candidate.preference.job_type.length !== 0"
+                  *ngIf="candidate?.preference?.job_type?.length !== 0"
                 >
                   Job Type : {{ candidate.preference.job_type.join(", ") }}
                 </h6>
                 <h6
                   class="text-capitalize sub-heading"
-                  *ngIf="candidate.preference.locations.length !== 0"
+                  *ngIf="candidate?.preference?.locations?.length !== 0"
                 >
                   Work Location :
                   {{ candidate.preference.locations.join(", ") }}

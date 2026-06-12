@@ -1,15 +1,14 @@
-
 <div class="container-fluid vh-100 bg-white">
   <!-- first row  -->
   <div class="row bg-white">
-    <div class="header d-flex align-items-center bg-white p-2 shadow-sm ">
+    <div class="header d-flex align-items-center bg-white p-2 shadow-sm">
       <a routerLink="/employer/profile" style="font-size: 1.5rem">
         <!-- <i class="fa-solid fa-arrow-left"></i>
         <i class="fa-solid fa-angle-left"></i> -->
       </a>
       <!-- <a class="ms-3 text-end" style="font-size: 1.1rem">Welcome, Angular minds</a> -->
     </div>
-    <div class="dashboard d-flex flex-wrap  py-4 px-2 back-color shadow-sm">
+    <div class="dashboard d-flex flex-wrap py-4 px-2 back-color shadow-sm">
       <div
         class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
         id="sq1"
@@ -40,13 +39,12 @@
       >
         <div>
           <h6>Short listed</h6>
-          <label>{{applicants?.shortlisted}}</label>
+          <label>{{ applicants?.shortlisted }}</label>
         </div>
         <div class="me-2 bg-white rounded-circle">
           <i class="fa-solid fa-file"></i>
         </div>
       </div>
-     
     </div>
   </div>
 
@@ -78,7 +76,7 @@
       >
         <div class="d-flex flex-column">
           <span class="d-flex justify-content-between">
-            <h5 class="card-title">{{ job.designation }}</h5>
+            <h5 class="card-title">{{ job.designation|titlecase }}</h5>
             <span class="d-flex">
               <i
                 class="fa-solid fa-pen-to-square me-2 text-primary"
@@ -103,7 +101,11 @@
           <label class="text-white ms-1 me-1">
             Applicants : {{ getApplicantsCount(job._id) }}</label
           >
-          <label class="text-white ms-1 me-1 " routerLink="/employer/applicants/{{job._id}}">See</label>
+          <label
+            class="text-white ms-1 me-1"
+            routerLink="/employer/applicants/{{ job._id }}"
+            >See</label
+          >
         </div>
       </div>
     </div>
@@ -112,13 +114,13 @@
 
 <!-- modal -->
 <div
-  class="modal fade "
+  class="modal fade"
   id="jobModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog  modal-xl">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
         <h1 class="modal-title fs-5" id="exampleModalLabel">

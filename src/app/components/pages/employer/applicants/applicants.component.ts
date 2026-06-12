@@ -78,8 +78,10 @@ export class ApplicantsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.JobApplicants = res;
+         
           this.applicants = res.applicants;
           this.Job = res.Job;
+          
           if (res.totalApplicants?.length > 0) {
             res.totalApplicants[0].statusCounts.forEach((item: StatusCount) => {
               if (item._id === 'approved') {

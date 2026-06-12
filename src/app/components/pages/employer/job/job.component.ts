@@ -71,6 +71,13 @@ export class JobComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.Editor = new Editor();
     this.getActiveJobs();
+    const modalEl = document.getElementById('jobModal');
+
+    modalEl?.addEventListener('hidden.bs.modal', () => {
+      this.resetForm();
+      this.isEditMode = false;
+      this.currentJobId = null;
+    });
   }
   ngOnDestroy(): void {
     this.Editor.destroy();
@@ -194,6 +201,7 @@ export class JobComponent implements OnInit, OnDestroy {
     this.http.post(get_applicants_count_url, { jobIds }).subscribe({
       next: (res: any) => {
         this.applicants = res;
+        console.log(res)
       },
       error: (err: any) => {},
     });
