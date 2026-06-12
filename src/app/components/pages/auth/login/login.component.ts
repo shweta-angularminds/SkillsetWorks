@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private http: HttpService,
     private localstorage: LocalstorageService,
     private notify: NotifyService,
-    private activatedRouter: ActivatedRoute
+    private activatedRouter: ActivatedRoute,
   ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -55,8 +55,13 @@ export class LoginComponent implements OnInit {
           }, 1000);
         },
         error: (err) => {
-          
-          this.notify.notifyMessage('error', err.error);
+          this.localstorage.removeItem('authToken')
+          this.notify.notifyMessage(
+            'error',
+            err?.error?.message ||
+              err?.error ||
+              'Login failed. Please try again.',
+          );
         },
       });
     } else {
@@ -70,7 +75,8 @@ export class LoginComponent implements OnInit {
           }, 1000);
         },
         error: (err: any) => {
-      
+          this.localstorage.removeItem('userToken');
+
           this.notify.notifyMessage('error', err.error);
         },
       });

@@ -130,14 +130,25 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
         this.localstorage.setItem('userID', this.user.id);
       },
       error: (err: any) => {
-        this.notify.notifyMessage('error', err.message);
-        if (err.status === 403) {
-          this.localstorage.removeItem('userToken');
-        }
+          if (err.status === 401 || err.status === 403) {
+            this.notify.notifyMessage(
+              'error',
+              'Your session has expired. Please login again.',
+            );
 
-        setTimeout(() => {
+            this.localstorage.removeItem('userToken');
+            this.localstorage.removeItem('userID');
+
+            this.router.navigateByUrl('/auth/login/jobseeker');
+            return;
+          }
+
+          this.notify.notifyMessage(
+            'error',
+            'Unable to load profile. Please try again later.',
+          );
+
           this.router.navigateByUrl('/home');
-        }, 1000);
       },
     });
   }

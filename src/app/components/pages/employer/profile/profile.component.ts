@@ -10,6 +10,7 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NotifyService } from '../../../../services/notify.service';
 import { LocalstorageService } from '../../../../services/localstorage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +26,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private http: HttpService,
-
+    private router: Router,
     private notify: NotifyService,
     private localstorage: LocalstorageService,
   ) {
@@ -88,10 +89,15 @@ export class ProfileComponent implements OnInit {
           website: this.employer.website,
           companyLogo: this.employer.companyLogo,
         });
-        this.imageUrl = this.getImageUrl(this.employer.companyLogo);
+        this.imageUrl = this.employer.companyLogo;
       },
       error: (err: any) => {
-        this.localstorage.removeItem('authToken')
+        this.notify.notifyMessage(
+          'error',
+          'Your session has expired. Please login again.',
+        );
+        this.localstorage.removeItem('authToken');
+        this.router.navigateByUrl('auth/login/employer');
       },
     });
   }
@@ -151,8 +157,5 @@ export class ProfileComponent implements OnInit {
 
   resetForm() {
     this.getEmployerDetails();
-  }
-  getImageUrl(path: string): string {
-    return base_url + path;
   }
 }

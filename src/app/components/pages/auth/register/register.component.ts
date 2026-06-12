@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
     private http: HttpService,
     private router: Router,
     private notify: NotifyService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
     this.form = this.fb.group({
       employer_name: [
@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(
-            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\- .\/?%&=]*)?$/
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\- .\/?%&=]*)?$/,
           ),
         ],
       ],
@@ -103,10 +103,11 @@ export class RegisterComponent implements OnInit {
         }, 1000);
       },
       error: (err: any) => {
-        this.notify.notifyMessage('error', err.error.message);
+        this.notify.notifyMessage('error', 'Registration Failed!');
       },
     });
   }
+
   registerUser() {
     if (this.userForm.invalid) {
       return;
@@ -142,9 +143,7 @@ export class RegisterComponent implements OnInit {
         this.userForm.reset();
       },
       error: (err: any) => {
-       
-        this.notify.notifyMessage('error', err.message);
-        this.userForm.reset();
+        this.notify.notifyMessage('error', 'Registration Failed!');
       },
     });
   }

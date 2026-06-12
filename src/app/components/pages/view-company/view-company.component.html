@@ -21,7 +21,7 @@
             Overview
           </li>
           <li [ngClass]="{ boldBlack: !isClick }" (click)="isClick = false">
-            jobs
+            Jobs
           </li>
         </div>
 
@@ -103,7 +103,7 @@
               routerLink="/view-job/{{ job._id }}"
             >
               <div class="d-flex justify-content-between flex-wrap">
-                <h4>{{ job.designation }}</h4>
+                <h4>{{ job.designation | titlecase}}</h4>
                 <!-- <button class="">Apply</button> -->
               </div>
 
@@ -113,7 +113,7 @@
                   style="min-width: 90px"
                 >
                   <i class="fa-solid fa-briefcase"></i
-                  ><label>{{ job.experience }}</label></span
+                  ><label>{{ job.experience|titlecase }}</label></span
                 >
                 <span class="col col-lg-1 col-3"
                   ><i class="fa-solid fa-indian-rupee-sign"></i
@@ -150,7 +150,7 @@
                 <strong>Phone : </strong> {{ company?.contactNumber }}
               </div>
               <div class="col-12">
-                <strong>Address : </strong> {{ company?.address }}
+                <strong>Address : </strong> {{ company?.address |titlecase}}
               </div>
               <div class="col-12">
                 <strong>Website : </strong>

@@ -67,7 +67,7 @@ span {
   font-weight: bold;
 }
 .jobs {
-  max-height: 400px;
+  max-height: 800px;
   overflow: scroll;
 }
 
