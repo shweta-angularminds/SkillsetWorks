@@ -81,14 +81,14 @@ export const URLS = {
 
     details: `${BASE_URL}/skillset/jobseeker/details`,
 
-    education: (userId: string) =>
-      `${BASE_URL}/skillset/jobseeker/${userId}/education`,
+    education: `${BASE_URL}/skillset/jobseeker/education`,
 
     experience: `${BASE_URL}/skillset/jobseeker/experience`,
 
     experienceById: (id: string) =>
       `${BASE_URL}/skillset/jobseeker/experience/${id}`,
   },
+
   employer: {
     profile: `${BASE_URL}/skillset/employers/profile`,
     changePassword: `${BASE_URL}/skillset/employers/change-password`,

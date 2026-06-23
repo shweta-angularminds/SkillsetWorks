@@ -36,19 +36,19 @@ export interface UserDetails {
   experience: Experience[];
 }
 export interface Education {
-  X: {
+  X?: {
     board_name: string;
     passing_year: string;
     medium: string;
     percentage: string;
   };
-  XII: {
+  XII?: {
     board_name: string;
     passing_year: string;
     medium: string;
     percentage: string;
   };
-  graduation: {
+  graduation?: {
     course_name: string;
     college_name: string;
     university: string;
@@ -57,7 +57,7 @@ export interface Education {
     start_year: string;
     end_year: string;
   };
-  postgraduation: {
+  postgraduation?: {
     course_name: string;
     college_name: string;
     university: string;
@@ -65,18 +65,6 @@ export interface Education {
     percentage?: string;
     start_year: string;
     end_year: string;
-  };
-  [key: string]: {
-    board_name?: string;
-    passing_year?: string;
-    medium?: string;
-    percentage?: string;
-    course_name?: string;
-    college_name?: string;
-    university?: string;
-    cgpa?: string;
-    start_year?: string;
-    end_year?: string;
   };
 }
 

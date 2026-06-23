@@ -1,14 +1,20 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpService } from '../../../../services/http.service';
-import { NotifyService } from '../../../../services/notify.service';
-import { LocalstorageService } from '../../../../services/localstorage.service';
-import { user_add_education_url } from '../../../../../constants/url/urls';
+import { FormsModule } from '@angular/forms';
+
+import { ModalComponent } from '../../../partials/modal/modal.component';
 
 import { Education } from '../../../../../constants/interfaces/user.interface';
 import { EducationField } from '../../../../../constants/data/form-fields';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ModalComponent } from '../../../partials/modal/modal.component';
+
+import { NotifyService } from '../../../../services/notify.service';
+import { EducationService } from './services/education.service';
+
+import { FormFieldValue } from './constants/education.interface';
+import { mapModalToEducation } from './utils/education.mapper';
+import { validateEducation } from './utils/education.validator';
+
 @Component({
   standalone: true,
   selector: 'app-education',
@@ -17,104 +23,112 @@ import { ModalComponent } from '../../../partials/modal/modal.component';
   imports: [CommonModule, FormsModule, ModalComponent],
 })
 export class EducationComponent implements OnInit {
-  @Input()
-  education!: Education | null;
+  @Input() education!: Education | null;
   @Input() id!: string;
+
+  // State
   isModalVisible = false;
-  selectedEducation: string = '';
+  selectedEducation = '';
   educationFields: any[] = [];
-  educationData = EducationField;
+  selectedFormData: Record<string, string> = {};
+
+  readonly educationData = EducationField;
 
   constructor(
-    private http: HttpService,
+    private educationService: EducationService,
     private notify: NotifyService,
-    private localstorage: LocalstorageService,
   ) {}
 
   ngOnInit(): void {
     this.setEducationFields(this.selectedEducation);
   }
 
-  setEducationFields(educationLevel: string): void {
-    const selectedEducationLevel = this.educationData.find(
-      (education) => education.title === educationLevel,
-    );
-    if (selectedEducationLevel) {
-      this.educationFields = selectedEducationLevel.fields;
-    }
-  }
+  // PUBLIC METHODS
 
   onEducationLevelChange(educationLevel: string): void {
     this.selectedEducation = educationLevel;
     this.setEducationFields(educationLevel);
   }
 
-  async openModal() {
-    if (this.education && this.education[this.selectedEducation]) {
-      const selectedEducationData = this.education[this.selectedEducation];
+  openModal(): void {
+    const existingEducation =
+      this.selectedEducation &&
+      this.education?.[this.selectedEducation as keyof Education];
 
-      await this.populateEducationFields(selectedEducationData);
+    if (existingEducation) {
+      this.populateEducationFields(existingEducation);
     } else {
+      this.selectedFormData = {};
       this.isModalVisible = true;
     }
   }
 
-  async populateEducationFields(selectedEducationData: any) {
-    for (const field of this.educationFields) {
-      const fieldValue = (selectedEducationData as any)[field.name] || '';
-      field.value = fieldValue;
+  onCloseModal(): void {
+    this.resetModal();
+  }
+
+  handleFormDataChange(data: FormFieldValue[]): void {
+    const body = mapModalToEducation(data, this.selectedEducation);
+
+    const error = validateEducation(
+      this.selectedEducation,
+      body.educationData,
+      this.educationFields,
+    );
+
+    if (error) {
+      this.notify.notifyMessage('error', error);
+      return;
     }
+
+    this.educationService.saveEducation(body).subscribe({
+      next: ({ data }) => {
+        this.education = {
+          ...this.education,
+          [data.educationField]: data.education,
+        };
+        this.notify.notifyMessage('success', 'Education saved successfully');
+
+        this.resetModal();
+      },
+
+      error: (err) => this.showError(err),
+    });
+  }
+
+  editEducation(level: string): void {
+    this.onEducationLevelChange(level);
+    this.openModal();
+  }
+
+
+  // PRIVATE METHODS
+
+  private setEducationFields(educationLevel: string): void {
+    const selected = this.educationData.find(
+      (item) => item.title === educationLevel,
+    );
+
+    this.educationFields = selected?.fields ?? [];
+  }
+
+  private populateEducationFields(educationData: Record<string, string>): void {
+    this.selectedFormData = {
+      ...educationData,
+    };
 
     this.isModalVisible = true;
   }
 
-  onCloseModal() {
+  private resetModal(): void {
     this.isModalVisible = false;
+    this.selectedFormData = {};
   }
 
-  handleFormDataChange(labelValuePairs: any) {
-    const educationData: { [key: string]: string } = {};
-
-    labelValuePairs.forEach((item: { name: string; value: string }) => {
-      educationData[item.name] = item.value;
-    });
-    // Check if education level is selected
-    if (!this.selectedEducation) {
-      this.notify.notifyMessage('error', 'Please select an education level.');
-      return;
-    }
-
-    // Check required fields
-    for (const field of this.educationFields) {
-      const value = educationData[field.name];
-
-      if (!value || !String(value).trim()) {
-        this.notify.notifyMessage('error', `${field.label} is required.`);
-        return;
-      }
-    }
-   
-    const body = {
-      educationField: this.selectedEducation,
-      educationData: educationData,
-    };
-    this.http
-      .post(user_add_education_url + this.id + '/education', body)
-      .subscribe({
-        next: (res: any) => {
-          this.notify.notifyMessage('success', 'Education added succesfully!');
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        },
-        error: (err: any) => {
-         
-          this.notify.notifyMessage(
-            'error',
-            err?.error?.message ||
-              'Unable to save education details. Please try again later.',
-          );
-        },
-      });
+  private showError(err: HttpErrorResponse): void {
+    this.notify.notifyMessage(
+      'error',
+      err.error?.message || 'Something went wrong. Please try again later.',
+    );
   }
 }

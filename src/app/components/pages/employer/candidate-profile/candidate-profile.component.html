@@ -214,69 +214,69 @@
             </div>
             <div>
               <ul>
-                <li *ngIf="candidate.education.postgraduation.course_name">
+                <li *ngIf="candidate.education.postgraduation?.course_name">
                   <div class="d-flex flex-column mb-3">
                     <h6 class="mb-0">
-                      {{ candidate.education.postgraduation.course_name }} from
-                      {{ candidate.education.postgraduation.college_name }}
+                      {{ candidate.education.postgraduation?.course_name }} from
+                      {{ candidate.education.postgraduation?.college_name }}
                     </h6>
                     <label class="mt-2">{{
-                      candidate.education.postgraduation.university
+                      candidate.education.postgraduation?.university
                     }}</label>
                     <label
                       >academic year :
-                      {{ candidate.education.postgraduation.start_year }} -
-                      {{ candidate.education.postgraduation.end_year }} scored
-                      {{ candidate.education.postgraduation.cgpa }} cgpa</label
+                      {{ candidate.education.postgraduation?.start_year }} -
+                      {{ candidate.education.postgraduation?.end_year }} scored
+                      {{ candidate.education.postgraduation?.cgpa }} cgpa</label
                     >
                   </div>
                 </li>
-                <li *ngIf="candidate.education.graduation.course_name">
+                <li *ngIf="candidate.education.graduation?.course_name">
                   <div class="d-flex flex-column mb-3">
                     <h6 class="mb-0">
-                      {{ candidate.education.graduation.course_name }} from
-                      {{ candidate.education.graduation.college_name }}
+                      {{ candidate.education.graduation?.course_name }} from
+                      {{ candidate.education.graduation?.college_name }}
                     </h6>
                     <label class="mt-2">{{
-                      candidate.education.graduation.university
+                      candidate.education.graduation?.university
                     }}</label>
                     <label
                       >academic year :
-                      {{ candidate.education.graduation.start_year }} -
-                      {{ candidate.education.graduation.end_year }} scored
-                      {{ candidate.education.graduation.cgpa }} cgpa</label
+                      {{ candidate.education.graduation?.start_year }} -
+                      {{ candidate.education.graduation?.end_year }} scored
+                      {{ candidate.education.graduation?.cgpa }} cgpa</label
                     >
                   </div>
                 </li>
-                <li *ngIf="candidate.education.XII.board_name">
+                <li *ngIf="candidate.education.XII?.board_name">
                   <div class="d-flex flex-column mb-3">
                     <h6 class="mb-0">
                       12<sup>th</sup> from
-                      {{ candidate.education.XII.board_name }} in
-                      {{ candidate.education.XII.medium }} medium
+                      {{ candidate.education.XII?.board_name }} in
+                      {{ candidate.education.XII?.medium }} medium
                     </h6>
 
                     <label class="mt-2"
                       >passed out in
-                      {{ candidate.education.XII.passing_year }}
+                      {{ candidate.education.XII?.passing_year }}
                       scored
-                      {{ candidate.education.XII.percentage }}
+                      {{ candidate.education.XII?.percentage }}
                     </label>
                   </div>
                 </li>
-                <li *ngIf="candidate.education.X.board_name">
+                <li *ngIf="candidate.education.X?.board_name">
                   <div class="d-flex flex-column mb-3">
                     <h6 class="mb-0">
                       10<sup>th</sup> from
-                      {{ candidate.education.X.board_name }} in
-                      {{ candidate.education.X.medium }} medium
+                      {{ candidate.education.X?.board_name }} in
+                      {{ candidate.education.X?.medium }} medium
                     </h6>
 
                     <label class="mt-2"
                       >passed out in
-                      {{ candidate.education.X.passing_year }}
+                      {{ candidate.education.X?.passing_year }}
                       scored
-                      {{ candidate.education.X.percentage }}
+                      {{ candidate.education.X?.percentage }}
                     </label>
                   </div>
                 </li>
