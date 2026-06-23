@@ -1,14 +1,33 @@
-export interface User {
-  username: string;
-  phone: string;
-  email: string;
-  fresher: boolean;
-  location: string;
-  gender: string;
-  bdate: Date;
-  profilePic: string;
+export interface ProfileResponse {
+  success: boolean;
+  data: User;
+  message?: string;
+}
+export interface UserDetailsResponse {
+  success: boolean;
+  data: UserDetails;
 }
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  phone: string;
+  gender?: string;
+  location?: string;
+  bdate?: Date;
+  profilePic?: string;
+  resume?: string;
+  fresher: boolean;
+}
+export interface UserDetails {
+  summary: string;
+  skills: string[];
+  languages: string[];
+  preference: Preference | null;
+  education: Education |null;
+  experience: Experience[];
+}
 export interface Education {
   X: {
     board_name: string;

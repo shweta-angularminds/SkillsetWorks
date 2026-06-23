@@ -23,7 +23,7 @@ export class HttpService {
     return this.http.put<any>(url, data);
   }
 
-  securePut(url: string, data: any,key:string): Observable<any> {
+  securePut<T>(url: string, data: any, key: string): Observable<T> {
     const token = this.localstorage.getItem(key);
 
     if (!token) {
@@ -32,14 +32,13 @@ export class HttpService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.put<any>(url, data, { headers });
+    return this.http.put<T>(url, data, { headers });
+  }
+  Patch<T>(url: string, data: any): Observable<T> {
+    return this.http.patch<T>(url, data);
   }
 
-  Patch(url: string, data: any): Observable<any> {
-    return this.http.patch<any>(url, data);
-  }
-
-  patch(url: string, data: any, key: string): Observable<any> {
+  patch<T>(url: string, data: any, key: string): Observable<T> {
     const token = this.localstorage.getItem(key);
 
     if (!token) {
@@ -48,10 +47,10 @@ export class HttpService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.patch<any>(url, data, { headers });
+    return this.http.patch<T>(url, data, { headers });
   }
 
-  delete(url: string, key: string): Observable<any> {
+  delete<T>(url: string, key: string): Observable<T> {
     const token = this.localstorage.getItem(key);
 
     if (!token) {
@@ -60,10 +59,10 @@ export class HttpService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.delete<any>(url, { headers });
+    return this.http.delete<T>(url, { headers });
   }
 
-  secureGet(url: string, key: string): Observable<any> {
+  secureGet<T>(url: string, key: string): Observable<T> {
     const token = this.localstorage.getItem(key);
 
     if (!token) {
@@ -72,9 +71,10 @@ export class HttpService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<any>(url, { headers });
+    return this.http.get<T>(url, { headers });
   }
-  securePost(url: string, data: any,key:string): Observable<any> {
+
+  securePost<T>(url: string, data: any, key: string): Observable<T> {
     const token = this.localstorage.getItem(key);
 
     if (!token) {
@@ -83,6 +83,6 @@ export class HttpService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.post<any>(url, data, { headers });
+    return this.http.post<T>(url, data, { headers });
   }
 }

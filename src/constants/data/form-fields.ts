@@ -1,3 +1,14 @@
+import { UserDetails } from "../interfaces/user.interface";
+
+export const INITIAL_USER_DETAILS: UserDetails = {
+  languages: [],
+  skills: [],
+  experience: [],
+  summary: '',
+  education: null,
+  preference: null,
+};
+
 export const EducationField = [
   {
     title: 'X',

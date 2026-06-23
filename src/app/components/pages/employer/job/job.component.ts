@@ -84,8 +84,8 @@ export class JobComponent implements OnInit, OnDestroy {
   }
 
   getActiveJobs() {
-    this.http.secureGet(get_all_active_jobs_url, 'authToken').subscribe({
-      next: (res: Job[]) => {
+    this.http.secureGet<Job[]>(get_all_active_jobs_url, 'authToken').subscribe({
+      next: (res) => {
         this.jobs = res;
 
         this.getTotalApplicants();

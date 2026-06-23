@@ -119,19 +119,19 @@
               <input
                 type="text"
                 class="form-control"
-                formControlName="contactNumber"
+                formControlName="phone"
               />
               <div
                 *ngIf="
-                  contactNumber?.invalid &&
-                  (contactNumber?.touched || contactNumber?.dirty)
+                  phone?.invalid &&
+                  (phone?.touched || phone?.dirty)
                 "
                 class="text-danger"
               >
-                <small *ngIf="contactNumber?.errors?.['required']"
+                <small *ngIf="phone?.errors?.['required']"
                   >Contact number is required.</small
                 >
-                <small *ngIf="contactNumber?.errors?.['pattern']"
+                <small *ngIf="phone?.errors?.['pattern']"
                   >Only 10 digits are allowed.</small
                 >
               </div>
@@ -151,6 +151,41 @@
                   >email is required.</small
                 >
                 <small *ngIf="email?.errors?.['email']">Invalid email</small>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Fresher</label>
+              <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="fresher"
+                    [value]="true"
+                    id="true"
+                    name="fresher"
+                  />
+                  <label for="true" class="form-check-label">Yes</label>
+                </div>
+                <div class="d-flex align-items-center m-2">
+                  <input
+                    type="radio"
+                    class="form-check-input me-2"
+                    formControlName="fresher"
+                    [value]="false"
+                    id="false"
+                    name="fresher"
+                  />
+                  <label for="false" class="form-check-label">No</label>
+                </div>
+              </div>
+              <div
+                *ngIf="fresher?.invalid && (fresher?.touched || fresher?.dirty)"
+                class="text-danger"
+              >
+                <small *ngIf="fresher?.errors?.['required']"
+                  >fresher is required</small
+                >
               </div>
             </div>
           </form>

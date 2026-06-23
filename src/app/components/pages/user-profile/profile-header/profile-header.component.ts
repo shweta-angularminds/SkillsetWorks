@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Education } from '../../../../../constants/interfaces/user.interface';
+import { Component, Input, OnInit } from '@angular/core';
+import { Education, User } from '../../../../../constants/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,9 +9,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.css',
 })
-export class ProfileHeaderComponent {
+export class ProfileHeaderComponent   {
   @Input()
-  user: any;
-  @Input()
-  education!: Education | null;
+  user!: User;
+ 
+  
 }

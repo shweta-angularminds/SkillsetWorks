@@ -5,12 +5,12 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-profile-edit-modal',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './profile-edit-modal.component.html',
-  styleUrl: './profile-edit-modal.component.css'
+  styleUrl: './profile-edit-modal.component.css',
 })
 export class ProfileEditModalComponent {
-@Input() userForm!: FormGroup;
+  @Input() userForm!: FormGroup;
 
   @Output() save = new EventEmitter<void>();
 
@@ -25,8 +25,8 @@ export class ProfileEditModalComponent {
   get email() {
     return this.userForm.get('email');
   }
-  get contactNumber() {
-    return this.userForm.get('contactNumber');
+  get phone() {
+    return this.userForm.get('phone');
   }
   get location() {
     return this.userForm.get('location');
@@ -36,5 +36,8 @@ export class ProfileEditModalComponent {
   }
   get bdate() {
     return this.userForm.get('bdate');
+  }
+  get fresher() {
+    return this.userForm.get('fresher');
   }
 }

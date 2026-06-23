@@ -122,7 +122,7 @@ export class ProfileComponent implements OnInit {
       }
 
       this.http.securePut(profile_update_url, formData, 'authToken').subscribe({
-        next: (res) => {
+        next: (res:any) => {
           this.localstorage.setItem('authToken', res.token);
 
           this.notify.notifyMessage('success', 'Profile Updated Successfully!');

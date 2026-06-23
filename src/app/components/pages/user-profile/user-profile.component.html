@@ -9,7 +9,6 @@
     <!-- first row with image and name -->
     <app-profile-header
       [user]="user"
-      [education]="education"
     ></app-profile-header>
   </div>
   <div
@@ -94,7 +93,7 @@
           >
             <div class="section" id="list-item-1">
               <p>
-                <app-experience [id]="user.id" [experiences]="experiences">
+                <app-experience [id]="user.id" [experiences]="details.experience">
                 </app-experience>
               </p>
             </div>
@@ -105,7 +104,7 @@
               <p>
                 <app-education
                   [id]="user.id"
-                  [education]="education"
+                  [education]="details.education"
                 ></app-education>
               </p>
             </div>
@@ -113,7 +112,7 @@
               <p>
                 <app-preference
                   [Id]="user.id"
-                  [preferences]="details?.preference"
+                  [preferences]="details.preference"
                 ></app-preference>
               </p>
             </div>
@@ -121,7 +120,7 @@
               <p>
                 <app-summary
                   [id]="user.id"
-                  [summary]="details?.summary"
+                  [summary]="details.summary"
                 ></app-summary>
               </p>
             </div>
@@ -129,7 +128,7 @@
               <p>
                 <app-skills
                   [Id]="user.id"
-                  [skills]="details?.skills"
+                  [skills]="details.skills"
                 ></app-skills>
               </p>
             </div>
@@ -140,7 +139,7 @@
             >
               <div class="col-12">
                 <app-languages
-                  [Languages]="details?.languages"
+                  [Languages]="details.languages"
                   [Id]="user.id"
                 ></app-languages>
               </div>

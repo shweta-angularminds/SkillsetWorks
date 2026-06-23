@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../../../services/http.service';
 import {
-  employer_login_url,
-  employer_url,
-  user_login_url,
+  URLS
 } from '../../../../../constants/url/urls';
 import { LocalstorageService } from '../../../../services/localstorage.service';
 import { NotifyService } from '../../../../services/notify.service';
@@ -44,7 +42,7 @@ export class LoginComponent implements OnInit {
     }
     const loginData = this.form.value;
     if (this.user === 'employer') {
-      this.http.post(employer_login_url, loginData).subscribe({
+      this.http.post(URLS.auth.employerLogin, loginData).subscribe({
         next: (res: any) => {
           const token = res.token;
           this.localstorage.setItem('authToken', token);
@@ -65,11 +63,11 @@ export class LoginComponent implements OnInit {
         },
       });
     } else {
-      this.http.post(user_login_url, loginData).subscribe({
+      this.http.post(URLS.auth.jobseekerLogin, loginData).subscribe({
         next: (res: any) => {
           const token = res.token;
           this.localstorage.setItem('userToken', token);
-          this.notify.notifyMessage('success', 'Login Succesful!');
+          this.notify.notifyMessage('success', 'Login Successful!');
           setTimeout(() => {
             this.router.navigateByUrl('/jobseeker/profile');
           }, 1000);
@@ -77,7 +75,7 @@ export class LoginComponent implements OnInit {
         error: (err: any) => {
           this.localstorage.removeItem('userToken');
 
-          this.notify.notifyMessage('error', err.error);
+          this.notify.notifyMessage('error', err.error.message);
         },
       });
     }
