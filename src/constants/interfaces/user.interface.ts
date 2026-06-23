@@ -1,4 +1,6 @@
+import { Education } from '../../app/components/pages/user-profile/education/constants/education.interface';
 import { Experience } from '../../app/components/pages/user-profile/experience/constants/experience.interface';
+import { Preference } from '../../app/components/pages/user-profile/preference/constants/preference.interface';
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -35,44 +37,9 @@ export interface UserDetails {
   education: Education | null;
   experience: Experience[];
 }
-export interface Education {
-  X?: {
-    board_name: string;
-    passing_year: string;
-    medium: string;
-    percentage: string;
-  };
-  XII?: {
-    board_name: string;
-    passing_year: string;
-    medium: string;
-    percentage: string;
-  };
-  graduation?: {
-    course_name: string;
-    college_name: string;
-    university: string;
-    percentage: string;
-    cgpa?: string;
-    start_year: string;
-    end_year: string;
-  };
-  postgraduation?: {
-    course_name: string;
-    college_name: string;
-    university: string;
-    cgpa?: string;
-    percentage?: string;
-    start_year: string;
-    end_year: string;
-  };
-}
 
-export interface Preference {
-  job_type: string[];
-  join_time: string;
-  locations: string[];
-}
+
+
 
 export interface CandidateProfile {
   user_info: User;

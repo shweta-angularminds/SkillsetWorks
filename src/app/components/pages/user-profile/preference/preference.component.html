@@ -12,31 +12,38 @@
   <div class="d-flex justify-content-start flex-wrap mb-2">
     <div class="col col-lg-6 col-md-6 col-sm-6 col-12">
       <h6>Preferred Job Type</h6>
-      <label *ngIf="!preferences?.job_type.length">Add desired job type</label>
-      <p *ngIf="preferences?.job_type" class="text-capitalize">{{preferences.job_type.join(', ')}}</p>
+      <label *ngIf="!preferences?.job_type?.length">Add desired job type</label>
+      <p *ngIf="preferences?.job_type as jobType" class="text-capitalize">
+        {{ jobType.join(", ") }}
+      </p>
     </div>
     <div class="col col-lg-6 col-md-6 col-sm-6 col-12">
       <h6>Availability to work</h6>
-      <p  *ngIf="preferences?.join_time" class="text-capitalize">{{preferences.join_time}}</p>
-      
+      <p *ngIf="preferences?.join_time as joinTime" class="text-capitalize">
+        {{ joinTime }}
+      </p>
     </div>
   </div>
   <div>
     <div>
       <h6>Preferred Location</h6>
-      <label *ngIf="!preferences?.locations.length">Add preferred work location</label>
-      
-      <p *ngIf="preferences?.locations" class="text-capitalize">{{preferences.locations.join(', ')}}</p>
+      <label *ngIf="!preferences?.locations?.length"
+        >Add preferred work location</label
+      >
+
+      <p *ngIf="preferences?.locations as jobLocations" class="text-capitalize">
+        {{ jobLocations.join(", ") }}
+      </p>
     </div>
   </div>
 </div>
- <div>
-    <app-modal
-      [formFields]="formFields"
-      [formHeader]="formTitle"
-      [isVisible]="isModalVisible"
-      
-      (formDataChange)="handleFormDataChange($event)"
-      (closeModal)="onCloseModal()"
-    ></app-modal>
-  </div>
+<div>
+  <app-modal
+    [formFields]="formFields"
+    [formHeader]="formTitle"
+    [isVisible]="isModalVisible"
+    [formData]="selectedFormData"
+    (formDataChange)="handleFormDataChange($event)"
+    (closeModal)="onCloseModal()"
+  ></app-modal>
+</div>

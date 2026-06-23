@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Education, User } from '../../../../../constants/interfaces/user.interface';
+import {  User } from '../../../../../constants/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({

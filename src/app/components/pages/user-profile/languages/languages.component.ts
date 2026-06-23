@@ -6,6 +6,7 @@ import { add_language_url } from '../../../../../constants/url/urls';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../partials/modal/modal.component';
+import { showError } from '../../../../utils/errorHandler';
 
 export const LanguageD = [
   {
@@ -94,12 +95,7 @@ export class LanguagesComponent implements OnInit {
           window.location.reload();
         }, 1000);
       },
-      error: (err: any) => {
-        this.notify.notifyMessage(
-          'error',
-          'Unable to add the language at the moment. Please try again later.',
-        );
-      },
+      error: (err) => showError(this.notify, err),
     });
   }
   deleteLang(lang: string) {
@@ -111,12 +107,7 @@ export class LanguagesComponent implements OnInit {
           window.location.reload();
         }, 1000);
       },
-      error: (err: any) => {
-        this.notify.notifyMessage(
-          'error',
-          'Unable to delete the language at the moment. Please try again later.',
-        );
-      },
+      error: (err) => showError(this.notify, err),
     });
   }
 }

@@ -1,5 +1,36 @@
-import { Education } from "../../../../../../constants/interfaces/user.interface";
 
+export interface Education {
+  X?: {
+    board_name: string;
+    passing_year: string;
+    medium: string;
+    percentage: string;
+  };
+  XII?: {
+    board_name: string;
+    passing_year: string;
+    medium: string;
+    percentage: string;
+  };
+  graduation?: {
+    course_name: string;
+    college_name: string;
+    university: string;
+    percentage: string;
+    cgpa?: string;
+    start_year: string;
+    end_year: string;
+  };
+  postgraduation?: {
+    course_name: string;
+    college_name: string;
+    university: string;
+    cgpa?: string;
+    percentage?: string;
+    start_year: string;
+    end_year: string;
+  };
+}
 export interface EducationFormField {
   name: string;
   label: string;

@@ -5,15 +5,16 @@ import { FormsModule } from '@angular/forms';
 
 import { ModalComponent } from '../../../partials/modal/modal.component';
 
-import { Education } from '../../../../../constants/interfaces/user.interface';
+
 import { EducationField } from '../../../../../constants/data/form-fields';
 
 import { NotifyService } from '../../../../services/notify.service';
 import { EducationService } from './services/education.service';
 
-import { FormFieldValue } from './constants/education.interface';
+import { Education, FormFieldValue } from './constants/education.interface';
 import { mapModalToEducation } from './utils/education.mapper';
 import { validateEducation } from './utils/education.validator';
+import { showError } from '../../../../utils/errorHandler';
 
 @Component({
   standalone: true,
@@ -92,7 +93,7 @@ export class EducationComponent implements OnInit {
         this.resetModal();
       },
 
-      error: (err) => this.showError(err),
+      error: (err) => showError(this.notify,err),
     });
   }
 
@@ -123,12 +124,5 @@ export class EducationComponent implements OnInit {
   private resetModal(): void {
     this.isModalVisible = false;
     this.selectedFormData = {};
-  }
-
-  private showError(err: HttpErrorResponse): void {
-    this.notify.notifyMessage(
-      'error',
-      err.error?.message || 'Something went wrong. Please try again later.',
-    );
   }
 }

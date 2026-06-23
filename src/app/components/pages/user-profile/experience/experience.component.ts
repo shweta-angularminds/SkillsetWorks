@@ -13,6 +13,7 @@ import {
   ExperienceFormData,
   FormFieldValue,
 } from './constants/experience.interface';
+import { showError } from '../../../../utils/errorHandler';
 
 @Component({
   standalone: true,
@@ -80,7 +81,7 @@ export class ExperienceComponent {
         this.onCloseModal();
       },
 
-      error: (err) => this.showError(err),
+      error: (err) => showError(this.notify,err),
     });
   }
 
@@ -96,7 +97,7 @@ export class ExperienceComponent {
           this.onCloseModal();
         },
 
-        error: (err) => this.showError(err),
+        error: (err) => showError(this.notify,err),
       });
   }
 
@@ -113,14 +114,8 @@ export class ExperienceComponent {
         this.notify.notifyMessage('success', 'Deleted Successfully');
       },
 
-      error: (err) => this.showError(err),
+      error: (err) => showError(this.notify,err),
     });
   }
 
-  private showError(err: any): void {
-    this.notify.notifyMessage(
-      'error',
-      err?.error?.message || 'Something went wrong. Please try again.',
-    );
-  }
 }

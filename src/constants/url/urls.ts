@@ -87,6 +87,8 @@ export const URLS = {
 
     experienceById: (id: string) =>
       `${BASE_URL}/skillset/jobseeker/experience/${id}`,
+
+    preference : `${BASE_URL}/skillset/jobseeker/preference`
   },
 
   employer: {
