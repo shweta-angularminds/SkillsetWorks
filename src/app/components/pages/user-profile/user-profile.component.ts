@@ -1,39 +1,53 @@
+// Angular core
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+// Angular modules
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { LocalstorageService } from '../../../services/localstorage.service';
-import { NotifyService } from '../../../services/notify.service';
 import { Router, RouterLink } from '@angular/router';
+
+// RxJS
+import { forkJoin } from 'rxjs';
+
+// Interfaces
 import {
   User,
   UserDetails,
 } from '../../../../constants/interfaces/user.interface';
-import { CommonModule } from '@angular/common';
-import { LanguagesComponent } from './languages/languages.component';
-import { SkillsComponent } from './skills/skills.component';
-import { EducationComponent } from './education/education.component';
-import { PreferenceComponent } from './preference/preference.component';
-import { SummaryComponent } from './summary/summary.component';
 
+// Constants
+import { DEFAULT_PROFILE_IMAGE } from '../../../../constants/data/variables';
+import { INITIAL_USER_DETAILS } from '../../../../constants/data/form-fields';
+
+// Services
+import { LocalstorageService } from '../../../services/localstorage.service';
+import { NotifyService } from '../../../services/notify.service';
+import { UserProfileService } from '../../../services/user-profile.service';
+
+// Utilities
+import { formatDate } from '../../../utils/dateFormat';
+import { getDownloadUrl } from '../../../utils/resumeDownload';
+
+// Child components
 import { ApplicationsComponent } from './applications/applications.component';
-import { NavbarComponent } from '../../partials/navbar/navbar.component';
+import { EducationComponent } from './education/education.component';
+import { ExperienceComponent } from './experience/experience.component';
+import { LanguagesComponent } from './languages/languages.component';
+import { PreferenceComponent } from './preference/preference.component';
 import { ProfileEditModalComponent } from './profile-edit-modal/profile-edit-modal.component';
 import { ProfileHeaderComponent } from './profile-header/profile-header.component';
 import { ProfileImageModalComponent } from './profile-image-modal/profile-image-modal.component';
-import { ExperienceComponent } from './experience/experience.component';
-import { UserProfileService } from '../../../services/user-profile.service';
+import { SkillsComponent } from './skills/skills.component';
+import { SummaryComponent } from './summary/summary.component';
 
-import { formatDate } from '../../../utils/dateFormat';
-import { DEFAULT_PROFILE_IMAGE } from '../../../../constants/data/variables';
-import { getDownloadUrl } from '../../../utils/resumeDownload';
-import { INITIAL_USER_DETAILS } from '../../../../constants/data/form-fields';
-import { forkJoin } from 'rxjs';
-
+// Shared components
+import { NavbarComponent } from '../../partials/navbar/navbar.component';
 @Component({
   standalone: true,
   selector: 'app-user-profile',
@@ -100,8 +114,6 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  
-
   // Form methods
   private initializeForm(): void {
     this.userForm = this.fb.group({
@@ -165,10 +177,9 @@ export class UserProfileComponent implements OnInit {
     if (!this.selectedFile) return;
 
     this.userProfileService.updateProfilePic(this.selectedFile).subscribe({
-      next: () => {
+      next: ({ data }) => {
         this.notify.notifyMessage('success', 'Profile picture updated');
-
-        this.loadProfile();
+        this.user.profilePic = data.profilePic;
 
         this.selectedFile = null;
       },
@@ -181,10 +192,8 @@ export class UserProfileComponent implements OnInit {
     this.userProfileService.deleteProfilePic().subscribe({
       next: () => {
         this.imageUrl = DEFAULT_PROFILE_IMAGE;
-
+        this.user.profilePic = '';
         this.notify.notifyMessage('success', 'Profile picture deleted');
-
-        this.loadProfile();
       },
 
       error: (err) => this.notify.notifyMessage('error', err.error.message),
@@ -195,19 +204,17 @@ export class UserProfileComponent implements OnInit {
   updateResume(): void {
     if (!this.selectedFile) return;
 
-    this.userProfileService
-      .updateResume(this.user.id, this.selectedFile)
-      .subscribe({
-        next: () => {
-          this.notify.notifyMessage('success', 'Resume updated successfully');
+    this.userProfileService.updateResume(this.selectedFile).subscribe({
+      next: ({ data }) => {
+        this.notify.notifyMessage('success', 'Resume updated successfully');
 
-          this.selectedFile = null;
+        this.selectedFile = null;
 
-          this.loadProfile();
-        },
+        this.user.resume = data.resume;
+      },
 
-        error: (err) => this.notify.notifyMessage('error', err.error.message),
-      });
+      error: (err) => this.notify.notifyMessage('error', err.error.message),
+    });
   }
 
   downloadResume(resumeUrl?: string, candidateName?: string) {

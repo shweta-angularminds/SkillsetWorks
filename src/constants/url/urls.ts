@@ -73,10 +73,9 @@ export const URLS = {
     uploadPic: `${BASE_URL}/skillset/user/upload-pic`,
     deletePic: `${BASE_URL}/skillset/user/delete-profile-pic`,
 
-    updateResume: (id: string) =>
-      `${BASE_URL}/skillset/user/${id}/update-resume`,
+    updateResume: `${BASE_URL}/skillset/user/update-resume`,
   },
-  
+
   jobseekerDetails: {
     base: `${BASE_URL}/skillset/jobseeker`,
 
