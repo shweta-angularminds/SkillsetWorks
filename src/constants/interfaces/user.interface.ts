@@ -1,8 +1,15 @@
-export interface ProfileResponse {
+import { Experience } from '../../app/components/pages/user-profile/experience/constants/experience.interface';
+
+export interface ApiResponse<T> {
   success: boolean;
-  data: User;
-  message?: string;
+  data: T;
+  message: string;
 }
+export interface MessageResponse {
+  success: boolean;
+  message: string;
+}
+
 export interface UserDetailsResponse {
   success: boolean;
   data: UserDetails;
@@ -25,7 +32,7 @@ export interface UserDetails {
   skills: string[];
   languages: string[];
   preference: Preference | null;
-  education: Education |null;
+  education: Education | null;
   experience: Experience[];
 }
 export interface Education {
@@ -77,20 +84,6 @@ export interface Preference {
   job_type: string[];
   join_time: string;
   locations: string[];
-}
-
-export interface Experience {
-  _id: string;
-  companyName: string;
-  jobTitle: string;
-  location: string;
-  employmentType: string;
-  startDate: string;
-  endDate: string | null;
-  isCurrentJob: boolean;
-  description: string;
-  technologiesUsed: string[];
-  achievements: string[];
 }
 
 export interface CandidateProfile {

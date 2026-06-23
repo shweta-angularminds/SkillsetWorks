@@ -3,9 +3,16 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../partials/modal/modal.component';
 import { ExperienceD } from '../../../../../constants/data/form-fields';
-import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
-import { add_experience_url } from '../../../../../constants/url/urls';
+import { mapExperienceToModal } from './utils/experience.modal';
+import { mapModalToExperience } from './utils/experience.mapper';
+import { validateExperience } from './utils/experience.validator';
+import { ExperienceService } from './services/experience.service';
+import {
+  Experience,
+  ExperienceFormData,
+  FormFieldValue,
+} from './constants/experience.interface';
 
 @Component({
   standalone: true,
@@ -16,171 +23,104 @@ import { add_experience_url } from '../../../../../constants/url/urls';
 })
 export class ExperienceComponent {
   @Input() Id!: string;
-  @Input() experiences: any[] = [];
+  @Input() experiences: Experience[] = [];
 
   isModalVisible = false;
-  formFields = ExperienceD[0];
+  readonly formFields = ExperienceD[0];
   formTitle = 'Add Experience';
 
-  selectedExperience: any = {};
+  selectedExperience: Partial<ExperienceFormData> = {};
   editingExpId: string | null = null;
 
   constructor(
-    private http: HttpService,
+    private experienceService: ExperienceService,
     private notify: NotifyService,
   ) {}
 
-  openModal(exp?: any) {
-    if (exp) {
-      this.formTitle = 'Edit Experience';
-      this.editingExpId = exp._id;
+  openModal(exp?: Experience): void {
+    this.formTitle = exp ? 'Edit Experience' : 'Add Experience';
 
-      // ✅ prepare data for modal
-      this.selectedExperience = {
-        ...exp,
-        technologiesUsed: exp.technologiesUsed?.join(', ') || '',
-        achievements: exp.achievements?.join(', ') || '',
-        isCurrentJob: exp.isCurrentJob ? ['current'] : [],
-        employmentType: [exp.employmentType], // because your modal uses array
-      };
-    } else {
-      this.formTitle = 'Add Experience';
-      this.editingExpId = null;
-      this.selectedExperience = {};
-    }
+    this.editingExpId = exp?._id || null;
+
+    this.selectedExperience = exp ? mapExperienceToModal(exp) : {};
 
     this.isModalVisible = true;
   }
 
-  onCloseModal() {
-    this.isModalVisible = false;
-  }
-  get experienceList() {
-    return this.experiences ?? [];
+  onCloseModal(): void {
+    this.resetModal();
   }
 
-  handleFormDataChange(data: any[]) {
-    const formData: any = {};
+  handleFormDataChange(data: FormFieldValue[]): void {
+    const body = mapModalToExperience(data);
 
-    data.forEach((field) => {
-      formData[field.name] = field.value;
-    });
+    const error = validateExperience(body);
 
-    formData.isCurrentJob = formData.isCurrentJob?.length > 0;
-
-    formData.employmentType = Array.isArray(formData.employmentType)
-      ? formData.employmentType[0] || ''
-      : formData.employmentType;
-
-    formData.technologiesUsed = formData.technologiesUsed
-      ? formData.technologiesUsed.split(',').map((t: string) => t.trim())
-      : [];
-
-    formData.achievements = formData.achievements
-      ? formData.achievements.split(',').map((a: string) => a.trim())
-      : [];
-
-    if (formData.isCurrentJob) {
-      formData.endDate = null;
-    }
-
-    
-
-    // REQUIRED FIELD VALIDATION
-    if (!formData.companyName?.trim()) {
-      this.notify.notifyMessage('error', 'Company Name is required.');
-        this.isModalVisible = true;
+    if (error) {
+      this.notify.notifyMessage('error', error);
       return;
     }
 
-    if (!formData.jobTitle?.trim()) {
-      this.notify.notifyMessage('error', 'Job Title is required.');
-      return;
-    }
-
-    if (!formData.employmentType) {
-      this.notify.notifyMessage('error', 'Employment Type is required.');
-      return;
-    }
-
-    if (!formData.startDate) {
-      this.notify.notifyMessage('error', 'Start Date is required.');
-      return;
-    }
-
-    // End Date required if not current job
-    if (!formData.isCurrentJob && !formData.endDate) {
-      this.notify.notifyMessage('error', 'End Date is required.');
-      return;
-    }
-    // Date validation
-    if (
-      formData.endDate &&
-      new Date(formData.startDate) > new Date(formData.endDate)
-    ) {
-      this.notify.notifyMessage(
-        'error',
-        'Start Date cannot be later than End Date.',
-      );
-      return;
-    }
-    // ✅ ADD vs UPDATE
     if (this.editingExpId) {
-      this.updateExperience(formData);
+      this.update(body);
     } else {
-      this.addExperience(formData);
+      this.create(body);
     }
   }
-  addExperience(body: any) {
-    this.http.securePost(add_experience_url, body, 'userToken').subscribe({
-      next: () => {
-        this.notify.notifyMessage('success', 'Experience Added!');
-        window.location.reload();
+
+  trackByExperience(index: number, exp: Experience): string {
+    return exp._id ?? index.toString();
+  }
+
+  private create(body: Experience): void {
+    this.experienceService.addExperience(body).subscribe({
+      next: ({ data }) => {
+        this.experiences.push(data);
+        this.notify.notifyMessage('success', 'Experience Added');
+        this.onCloseModal();
       },
-      error: (err: any) => {
-     
-        this.notify.notifyMessage(
-          'error',
-          err?.error?.message || 'Unable to add experience. Please try again.',
-        );
-      },
+
+      error: (err) => this.showError(err),
     });
   }
 
-  deleteExperience(expId: string) {
-    this.http.delete(`${add_experience_url}/${expId}`, 'userToken').subscribe({
-      next: () => {
-        this.notify.notifyMessage('success', 'Deleted Experience Successfully!');
-
-        window.location.reload();
-      },
-      error: (err: any) => {
-        this.notify.notifyMessage(
-          'error',
-          err?.error?.message || 'Unable to delete experience. Please try again.',
-        );
-      },
-    });
-  }
-  updateExperience(body: any) {
-    this.http
-      .securePut(
-        `${add_experience_url}/${this.editingExpId}`,
-        body,
-        'userToken',
-      )
+  private update(body: Experience): void {
+    this.experienceService
+      .updateExperience(this.editingExpId!, body)
       .subscribe({
-        next: () => {
-          this.notify.notifyMessage('success', 'Experience Updated!');
-          window.location.reload();
-        },
-        error: (err: any) => {
-          this.notify.notifyMessage(
-            'error',
-            err?.error?.message ||
-              'Unable to update experience. Please try again.',
+        next: ({ data }) => {
+          this.experiences = this.experiences.map((exp) =>
+            exp._id === data._id ? data : exp,
           );
+          this.notify.notifyMessage('success', 'Experience Updated');
+          this.onCloseModal();
         },
+
+        error: (err) => this.showError(err),
       });
+  }
+
+  private resetModal(): void {
+    this.isModalVisible = false;
+    this.selectedExperience = {};
+    this.editingExpId = null;
+  }
+
+  deleteExperience(id: string): void {
+    this.experienceService.deleteExperience(id).subscribe({
+      next: () => {
+        this.experiences = this.experiences.filter((exp) => exp._id !== id);
+        this.notify.notifyMessage('success', 'Deleted Successfully');
+      },
+
+      error: (err) => this.showError(err),
+    });
+  }
+
+  private showError(err: any): void {
+    this.notify.notifyMessage(
+      'error',
+      err?.error?.message || 'Something went wrong. Please try again.',
+    );
   }
 }
