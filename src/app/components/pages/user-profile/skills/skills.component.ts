@@ -11,20 +11,11 @@ import { NotifyService } from '../../../../services/notify.service';
 import { add_details } from '../../../../../constants/url/urls';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../../partials/modal/modal.component';
+import { SKILL_FIELDS } from './constants/skill-form';
+import { SkillService } from './service/skill.service';
+import { validateSkill } from './utils/skill.validator';
+import { FormFieldValue } from './constants/skill.interface';
 
-export const Skill = [
-  {
-    fields: [
-      {
-        label: 'Skill',
-        inputType: 'text',
-        placeholder: 'Enter skill here...',
-        value: '',
-        name: 'skills',
-      },
-    ],
-  },
-];
 @Component({
   standalone: true,
   selector: 'app-skills',
@@ -32,84 +23,68 @@ export const Skill = [
   styleUrl: './skills.component.css',
   imports: [CommonModule, ModalComponent],
 })
-export class SkillsComponent implements OnInit, OnChanges {
+export class SkillsComponent {
+  @Input() Id!: string;
+  @Input() skills: string[] = [];
+
   isModalVisible = false;
-  formFields = Skill[0];
 
   formTitle = 'Add Skill';
-  @Input()
-  Id!: string;
-  @Input()
-  skills: any;
+
+  formFields = SKILL_FIELDS;
+
+  selectedFormData = {};
+
   constructor(
-    private http: HttpService,
+    private skillService: SkillService,
     private notify: NotifyService,
   ) {}
-  ngOnInit(): void {}
-  ngOnChanges(changes: SimpleChanges): void {}
-  openModal() {
-    this.formFields = Skill[0];
 
+  openModal() {
+    this.selectedFormData = {}; 
     this.isModalVisible = true;
   }
 
   onCloseModal() {
+    this.selectedFormData = {}; 
     this.isModalVisible = false;
   }
 
-  handleFormDataChange(labelValuePairs: any) {
-    this.AddSkill(labelValuePairs[0].value);
-  }
+  handleFormDataChange(data: FormFieldValue[]): void {
+    const skill = data[0]?.value;
 
-  AddSkill(skill: string) {
-    const trimmedSkill = skill?.trim();
+    const error = validateSkill(skill, this.skills);
 
-    // Empty or only spaces
-    if (!trimmedSkill) {
-      this.notify.notifyMessage('error', 'Please enter a skill.');
+    if (error) {
+      this.notify.notifyMessage('error', error);
       return;
     }
 
-    // Duplicate skill
-    if (
-      this.skills?.some(
-        (s: string) => s.toLowerCase() === trimmedSkill.toLowerCase(),
-      )
-    ) {
-      this.notify.notifyMessage('error', 'This skill has already been added.');
-      return;
-    }
+    this.skillService.addSkill(this.Id, { skill }).subscribe({
+      next: () => {
+        this.skills = [...this.skills, skill];
 
-    const body = { skill: trimmedSkill };
-    this.http.post(add_details + '/' + this.Id + '/skills', body).subscribe({
-      next: (res: any) => {
-        this.notify.notifyMessage('success', 'Skill Added Succesfully!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        this.notify.notifyMessage('success', 'Skill added successfully');
+
+        this.onCloseModal();
       },
+
       error: () => {
-        this.notify.notifyMessage(
-          'error',
-          'Unable to add the skill at the moment. Please try again later.',
-        );
+        this.notify.notifyMessage('error', 'Unable to add skill.');
       },
     });
   }
-  deleteSkill(skill: string) {
-    const body = { skill: skill };
-    this.http.Put(add_details + '/' + this.Id + '/skills', body).subscribe({
-      next: (res: any) => {
-        this.notify.notifyMessage('success', 'Deleted Successfully!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+
+  deleteSkill(skill: string): void {
+    this.skillService.deleteSkill(this.Id, { skill }).subscribe({
+      next: () => {
+        this.skills = this.skills.filter((s) => s !== skill);
+
+        this.notify.notifyMessage('success', 'Skill deleted successfully');
       },
+
       error: () => {
-        this.notify.notifyMessage(
-          'error',
-          'Unable to delete the skill at the moment. Please try again later.',
-        );
+        this.notify.notifyMessage('error', 'Unable to delete skill.');
       },
     });
   }

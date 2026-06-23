@@ -50,7 +50,7 @@ export class HttpService {
     return this.http.patch<T>(url, data, { headers });
   }
 
-  delete<T>(url: string, key: string): Observable<T> {
+  delete<T>(url: string, key: string,body?:any): Observable<T> {
     const token = this.localstorage.getItem(key);
 
     if (!token) {
@@ -59,7 +59,7 @@ export class HttpService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.delete<T>(url, { headers });
+    return this.http.delete<T>(url, { headers,body });
   }
 
   secureGet<T>(url: string, key: string): Observable<T> {
