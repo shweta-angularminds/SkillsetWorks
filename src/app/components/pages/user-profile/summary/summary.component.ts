@@ -1,83 +1,86 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpService } from '../../../../services/http.service';
 import { NotifyService } from '../../../../services/notify.service';
-import { add_details } from '../../../../../constants/url/urls';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from "../../../partials/modal/modal.component";
+import { ModalComponent } from '../../../partials/modal/modal.component';
+import { SUMMARY_FIELDS } from './constants/summary-form';
+import { FormFieldValue, SummaryFormData } from './constants/summary.interface';
+import { validateSummary } from './utils/summary.validator';
+import { showError } from '../../../../utils/errorHandler';
+import { SummaryService } from './service/summary.service';
 
-export const Summary = [
-  {
-    fields: [
-      {
-        label: 'Profile Summary',
-        inputType: 'textarea',
-        placeholder: 'write profile summary .....',
-        value: '',
-        name: 'summary',
-      },
-    ],
-  },
-];
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.css',
-  imports: [CommonModule, ModalComponent]
+  imports: [CommonModule, ModalComponent],
 })
 export class SummaryComponent implements OnInit {
   @Input()
   id!: string;
   @Input()
   summary: string = '';
-  isModalVisible = false;
-  formFields = Summary[0];
 
-  formTitle = 'Add Profile Summary';
-  constructor(private http: HttpService, private notify: NotifyService) {}
+  isModalVisible = false;
+
+  readonly formFields = SUMMARY_FIELDS;
+  readonly formTitle = 'Profile Summary';
+
+  selectedFormData: Partial<SummaryFormData> = {};
+
+  constructor(private summaryService:SummaryService,private notify: NotifyService) {}
   ngOnInit(): void {}
 
   openModal() {
-    this.formFields = Summary[0];
-    if (this.summary) {
-      this.formFields.fields;
-    }
+    this.selectedFormData = {
+      summary: this.summary,
+    };
 
     this.isModalVisible = true;
   }
 
   onCloseModal() {
-    this.isModalVisible = false;
+    this.resetModal();
   }
 
-  handleFormDataChange(labelValuePairs: any) {
-    this.AddSummary(labelValuePairs[0].value);
-  }
+  handleFormDataChange(data: FormFieldValue[]): void {
+    const summary = data[0]?.value?.trim();
 
-  AddSummary(summary: string) {
-    const trimmedSummary = summary?.trim();
+    const error = validateSummary(summary);
 
-    if (!trimmedSummary) {
-      this.notify.notifyMessage('error', 'Please enter a profile summary.');
+    if (error) {
+      this.notify.notifyMessage('error', error);
       return;
     }
 
-    const body = { summary: trimmedSummary };
-    this.http.Patch(add_details + '/' + this.id + '/summary', body).subscribe({
-      next: (res: any) => {
-        this.notify.notifyMessage('success', res.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      },
-      error: (err: any) => {
-        this.notify.notifyMessage(
-          'error',
-          err?.error?.message ||
-            'Unable to save profile summary. Please try again later.',
-        );
-        
-      },
-    });
+    this.updateSummary(summary);
+  }
+
+  // PRIVATE METHODS
+
+  private updateSummary(summary: string): void {
+    this.summaryService.updateSummary(this.id, summary)
+      .subscribe({
+        next: () => {
+
+          // update UI immediately
+          this.summary = summary;
+
+          this.notify.notifyMessage(
+            'success',
+            'Profile summary updated successfully'
+          );
+
+          this.resetModal();
+        },
+
+        error: (err:any) => showError(this.notify,err)
+      });
+  }
+
+  
+  private resetModal(): void {
+    this.isModalVisible = false;
+    this.selectedFormData = {};
   }
 }

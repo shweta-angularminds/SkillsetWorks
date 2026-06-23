@@ -9,22 +9,23 @@
   </div>
 </div>
 <div class="mt-2">
-  <p *ngIf="summary">
+  <p *ngIf="summary ; else noSummary">
     {{ summary }}
   </p>
-  <label *ngIf="!summary"
-    >A strong profile summary highlights your key strengths and experiences,
-    helping you stand out to employers, unlock diverse job opportunities, and
-    increase your chances of getting hired.</label
-  >
+  <ng-template #noSummary>
+    <label>
+      A strong profile summary highlights your key strengths and experiences,
+      helping you stand out to employers and increase your chances of getting hired.
+    </label>
+  </ng-template>
 </div>
 <div>
   <div>
     <app-modal
-      [formFields]="formFields.fields"
+      [formFields]="formFields"
       [formHeader]="formTitle"
       [isVisible]="isModalVisible"
-      
+      [formData]="selectedFormData"
       (formDataChange)="handleFormDataChange($event)"
       (closeModal)="onCloseModal()"
     ></app-modal>
