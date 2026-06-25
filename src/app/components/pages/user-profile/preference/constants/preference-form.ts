@@ -23,7 +23,7 @@ export const PREFERENCE_FIELDS = [
     value: [], // Array to store selected values
   },
   {
-    label: 'locations',
+    label: 'Locations',
     inputType: 'select',
     name: 'locations',
     options: [

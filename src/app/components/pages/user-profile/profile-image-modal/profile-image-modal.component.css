@@ -1,14 +1,9 @@
-
-
-
-
 .main {
   background-color: white;
   border-top-right-radius: 2rem;
   border-top-left-radius: 2rem;
 }
 .img {
-  
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -45,10 +40,11 @@ i {
   color: rgb(18, 91, 248);
   font-size: 0.8rem;
 }
-label {
+label,
+p {
   font-size: 0.8rem;
   color: rgb(54, 53, 53);
-  font-weight: 500;
+  font-weight: 600;
 }
 .content {
   background-color: wheat;
@@ -114,7 +110,7 @@ button {
   font-weight: 500;
   font-size: 0.9rem;
 }
-.orangered{
+.orangered {
   background-color: orangered;
 }
 .changeStyle {
@@ -124,10 +120,10 @@ button {
   padding: 2px 7px;
   transition: color 0.3s ease;
 }
-.width-90{
-  width:90%;
+.width-90 {
+  width: 90%;
 }
-.resume{
+.resume {
   font-size: 0.8rem;
 }
 input[type="file"]::file-selector-button {
@@ -158,14 +154,14 @@ input[type="file"]::file-selector-button {
 .file-upload-filename {
   margin-left: 10px; /* Space between label and filename */
 }
-.cursor-pointer{
-  cursor:pointer;
+.cursor-pointer {
+  cursor: pointer;
 }
 @media screen and (max-width: 400px) {
   label {
     font-size: 0.7rem;
   }
-  .width-90{
+  .width-90 {
     width: 100%;
   }
 }

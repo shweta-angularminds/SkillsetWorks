@@ -5,7 +5,6 @@ import {
   EventEmitter,
   OnInit,
   OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -94,7 +93,5 @@ export class ModalComponent implements OnInit, OnChanges {
   close() {
     this.formData = {};
     this.closeModal.emit();
-    
-   
   }
 }

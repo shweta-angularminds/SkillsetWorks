@@ -1,5 +1,5 @@
 <div
-  class="d-flex flex-column justify-content-start align-items-center flex-wrap mt-4"
+  class="d-flex flex-column justify-content-start align-items-start flex-wrap mt-4"
 >
   <button
     *ngIf="!education?.X?.board_name"
@@ -56,13 +56,17 @@
         <div class="d-flex flex-column">
           <div class="normal">
             <p>
-              Graduated in {{ postgraduate.end_year }}, scored
-              <label *ngIf="postgraduate.cgpa"
-                >{{ postgraduate.cgpa }} CGPA</label
-              >
-              <label *ngIf="postgraduate.percentage">
-                {{ postgraduate.percentage }}
-              </label>
+              Mastered in {{ postgraduate.end_year }}, scored
+
+              <span *ngIf="postgraduate.cgpa; else postgraduatePercentage">
+                {{ postgraduate.cgpa }} CGPA
+              </span>
+
+              <ng-template #postgraduatePercentage>
+                <span *ngIf="postgraduate.percentage">
+                  {{ postgraduate.percentage }}%
+                </span>
+              </ng-template>
             </p>
           </div>
         </div>
@@ -85,10 +89,15 @@
           <div class="normal">
             <p>
               Graduated in {{ graduate.end_year }}, scored
-              <label *ngIf="graduate.cgpa">{{ graduate.cgpa }} CGPA</label>
-              <label *ngIf="graduate.percentage">
-                {{ graduate.percentage }}
-              </label>
+              <span *ngIf="graduate.cgpa; else percentage">
+                {{ graduate.cgpa }} CGPA
+              </span>
+
+              <ng-template #percentage>
+                <span *ngIf="graduate.percentage">
+                  {{ graduate.percentage }}%
+                </span>
+              </ng-template>
             </p>
           </div>
         </div>
@@ -110,8 +119,7 @@
           <div class="normal">
             <p>
               Passed out in
-              {{ twelfth.passing_year }}, scored
-              {{ twelfth.percentage }}
+              {{ twelfth.passing_year }}, scored {{ twelfth.percentage }}%
             </p>
           </div>
         </div>
@@ -132,23 +140,20 @@
 
           <div class="normal">
             <p>
-              Scored {{ tenth.percentage }}, passed out in
-              {{ tenth.passing_year }}
+              Passed out in
+              {{ tenth.passing_year }}, scored {{ tenth.percentage }}%
             </p>
           </div>
         </div>
       </div>
     </div>
-
-    <div>
-      <app-modal
-        [formFields]="educationFields"
-        [formHeader]="'Education'"
-        [isVisible]="isModalVisible"
-        [formData]="selectedFormData"
-        (formDataChange)="handleFormDataChange($event)"
-        (closeModal)="onCloseModal()"
-      ></app-modal>
-    </div>
   </div>
 </div>
+<app-modal
+  [formFields]="educationFields"
+  [formHeader]="'Education'"
+  [isVisible]="isModalVisible"
+  [formData]="selectedFormData"
+  (formDataChange)="handleFormDataChange($event)"
+  (closeModal)="onCloseModal()"
+></app-modal>

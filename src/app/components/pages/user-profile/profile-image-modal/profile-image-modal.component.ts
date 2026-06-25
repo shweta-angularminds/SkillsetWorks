@@ -7,6 +7,8 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { User } from '../../../../../constants/interfaces/user.interface';
+import { DEFAULT_PROFILE_IMAGE } from '../../../../../constants/data/variables';
 
 @Component({
   selector: 'app-profile-image-modal',
@@ -16,7 +18,7 @@ import {
   styleUrl: './profile-image-modal.component.css',
 })
 export class ProfileImageModalComponent {
-  @Input() user: any;
+  @Input() user!: User;
   @Input() imageUrl!: string | ArrayBuffer | null;
 
   @Output() upload = new EventEmitter<void>();
@@ -29,7 +31,7 @@ export class ProfileImageModalComponent {
     this.fileInput.nativeElement.click();
   }
 
-  onFileChange(event: any) {
+  onFileChange(event: Event) {
     this.fileSelected.emit(event);
   }
 
@@ -42,6 +44,6 @@ export class ProfileImageModalComponent {
   }
 
   resetImage() {
-    this.imageUrl = this.user?.profilePic || '/assets/images/profile-back.jpg';
+    this.imageUrl = this.user?.profilePic || DEFAULT_PROFILE_IMAGE;
   }
 }
