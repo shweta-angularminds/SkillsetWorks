@@ -93,6 +93,8 @@ export const URLS = {
     summary: `${BASE_URL}/skillset/jobseeker/summary`,
 
     skills: `${BASE_URL}/skillset/jobseeker/skills`,
+
+    language: `${BASE_URL}/skillset/jobseeker/language`,
   },
 
   employer: {
