@@ -1,15 +1,11 @@
-<div class="row p-1 m-0" style="box-sizing: border-box">
-  <div class="col col-lg-3 col-md-3 col-sm-4 col-12 p-0">
+<section class="row p-1 m-0" style="box-sizing: border-box">
+  <!-- Profile Image -->
+  <aside class="col col-lg-3 col-md-3 col-sm-4 col-12 p-0">
     <div class="d-flex justify-content-center p-0">
       <div
         class="image-container d-flex justify-content-center align-items-center"
         [ngStyle]="{
-          'background-image':
-            'url(' +
-            (user.profilePic
-              ? user.profilePic
-              : '/assets/images/profile-back.jpg') +
-            ')',
+          'background-image': 'url(' + profileImage + ')',
         }"
       >
         <span
@@ -23,62 +19,66 @@
         </span>
       </div>
     </div>
-  </div>
-  <div
+  </aside>
+  <!-- Profile Details -->
+  <article
     class="col col-lg-9 col-md-9 col-sm-7 col-12 d-flex flex-wrap justify-content-between align-self-start p-1"
   >
-    <div class="sub col col-lg-7 col-md-7 col-sm-12 col-12 bg-white">
-      <div class="col-12 p-2">
-        <span class="d-flex justify-content-between align-items-center"
-          ><h2 class="fw-bold">{{ user.username | titlecase }}</h2>
-          <i
-            class="fa-solid fa-pencil"
+    <section class="sub col col-lg-7 col-md-7 col-sm-12 col-12 bg-white">
+      <header class="col-12 p-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="fw-bold">{{ user.username | titlecase }}</h2>
+          <button
+            type="button"
+            class="btn p-0 border-0 bg-transparent"
             data-bs-toggle="modal"
             data-bs-target="#updateProfileModal"
-          ></i>
-        </span>
-      </div>
+            aria-label="Edit profile"
+          >
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+        </div>
+      </header>
       <div class="col-12 d-flex justify-content-around bg-white border-top">
         <div class="col border-end d-flex flex-column p-2">
-          <span>
+          <div>
             <i class="fa-solid fa-location-dot me-2"></i>
-            <label *ngIf="user.location">{{ user.location | titlecase }}</label>
-            <label *ngIf="!user.location">--</label>
-          </span>
-          <span>
+            <span>{{ (user.location | titlecase) || "--" }}</span>
+          </div>
+          <div>
             <i class="fa-solid fa-user me-2"></i
-            ><label *ngIf="user.gender">{{ user.gender | titlecase }}</label>
-            <label *ngIf="!user.gender">--</label>
-          </span>
-          <span
-            ><i class="fa-solid fa-cake-candles me-2"></i>
-            <label *ngIf="user.bdate">{{ user.bdate | date }} </label>
-            <label *ngIf="!user.bdate">-- </label></span
-          >
+            ><span>{{ (user.gender | titlecase) || "--" }}</span>
+          </div>
+          <div>
+            <i class="fa-solid fa-cake-candles me-2"></i>
+            <span>{{ user.bdate ? (user.bdate | date) : "--" }} </span>
+          </div>
         </div>
         <div class="col d-flex flex-column p-2">
-          <span
-            ><label>
+          <div>
+            <span>
               <i class="fa-duotone fa-solid fa-phone me-2"></i
-              >{{ user.phone }}</label
-            ></span
-          >
-          <span
-            ><label
-              ><i class="fa-solid fa-envelope me-2"></i>{{ user.email }}</label
-            ></span
-          >
-          <span
-            ><label
+              >{{ user.phone || "--" }}</span
+            >
+          </div>
+          <div>
+            <span
+              ><i class="fa-solid fa-envelope me-2"></i
+              >{{ user.email || "--" }}</span
+            >
+          </div>
+          <div>
+            <span
               ><i class="fa-solid fa-file me-2"></i
-              >{{ user.fresher ? "Fresher" : "Experienced" }}</label
-            ></span
-          >
+              >{{ user.fresher ? "Fresher" : "Experienced" }}</span
+            >
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+    
     <!-- sub col -->
-    <div class="sub col col-lg-5 col-md-5 col-sm-12 col-12 p-2 bg-white">
+    <aside class="sub col col-lg-5 col-md-5 col-sm-12 col-12 p-2 bg-white">
       <div class="h-100 p-2 bg-white text-center">
         <img
           src="/assets/images/profile.svg"
@@ -86,6 +86,6 @@
           style="height: 200px"
         />
       </div>
-    </div>
-  </div>
-</div>
+    </aside>
+  </article>
+</section>

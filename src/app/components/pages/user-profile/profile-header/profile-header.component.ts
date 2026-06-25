@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import {  User } from '../../../../../constants/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 
@@ -9,9 +9,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.css',
 })
-export class ProfileHeaderComponent   {
+export class ProfileHeaderComponent {
   @Input()
   user!: User;
- 
-  
+
+  get profileImage(): string {
+    return this.user?.profilePic || '/assets/images/profile-back.jpg';
+  }
 }

@@ -50,6 +50,11 @@ label {
   color: rgb(54, 53, 53);
   font-weight: 500;
 }
+span{
+  font-size: 0.8rem;
+  color: rgb(54, 53, 53);
+  font-weight: 500;
+}
 .content {
   background-color: wheat;
 }

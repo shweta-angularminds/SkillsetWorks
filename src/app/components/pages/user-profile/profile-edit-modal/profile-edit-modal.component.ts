@@ -14,30 +14,28 @@ export class ProfileEditModalComponent {
 
   @Output() save = new EventEmitter<void>();
 
+  genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' },
+  ];
+
+  fresherOptions = [
+    { value: true, label: 'Yes' },
+    { value: false, label: 'No' },
+  ];
+
   onSave() {
     this.save.emit();
   }
 
-  // getters (so your template works)
-  get username() {
-    return this.userForm.get('username');
+  isInvalid(controlName: string): boolean {
+    const control = this.userForm.get(controlName);
+
+    return !!(control && control.invalid && (control.touched || control.dirty));
   }
-  get email() {
-    return this.userForm.get('email');
-  }
-  get phone() {
-    return this.userForm.get('phone');
-  }
-  get location() {
-    return this.userForm.get('location');
-  }
-  get gender() {
-    return this.userForm.get('gender');
-  }
-  get bdate() {
-    return this.userForm.get('bdate');
-  }
-  get fresher() {
-    return this.userForm.get('fresher');
+
+  hasError(controlName: string, error: string): boolean {
+    return !!this.userForm.get(controlName)?.hasError(error);
   }
 }

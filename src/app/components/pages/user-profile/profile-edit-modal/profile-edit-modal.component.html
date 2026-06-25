@@ -1,196 +1,180 @@
 <div
-    class="modal fade"
-    id="updateProfileModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog .modal-fullscreen-lg-down">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
-            All about you
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="userForm">
-            <div class="mb-3">
-              <label class="col-form-label"> Full name </label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="username"
-              />
-              <div
-                class="text-danger"
-                *ngIf="
-                  username?.invalid && (username?.touched || username?.dirty)
-                "
+  class="modal fade"
+  id="updateProfileModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog .modal-fullscreen-lg-down">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <header class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+          All about you
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </header>
+
+      <form [formGroup]="userForm" (ngSubmit)="onSave()">
+        <!-- Modal Body -->
+        <main class="modal-body">
+          <!-- Username -->
+          <section class="mb-3">
+            <label for="username" class="col-form-label"> Full name </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              id="username"
+              name="username"
+              autocomplete="username"
+            />
+            <div class="text-danger" *ngIf="isInvalid('username')">
+              <small *ngIf="hasError('username', 'required')"
+                >User name is required</small
               >
-                <small *ngIf="username?.errors?.['required']"
-                  >User name is required</small
+            </div>
+          </section>
+
+          <!-- Birth Date -->
+          <div class="mb-3">
+            <label for="bdate" class="col-form-label"> Date of birth </label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="bdate"
+              id="bdate"
+              name="bdate"
+            />
+            <div class="text-danger" *ngIf="isInvalid('bdate')">
+              <small *ngIf="hasError('bdate', 'required')"
+                >Birth date is required</small
+              >
+            </div>
+          </div>
+
+          <!-- Gender -->
+          <fieldset class="mb-3">
+            <legend class="col-form-label">Gender</legend>
+            <div class="d-flex align-items-center">
+              <div
+                *ngFor="let option of genderOptions"
+                class="d-flex align-items-center m-2"
+              >
+                <input
+                  type="radio"
+                  class="form-check-input me-2"
+                  formControlName="gender"
+                  [value]="option.value"
+                  [id]="option.value"
+                />
+                <label [for]="option.value" class="form-check-label">
+                  {{ option.label }}</label
                 >
               </div>
             </div>
-            <div class="mb-3">
-              <label class="col-form-label"> Date of birth </label>
-              <input type="date" class="form-control" formControlName="bdate" />
-              <div
-                class="text-danger"
-                *ngIf="bdate?.invalid && (bdate?.touched || bdate?.dirty)"
+            <div *ngIf="isInvalid('gender')" class="text-danger">
+              <small *ngIf="hasError('gender', 'required')"
+                >Gender is required</small
               >
-                <small *ngIf="bdate?.errors?.['required']"
-                  >Birth date is required</small
+            </div>
+          </fieldset>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label for="location" class="col-form-label">
+              Current location
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="location"
+              name="location"
+              id="location"
+            />
+            <div class="text-danger" *ngIf="isInvalid('location')">
+              <small *ngIf="hasError('location', 'required')"
+                >Location is required</small
+              >
+            </div>
+          </div>
+          <!-- Phone -->
+          <div class="mb-3">
+            <label for="phone" class="col-form-label"> Mobile Number </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              name="phone"
+              id="phone"
+              autocomplete="tel"
+            />
+            <div *ngIf="isInvalid('phone')" class="text-danger">
+              <small *ngIf="hasError('phone', 'required')"
+                >Contact number is required.</small
+              >
+              <small *ngIf="hasError('phone', 'pattern')"
+                >Only 10 digits are allowed.</small
+              >
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="col-form-label"> Email </label>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              name="email"
+              id="email"
+              autocomplete="email"
+            />
+            <div *ngIf="isInvalid('email')" class="text-danger">
+              <small *ngIf="hasError('email', 'required')"
+                >email is required.</small
+              >
+              <small *ngIf="hasError('email', 'email')">Invalid email</small>
+            </div>
+          </div>
+          <!-- Fresher -->
+          <fieldset class="mb-3">
+            <legend class="col-form-label">Fresher</legend>
+            <div class="d-flex align-items-center">
+              <div
+                class="d-flex align-items-center m-2"
+                *ngFor="let option of fresherOptions"
+              >
+                <input
+                  type="radio"
+                  class="form-check-input me-2"
+                  formControlName="fresher"
+                  [value]="option.value"
+                  [id]="'fresher-' + option.value"
+                  name="fresher"
+                />
+                <label
+                  [for]="'fresher-' + option.value"
+                  class="form-check-label"
+                >
+                  {{ option.label }}</label
                 >
               </div>
             </div>
-            <div class="mb-3">
-              <label class="col-form-label">Gender</label>
-              <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center m-2">
-                  <input
-                    type="radio"
-                    class="form-check-input me-2"
-                    formControlName="gender"
-                    value="male"
-                    id="male"
-                    name="gender"
-                  />
-                  <label for="male" class="form-check-label">Male</label>
-                </div>
-                <div class="d-flex align-items-center m-2">
-                  <input
-                    type="radio"
-                    class="form-check-input me-2"
-                    formControlName="gender"
-                    value="female"
-                    id="female"
-                    name="gender"
-                  />
-                  <label for="female" class="form-check-label">Female</label>
-                </div>
-                <div class="d-flex align-items-center m-2">
-                  <input
-                    type="radio"
-                    class="form-check-input me-2"
-                    formControlName="gender"
-                    value="other"
-                    id="other"
-                    name="gender"
-                  />
-                  <label for="other" class="form-check-label">Other</label>
-                </div>
-              </div>
-              <div
-                *ngIf="gender?.invalid && (gender?.touched || gender?.dirty)"
-                class="text-danger"
+            <div *ngIf="isInvalid('fresher')" class="text-danger">
+              <small *ngIf="hasError('fresher', 'required')"
+                >fresher is required</small
               >
-                <small *ngIf="gender?.errors?.['required']"
-                  >Gender is required</small
-                >
-              </div>
             </div>
-            <div class="mb-3">
-              <label class="col-form-label"> Current location </label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="location"
-              />
-              <div
-                class="text-danger"
-                *ngIf="
-                  location?.invalid && (location?.touched || location?.dirty)
-                "
-              >
-                <small *ngIf="location?.errors?.['required']"
-                  >Location is required</small
-                >
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="col-form-label"> Mobile Number </label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="phone"
-              />
-              <div
-                *ngIf="
-                  phone?.invalid &&
-                  (phone?.touched || phone?.dirty)
-                "
-                class="text-danger"
-              >
-                <small *ngIf="phone?.errors?.['required']"
-                  >Contact number is required.</small
-                >
-                <small *ngIf="phone?.errors?.['pattern']"
-                  >Only 10 digits are allowed.</small
-                >
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="col-form-label"> Your email </label>
-              <input
-                type="email"
-                class="form-control"
-                formControlName="email"
-              />
-              <div
-                *ngIf="email?.invalid && (email?.touched || email?.dirty)"
-                class="text-danger"
-              >
-                <small *ngIf="email?.errors?.['required']"
-                  >email is required.</small
-                >
-                <small *ngIf="email?.errors?.['email']">Invalid email</small>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="col-form-label">Fresher</label>
-              <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center m-2">
-                  <input
-                    type="radio"
-                    class="form-check-input me-2"
-                    formControlName="fresher"
-                    [value]="true"
-                    id="true"
-                    name="fresher"
-                  />
-                  <label for="true" class="form-check-label">Yes</label>
-                </div>
-                <div class="d-flex align-items-center m-2">
-                  <input
-                    type="radio"
-                    class="form-check-input me-2"
-                    formControlName="fresher"
-                    [value]="false"
-                    id="false"
-                    name="fresher"
-                  />
-                  <label for="false" class="form-check-label">No</label>
-                </div>
-              </div>
-              <div
-                *ngIf="fresher?.invalid && (fresher?.touched || fresher?.dirty)"
-                class="text-danger"
-              >
-                <small *ngIf="fresher?.errors?.['required']"
-                  >fresher is required</small
-                >
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
+          </fieldset>
+        </main>
+        <!-- Modal Footer -->
+        <footer class="modal-footer">
           <button
             type="button"
             class="btn btn-secondary fw-bold"
@@ -201,13 +185,13 @@
           <button
             type="submit"
             class="btn btn-primary"
-            (click)="onSave()"
             data-bs-dismiss="modal"
             [disabled]="userForm.invalid"
           >
             Save
           </button>
-        </div>
-      </div>
+        </footer>
+      </form>
     </div>
   </div>
+</div>
