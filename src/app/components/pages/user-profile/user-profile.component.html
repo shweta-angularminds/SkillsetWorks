@@ -91,7 +91,7 @@
             class="scrollspy-example"
             tabindex="0"
           >
-            <div class="section" id="list-item-1">
+            <div class="section " id="list-item-1">
               <p>
                 <app-experience [id]="user.id" [experiences]="details.experience">
                 </app-experience>
@@ -202,7 +202,7 @@
       </div>
     </div>
 
-    <div class="mt-4 width-90" *ngIf="!isEdit">
+    <div class="mt-4" *ngIf="!isEdit">
       <app-applications [UserId]="user.id"></app-applications>
     </div>
   </div>

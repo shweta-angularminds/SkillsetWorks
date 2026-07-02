@@ -3,8 +3,8 @@
     class="header border-bottom pb-2"
     routerLink="/view-job/{{ application.job_id }}"
   >
-    <h5>{{ application.designation }}</h5>
-    <h6>{{ application.company_name }}</h6>
+    <h5>{{ application.designation | titlecase}}</h5>
+    <h6>{{ application.company_name |titlecase }}</h6>
   </div>
   <div class="mt-3">
     <label class="fw-bold text-primary" style="font-size: 1rem"

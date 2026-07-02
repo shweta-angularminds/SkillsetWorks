@@ -1,19 +1,53 @@
-.grey-black{
-    color:rgb(53, 50, 50);
-    font-size: 0.8rem;
-    font-weight: 500;
+.grey-black {
+  color: rgb(53, 50, 50);
+  font-size: 0.8rem;
+  font-weight: 500;
 }
-h6{
-    font-size: 0.9rem;
+.container-fluid {
+  margin-bottom: 60px;
 }
-.selected{
-    background-color: rgb(225, 253, 255);
-    
+h6 {
+  font-size: 0.9rem;
+}
+.selected {
+  background-color: rgb(225, 253, 255);
 }
 .my-pagination ::ng-deep .ngx-pagination .current {
-    background: rgb(0, 81, 255);
-  }
-  .my-pagination{
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
+  background: rgb(0, 81, 255);
+}
+.my-pagination {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+input {
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 30px;
+  font-size: 0.9rem;
+  padding: 8px 20px;
+}
+.form-select {
+  font-size: 0.9rem;
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 30px;
+}
+tbody {
+  font-size: 0.9rem;
+}
+th {
+  font-size: 0.9rem;
+  background-color: rgb(115, 183, 255);
+}
+
+.my-pagination ::ng-deep .ngx-pagination .current {
+  background: rgb(62, 134, 211);
+  font-size: 0.7rem;
+}
+.my-pagination {
+  margin: 10px 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.badge {
+  width: 80px;
+  border-radius: 20px;
+}
