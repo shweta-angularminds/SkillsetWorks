@@ -1,0 +1,43 @@
+<div class="row bg-white">
+  <div class="header d-flex align-items-center bg-white p-2 shadow-sm">
+    <a routerLink="/employer/profile" style="font-size: 1.5rem"> </a>
+  </div>
+  <div class="dashboard d-flex flex-wrap py-4 px-2 back-color shadow-sm">
+    <div
+      class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
+      id="sq1"
+    >
+      <div>
+        <h6>Active Jobs</h6>
+        <h5>{{ summary.totalJobs }}</h5>
+      </div>
+      <div class="me-2 bg-white rounded-circle">
+        <i class="fa-solid fa-briefcase"></i>
+      </div>
+    </div>
+    <div
+      class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
+      id="sq2"
+    >
+      <div>
+        <h6>Total Applicant</h6>
+        <h5>{{ summary.totalApplicants }}</h5>
+      </div>
+      <div class="me-2 bg-white rounded-circle">
+        <i class="fa-solid fa-users"></i>
+      </div>
+    </div>
+    <div
+      class="sqaure col col-lg-3 col-md-3 col-sm-4 col-12 d-flex justify-content-between align-items-center"
+      id="sq3"
+    >
+      <div>
+        <h6>Short listed</h6>
+        <h5>{{ summary.totalShortlisted }}</h5>
+      </div>
+      <div class="me-2 bg-white rounded-circle">
+        <i class="fa-solid fa-file"></i>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+/* Modal + reactive-form styles */
+.modal {
+  width: 100%;
+  background-color: rgb(235, 235, 255);
+}
+.modal h1 {
+  font-weight: 550;
+}
+.modal label {
+  font-weight: 550;
+  color: rgb(90, 90, 90);
+  font-size: 0.8rem;
+}
+.modal input {
+  font-size: 0.7rem;
+  padding: 0.6rem;
+}
+.modal select {
+  font-size: 0.8rem;
+  padding: 0.5rem;
+}
+.modal textarea {
+  font-size: 0.8rem;
+}
+.modal .button {
+  background-color: white;
+}
+.NgxEditor__Wrapper {
+  min-height: 15rem;
+}
+.error {
+  font-size: 0.8rem;
+  color: red;
+}
+.jobContent {
+  width: 85%;
+}
+@media screen and (max-width: 768px) {
+  .jobContent {
+    width: 100%;
+  }
+}

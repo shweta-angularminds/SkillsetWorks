@@ -1,0 +1,26 @@
+/* List/header-level styles */
+.back-color {
+  background-color: rgb(235, 235, 255);
+}
+.header span:first-child {
+  font-size: 1rem;
+  font-weight: bold;
+}
+button {
+  padding: 0.5rem 0.8rem;
+  border: none;
+  background-color: rgb(43, 115, 248);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 550;
+}
+.jobs {
+  max-height: 800px;
+  overflow: scroll;
+}
+
+@media screen and (min-width: 786px) {
+  .filter {
+    height: 400px;
+  }
+}

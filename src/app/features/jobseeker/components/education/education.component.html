@@ -1,0 +1,159 @@
+<div
+  class="d-flex flex-column justify-content-start align-items-start flex-wrap mt-4"
+>
+  <button
+    *ngIf="!education?.X?.board_name"
+    class="m-1"
+    (click)="onEducationLevelChange('X')"
+  >
+    X <i class="fa-solid fa-plus ms-2" (click)="editEducation('X')"></i>
+  </button>
+
+  <button
+    *ngIf="!education?.XII?.board_name"
+    class="m-1"
+    (click)="onEducationLevelChange('XII')"
+  >
+    XII <i class="fa-solid fa-plus ms-2" (click)="editEducation('XII')"></i>
+  </button>
+  <button
+    *ngIf="!education?.graduation?.course_name"
+    class="m-1"
+    (click)="onEducationLevelChange('graduation')"
+  >
+    Graduation
+    <i class="fa-solid fa-plus ms-2" (click)="editEducation('graduation')"></i>
+  </button>
+  <button
+    *ngIf="!education?.postgraduation?.course_name"
+    class="m-1"
+    (click)="onEducationLevelChange('postgraduation')"
+  >
+    Post Graduation
+    <i
+      class="fa-solid fa-plus ms-2"
+      (click)="editEducation('postgraduation')"
+    ></i>
+  </button>
+
+  <div class="content p-0 m-0 mt-4" *ngIf="education">
+    <div>
+      <div
+        class="d-flex flex-column mb-1 px-0 py-0"
+        *ngIf="
+          education.postgraduation?.course_name &&
+          education.postgraduation as postgraduate
+        "
+      >
+        <div class="header d-flex align-items-center">
+          {{ postgraduate.course_name }} from
+          {{ postgraduate.college_name }}
+          <i
+            class="fa-solid fa-pen ms-2"
+            (click)="editEducation('postgraduation')"
+          ></i>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="normal">
+            <p>
+              Mastered in {{ postgraduate.end_year }}, scored
+
+              <span *ngIf="postgraduate.cgpa; else postgraduatePercentage">
+                {{ postgraduate.cgpa }} CGPA
+              </span>
+
+              <ng-template #postgraduatePercentage>
+                <span *ngIf="postgraduate.percentage">
+                  {{ postgraduate.percentage }}%
+                </span>
+              </ng-template>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="d-flex flex-column mb-1 px-0 py-0"
+        *ngIf="
+          education.graduation?.course_name && education.graduation as graduate
+        "
+      >
+        <div class="header d-flex align-items-center">
+          {{ graduate.course_name }} from
+          {{ graduate.college_name }}
+          <i
+            class="fa-solid fa-pen ms-2"
+            (click)="editEducation('graduation')"
+          ></i>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="normal">
+            <p>
+              Graduated in {{ graduate.end_year }}, scored
+              <span *ngIf="graduate.cgpa; else percentage">
+                {{ graduate.cgpa }} CGPA
+              </span>
+
+              <ng-template #percentage>
+                <span *ngIf="graduate.percentage">
+                  {{ graduate.percentage }}%
+                </span>
+              </ng-template>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-column mb-1 px-0 py-0"
+        *ngIf="education.XII?.board_name && education.XII as twelfth"
+      >
+        <div class="header d-flex align-items-center">
+          Class XII
+          <i class="fa-solid fa-pen ms-2" (click)="editEducation('XII')"></i>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="details">
+            {{ twelfth.board_name }}, &nbsp;{{ twelfth.medium }}
+          </div>
+
+          <div class="normal">
+            <p>
+              Passed out in
+              {{ twelfth.passing_year }}, scored {{ twelfth.percentage }}%
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-column mb-1 px-0 py-0"
+        *ngIf="education.X?.board_name && education.X as tenth"
+      >
+        <div class="header d-flex align-items-center">
+          Class X
+          <i class="fa-solid fa-pen ms-2" (click)="editEducation('X')"></i>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="details">
+            {{ tenth.board_name }}, &nbsp;{{ tenth.medium }}
+          </div>
+
+          <div class="normal">
+            <p>
+              Passed out in
+              {{ tenth.passing_year }}, scored {{ tenth.percentage }}%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal
+  [formFields]="educationFields"
+  [formHeader]="'Education'"
+  [isVisible]="isModalVisible"
+  [formData]="selectedFormData"
+  (formDataChange)="handleFormDataChange($event)"
+  (closeModal)="onCloseModal()"
+></app-modal>

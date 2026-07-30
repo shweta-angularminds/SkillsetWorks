@@ -1,0 +1,125 @@
+<div class="container-fluid p-0 mb-20">
+  <!-- No Applications -->
+  <section *ngIf="!isFiltering && totalItems === 0" class="text-center py-5">
+    <h6 class="fw-bold text-secondary">
+      You haven’t applied to any jobs yet – but don’t worry, your future boss is
+      just a click away!
+    </h6>
+  </section>
+
+  <!-- Main Content -->
+  <section *ngIf="totalItems > 0 || isFiltering">
+    <!-- Filters -->
+    <header class="bg-white p-3 mb-3 shadow-sm">
+      <div class="d-flex flex-column flex-lg-row gap-3">
+        <div class="flex-grow-1">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Search designation or company"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch()"
+            name="searchTerm"
+          />
+        </div>
+
+        <div class="w-lg-auto w-sm-100" style="min-width: 280px">
+          <select
+            class="form-select"
+            [(ngModel)]="selectedStatus"
+            (change)="onStatusChange()"
+            name="status"
+          >
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="shortlisted">Shortlisted</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- No Search Results -->
+    <section
+      *ngIf="isFiltering && applications.length === 0"
+      class="text-center py-5"
+    >
+      <h5 class="text-secondary">No applications matched your search.</h5>
+    </section>
+
+    <!-- Applications Table -->
+    <div
+      *ngIf="applications.length > 0"
+      class="table-responsive bg-white shadow-sm"
+    >
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Designation</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Applied On</th>
+            <th>Last Updated</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="
+              let application of applications
+                | paginate
+                  : {
+                      id: 'applications',
+                      itemsPerPage: itemsPerPage,
+                      currentPage: currentPage,
+                      totalItems: totalItems,
+                    }
+            "
+          >
+            <td>{{ application.designation | titlecase }}</td>
+
+            <td>{{ application.company_name | titlecase }}</td>
+
+            <td>
+              <span
+                class="badge p-2"
+                [ngClass]="{
+                  'bg-warning': application.status === 'pending',
+                  'bg-success':
+                    application.status === 'approved' ||
+                    application.status === 'shortlisted',
+                  'bg-danger': application.status === 'rejected',
+                }"
+              >
+                {{ application.status | titlecase }}
+              </span>
+            </td>
+
+            <td>
+              {{ application.createdAt | date: "mediumDate" }}
+            </td>
+            <td>
+              {{ application.updatedAt | date: "mediumDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <footer
+      class="mt-3 text-end"
+      *ngIf="totalItems > itemsPerPage && applications.length > 0"
+    >
+      <pagination-controls
+        id="applications"
+        [responsive]="true"
+        (pageChange)="onPageChange($event)"
+        class="my-pagination"
+      >
+      </pagination-controls>
+    </footer>
+  </section>
+</div>

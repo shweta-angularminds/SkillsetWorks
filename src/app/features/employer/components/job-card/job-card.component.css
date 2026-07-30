@@ -1,0 +1,44 @@
+.col-lg-2 {
+  width: 23%;
+}
+.card {
+  min-width: 17rem;
+  max-height: 10em;
+}
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 550;
+  margin-bottom: 0;
+}
+#bold-grey {
+  font-size: 0.7rem;
+  color: rgb(94, 93, 93);
+  font-weight: bold;
+}
+.card label {
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 550;
+  color: rgb(49, 49, 49);
+}
+.applicants {
+  font-size: 1rem;
+  background: linear-gradient(to right, rgb(46, 118, 252), rgb(43, 167, 250));
+  color: white;
+  font-weight: 550;
+}
+.bottom-span {
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+span {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+span i {
+  font-size: 0.8rem;
+}
+a{
+    font-size:0.8rem;
+}
