@@ -1,0 +1,12 @@
+<div class="container-fluid vh-100 bg-white">
+  <app-job-summary [summary]="summary"></app-job-summary>
+
+  <app-job-list
+    [jobs]="jobs"
+    (addNew)="onAddJob()"
+    (edit)="onEditJob($event)"
+    (delete)="onDeleteJob($event)"
+  ></app-job-list>
+</div>
+
+<app-job-form-modal (save)="onSaveJob($event)"></app-job-form-modal>

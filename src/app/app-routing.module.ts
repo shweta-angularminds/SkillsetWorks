@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/pages/home/home.component';
-import { authGuard, jobSeekerAuthGuard } from './guards/auth.guard';
-import { JobsComponent } from './components/pages/jobs/jobs.component';
-
+import { HomeComponent } from './features/public/home/home.component';
+import {
+  employerAuthGuard,
+  jobSeekerAuthGuard,
+} from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -18,60 +19,65 @@ const routes: Routes = [
   {
     path: 'companies',
     loadComponent: () =>
-      import('./components/pages/companies/companies.component').then(
-        (c) => c.CompaniesComponent,
+      import('./features/public/companies/pages/companies-list/companies-list.component').then(
+        (c) => c.CompaniesListComponent,
       ),
   },
   {
-    path:'jobs',
-    loadComponent:()=> import('./components/pages/jobs/jobs.component').then((c)=>c.JobsComponent)
+    path: 'jobs',
+    loadComponent: () =>
+      import('./features/public/jobs/pages/jobs-list/jobs-list.component').then(
+        (c) => c.JobsListComponent,
+      ),
   },
   {
     path: 'auth',
     loadChildren: () =>
-      import('./components/pages/auth/auth.module').then((m) => m.AuthModule),
+      import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'employer',
-    canActivate: [authGuard],
+    canActivate: [employerAuthGuard],
     loadChildren: () =>
-      import('./components/pages/employer/employer.module').then(
+      import('./features/employer/employer.module').then(
         (m) => m.EmployerModule,
       ),
   },
   {
     path: 'view-company/:id',
     loadComponent: () =>
-      import('./components/pages/view-company/view-company.component').then(
+      import('./features/public/companies/pages/view-company/view-company.component').then(
         (c) => c.ViewCompanyComponent,
       ),
   },
   {
     path: 'view-job/:id',
     loadComponent: () =>
-      import('./components/pages/view-job/view-job.component').then(
+      import('./features/public/jobs/pages/view-job/view-job.component').then(
         (c) => c.ViewJobComponent,
       ),
   },
   {
     path: 'jobseeker/profile',
-   
+    canActivate: [jobSeekerAuthGuard],
     loadComponent: () =>
-      import('./components/pages/user-profile/user-profile.component').then(
-        (c) => c.UserProfileComponent,
+      import('./features/jobseeker/pages/profile/profile.component').then(
+        (c) => c.ProfileComponent,
       ),
   },
   {
     path: '**',
-    component: HomeComponent,
+    redirectTo: 'home',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{
-    anchorScrolling:'enabled',
-    scrollPositionRestoration:'enabled'
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

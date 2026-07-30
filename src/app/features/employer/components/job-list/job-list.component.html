@@ -1,0 +1,23 @@
+<div class="row py-2 mt-0 bg-white shadow-sm back-color">
+  <div
+    class="header d-flex justify-content-between flex-wrap align-items-center py-2 px-3"
+  >
+    <span>Active Jobs</span>
+     <span
+      ><button (click)="addNew.emit()">ADD NEW JOB</button></span
+    >
+  </div>
+</div>
+
+<div class="row back-color pt-3 mb-3" *ngIf="jobs.length !== 0">
+  <div
+    class="jobs d-flex flex-wrap justify-content-start col col-lg-11 col-md-11 col-12"
+  >
+    <app-job-card
+      *ngFor="let job of jobs"
+      [job]="job"
+      (edit)="edit.emit($event)"
+      (delete)="delete.emit($event)"
+    ></app-job-card>
+  </div>
+</div>

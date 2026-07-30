@@ -1,0 +1,32 @@
+<div class="card col col-lg-2 col-md-3 col-12 m-1 py-3 px-2">
+  <div class="d-flex flex-column">
+    <span class="d-flex justify-content-between">
+      <h5 class="card-title">{{ job.designation | titlecase }}</h5>
+      <span class="d-flex">
+        <i
+          class="fa-solid fa-pen-to-square me-2 text-primary"
+          (click)="onEdit()"
+        ></i>
+        <i class="fa-solid fa-trash text-danger" (click)="onDelete()"></i>
+      </span>
+    </span>
+
+    <p id="bold-grey" class="mt-2">{{ job.department | titlecase}}</p>
+    <p
+      class="fw-semibold small"><i class="fa-solid fa-user me-2 text-primary"></i> Positions :
+      {{ job.positions }}</p
+    >
+  </div>
+  <div
+    class="applicants bottom-span w-100 py-1 d-flex justify-content-between mt-3"
+  >
+    <span class="text-white ms-2 me-2">
+      Applicants : {{ job.applicantsCount }}</span
+    >
+    <a
+      class="text-white ms-1 me-1  text-decoration-none"
+      routerLink="/employer/applicants/{{ job._id }}"
+      >See</a
+    >
+  </div>
+</div>
