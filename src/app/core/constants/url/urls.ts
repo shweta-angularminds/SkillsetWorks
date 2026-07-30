@@ -1,8 +1,4 @@
-// export const base_url = 'https://jobportal-backend-zmjx.onrender.com/';
-
 import { environment } from "../../../../environments/environment";
-
-// const BASE_URL = 'http://localhost:5000';
 
 const BASE_URL = environment.apiUrl;
 

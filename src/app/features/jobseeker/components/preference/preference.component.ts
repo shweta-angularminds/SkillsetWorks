@@ -43,7 +43,6 @@ export class PreferenceComponent {
   }
 
   handleFormDataChange(data: FormFieldValue[]): void {
-    console.log(data);
     const body = mapModalToPreference(data);
 
     this.jobseekerService.updatePreference(body).subscribe({
